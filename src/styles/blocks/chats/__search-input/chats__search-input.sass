@@ -1,0 +1,22 @@
+@use '../../../variables/colors'
+@use '../../../variables/font-size'
+
+.chats__search-input
+  width: 256px
+  border: none
+  height: 32px
+  background-color: colors.$dark-blue
+  color: colors.$profile-userdata
+  font-size: font-size.$main-text-small
+  border-bottom: 1px solid colors.$dark-blue
+  border-radius: 5px
+  margin-right: 10px
+  padding-left: 10px
+
+.chats__search-input::placeholder
+  text-align: center
+  color: colors.$profile-userdata
+
+.chats__search-input:focus
+  border: 1px colors.$main-blue solid
+  outline: none
