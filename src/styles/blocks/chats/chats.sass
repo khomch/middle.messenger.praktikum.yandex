@@ -1,0 +1,20 @@
+@use '../../variables/colors'
+@use '../../variables/font-size'
+@use './__userinfo/chats__userinfo'
+@use './__profile-link/chats__profile-link'
+@use './__search-and-compose/chats__search-and-compose'
+@use './__search-input/chats__search-input'
+@use './__list/chats__list'
+
+.chats
+  max-width: 310px
+  min-width: 250px
+  width: calc(100% - 20px)
+  display: flex
+  flex-direction: column
+  padding-left: 10px
+  padding-top: 15px
+  padding-right: 10px
+  border-right: 1px colors.$dark-blue solid
+  overflow-y: auto
+
