@@ -7,7 +7,7 @@ const form = document.querySelector('#form');
 const loginForm = `  
       <form class="form" method="GET" action="#" name="Login">
         <div class="form__input-area form__input-area_bottom-margin-large">
-            <h2 class="form__title">Sign in to Messenger</h2>
+            <h1 class="form__title">Sign in to Messenger</h1>
             <div class="form__input-floating-label-group">
                 <input maxlength="30" minlength="0" class="form__input" type="text" name="login" value=""
                   required aria-label="Login" />

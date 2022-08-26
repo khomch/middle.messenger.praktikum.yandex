@@ -85,7 +85,6 @@
 .form__input-floating-label-group input:focus {
   border: 1px solid #3369f3;
   border-radius: 4px;
-  outline: none;
 }
 
 .form__input-floating-label-group:last-of-type {
