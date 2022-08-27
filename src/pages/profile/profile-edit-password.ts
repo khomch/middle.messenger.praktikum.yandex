@@ -39,5 +39,5 @@ const changeDataLayout = `
 
 let template = Handlebars.compile(changeDataLayout)(userData)
 
-profileEditPassword.innerHTML += template
+profileEditPassword!.innerHTML += template
 

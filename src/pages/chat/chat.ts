@@ -26,7 +26,6 @@ const chatTemplate = `
             </div>
         </div>
 
-
       <ul class="chats__list">
         {{#each chats}}
           <li class="chats__list-item">
@@ -40,8 +39,7 @@ const chatTemplate = `
               <div class="chats__list-item-date-and-counter">
                 <p class="chats__list-item-message-time">{{this.time}}</p>
                 <div class="chats__list-item-message-counter">{{this.counter}}2</div>
-              </div>
-              
+              </div>  
           </li>
         {{/each}}
       </ul>

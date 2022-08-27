@@ -557,7 +557,6 @@ const chatTemplate = `
             </div>
         </div>
 
-
       <ul class="chats__list">
         {{#each chats}}
           <li class="chats__list-item">
@@ -571,8 +570,7 @@ const chatTemplate = `
               <div class="chats__list-item-date-and-counter">
                 <p class="chats__list-item-message-time">{{this.time}}</p>
                 <div class="chats__list-item-message-counter">{{this.counter}}2</div>
-              </div>
-              
+              </div>  
           </li>
         {{/each}}
       </ul>
@@ -590,7 +588,171 @@ const template = _handlebars.compile(chatTemplate)({
 });
 chat.innerHTML += template;
 
-},{"handlebars":"i0QfX","../../utils/userData":"dG6by","../../utils/chats":"4FBbA","./chat.sass":"jZIRz"}],"i0QfX":[function(require,module,exports) {
+},{"../../utils/userData":"dG6by","../../utils/chats":"4FBbA","./chat.sass":"jZIRz","handlebars":"i0QfX"}],"dG6by":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "userData", ()=>userData);
+var _noAvatarSvg = require("../static/no-avatar.svg");
+var _noAvatarSvgDefault = parcelHelpers.interopDefault(_noAvatarSvg);
+const userData = {
+    avatarUrl: (0, _noAvatarSvgDefault.default),
+    avatarAlt: "Ivan",
+    email: "pochta@yandex.ru",
+    login: "ivanivanov",
+    firstName: "Ivan",
+    lastName: "Ivanov",
+    displayName: "Vanya",
+    phone: "+7(999)322-22-22"
+};
+
+},{"../static/no-avatar.svg":"k8qBH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k8qBH":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("crKhR") + "no-avatar.f7608220.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"4FBbA":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "chats", ()=>chats);
+var _userData = require("./userData");
+const chats = [
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: (0, _userData.userData).firstName,
+        time: "13:15",
+        lastMessage: "Hi! It's me"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Andrew",
+        time: "13:11",
+        lastMessage: "Please, call back"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Awesome channel",
+        time: "13:10",
+        lastMessage: "Who will win the..."
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Masha",
+        time: "13:08",
+        lastMessage: "I will bring a bottle"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "John",
+        time: "13:07",
+        lastMessage: "Whaaaaaat?"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Sam",
+        time: "13:06",
+        lastMessage: "Mordor is pretty far, you know. Take a train to Vystavochnaya"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Frodo",
+        time: "13:05",
+        lastMessage: "Sam will explain"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Gollum",
+        time: "13:04",
+        lastMessage: "Never trust Sam"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Gendalf",
+        time: "13:01",
+        lastMessage: "Run, fools"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Pippin",
+        time: "12:01",
+        lastMessage: "Hello!"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Ada",
+        time: "13:01",
+        lastMessage: "Run, fools"
+    },
+    {
+        image: (0, _userData.userData).avatarUrl,
+        name: "Rere",
+        time: "12:01",
+        lastMessage: "What is going on brrah?"
+    }
+];
+
+},{"./userData":"dG6by","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jZIRz":[function() {},{}],"i0QfX":[function(require,module,exports) {
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */ // var local = handlebars.create();
@@ -11908,170 +12070,6 @@ PrintVisitor.prototype.HashPair = function(pair) {
 },{"./visitor":"fk5sS"}],"jhUEF":[function(require,module,exports) {
 "use strict";
 
-},{}],"dG6by":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "userData", ()=>userData);
-var _noAvatarSvg = require("../static/no-avatar.svg");
-var _noAvatarSvgDefault = parcelHelpers.interopDefault(_noAvatarSvg);
-const userData = {
-    avatarUrl: (0, _noAvatarSvgDefault.default),
-    avatarAlt: "Ivan",
-    email: "pochta@yandex.ru",
-    login: "ivanivanov",
-    firstName: "Ivan",
-    lastName: "Ivanov",
-    displayName: "Vanya",
-    phone: "+7(999)322-22-22"
-};
-
-},{"../static/no-avatar.svg":"k8qBH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k8qBH":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("crKhR") + "no-avatar.f7608220.svg" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return "/";
-}
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
-},{}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"4FBbA":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "chats", ()=>chats);
-var _userData = require("./userData");
-const chats = [
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: (0, _userData.userData).firstName,
-        time: "13:15",
-        lastMessage: "Hi! It's me"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Andrew",
-        time: "13:11",
-        lastMessage: "Please, call back"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Awesome channel",
-        time: "13:10",
-        lastMessage: "Who will win the..."
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Masha",
-        time: "13:08",
-        lastMessage: "I will bring a bottle"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "John",
-        time: "13:07",
-        lastMessage: "Whaaaaaat?"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Sam",
-        time: "13:06",
-        lastMessage: "Mordor is pretty far, you know. Take a train to Vystavochnaya"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Frodo",
-        time: "13:05",
-        lastMessage: "Sam will explain"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Gollum",
-        time: "13:04",
-        lastMessage: "Never trust Sam"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Gendalf",
-        time: "13:01",
-        lastMessage: "Run, fools"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Pippin",
-        time: "12:01",
-        lastMessage: "Hello!"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Ada",
-        time: "13:01",
-        lastMessage: "Run, fools"
-    },
-    {
-        image: (0, _userData.userData).avatarUrl,
-        name: "Rere",
-        time: "12:01",
-        lastMessage: "What is going on brrah?"
-    }
-];
-
-},{"./userData":"dG6by","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jZIRz":[function() {},{}]},["7MO5e","fVzyN"], "fVzyN", "parcelRequirefc40")
+},{}]},["7MO5e","fVzyN"], "fVzyN", "parcelRequirefc40")
 
 //# sourceMappingURL=chat.95891991.js.map

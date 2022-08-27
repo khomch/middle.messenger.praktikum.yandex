@@ -1,6 +1,17 @@
 import noAvatar from "../static/no-avatar.svg";
 
-export const userData = {
+interface IUserData {
+    avatarUrl: string,
+    avatarAlt: string,
+    email: string,
+    login: string,
+    firstName: string,
+    lastName: string,
+    displayName: string,
+    phone: string
+}
+
+export const userData: IUserData = {
     avatarUrl: noAvatar,
     avatarAlt: 'Ivan',
     email: 'pochta@yandex.ru',
