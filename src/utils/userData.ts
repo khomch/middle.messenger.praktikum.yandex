@@ -1,15 +1,5 @@
 import noAvatar from "../static/no-avatar.svg";
-
-interface IUserData {
-    avatarUrl: string,
-    avatarAlt: string,
-    email: string,
-    login: string,
-    firstName: string,
-    lastName: string,
-    displayName: string,
-    phone: string
-}
+import {IUserData} from "../../interfaces/IUser";
 
 export const userData: IUserData = {
     avatarUrl: noAvatar,

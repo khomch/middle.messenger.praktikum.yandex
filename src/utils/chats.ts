@@ -1,11 +1,5 @@
 import {userData} from "./userData";
-
-interface IChat {
-  image: string,
-  name: string,
-  time: string,
-  lastMessage: string,
-}
+import {IChat} from "../../interfaces/IChat";
 
 export const chats: IChat[] = [
   {
