@@ -45,5 +45,5 @@ let template = Handlebars.compile(linksTemplate)({
     title: "Hey! There are some pages:"
 });
 
-links.innerHTML += template
+links!.innerHTML += template
 

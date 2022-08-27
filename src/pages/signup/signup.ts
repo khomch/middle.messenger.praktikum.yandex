@@ -56,7 +56,7 @@ const signupForm = `
       </form>
 `
 
-let template = Handlebars.compile(signupForm)();
+let template = Handlebars.compile(signupForm)("");
 
-form.innerHTML += template
+form!.innerHTML += template
 

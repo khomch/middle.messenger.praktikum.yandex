@@ -53,5 +53,5 @@ const changeDataLayout = `
 
 let template = Handlebars.compile(changeDataLayout)(userData)
 
-profileEdit.innerHTML += template
+profileEdit!.innerHTML += template
 

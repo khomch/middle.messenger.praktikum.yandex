@@ -58,5 +58,5 @@ const profileLayout = `
 
 let template = Handlebars.compile(profileLayout)(userData)
 
-profile.innerHTML += template
+profile!.innerHTML += template
 

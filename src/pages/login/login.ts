@@ -26,7 +26,7 @@ const loginForm = `
       </form>
 `
 
-let template = Handlebars.compile(loginForm)();
+let template = Handlebars.compile(loginForm)("");
 
-form.innerHTML += template
+form!.innerHTML += template
 

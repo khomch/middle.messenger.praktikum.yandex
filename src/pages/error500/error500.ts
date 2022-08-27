@@ -10,5 +10,5 @@ let errorData = Handlebars.compile(errorTemplate)({
     link: "/index.html"
 });
 
-error.innerHTML += errorData
+error!.innerHTML += errorData
 

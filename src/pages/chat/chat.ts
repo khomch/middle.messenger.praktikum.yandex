@@ -56,4 +56,4 @@ const template = Handlebars.compile(chatTemplate)({
     userData, chats
 })
 
-chat.innerHTML += template
+chat!.innerHTML += template
