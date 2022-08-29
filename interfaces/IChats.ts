@@ -1,4 +1,4 @@
-export interface IChat {
+export interface IChats {
   image: string,
   name: string,
   time: string,

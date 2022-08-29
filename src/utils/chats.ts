@@ -1,7 +1,7 @@
 import {userData} from "./userData";
-import {IChat} from "../../interfaces/IChat";
+import {IChats} from "../../interfaces/IChats";
 
-export const chats: IChat[] = [
+export const chats: IChats[] = [
   {
     image: userData.avatarUrl,
     name: userData.firstName,
@@ -39,7 +39,7 @@ export const chats: IChat[] = [
     lastMessage: "Mordor is pretty far, you know. Take a train to Vystavochnaya"
   },
   {
-    image: userData.avatarUrl,
+    image: 'https://static.wikia.nocookie.net/lotr/images/1/1a/FotR_-_Elijah_Wood_as_Frodo.png',
     name: 'Frodo',
     time: '13:05',
     lastMessage: "Sam will explain"

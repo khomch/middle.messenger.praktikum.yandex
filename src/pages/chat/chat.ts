@@ -1,6 +1,7 @@
 import * as Handlebars from "handlebars";
-import {userData} from "../../utils/userData";
-import {chats} from "../../utils/chats";
+import { userData } from "../../utils/userData";
+import { chats } from "../../utils/chats";
+import { selectedChat } from "../../utils/selectedChat";
 
 import './chat.sass';
 
@@ -47,13 +48,49 @@ const chatTemplate = `
   
   <section class="chat">
     <div class="chat-container">
-        <p class="chat-not-selected">Select a chat to start messaging</p>
+        <div class="chat-container__top">
+            <div class="chat-container__userdata">
+              <img class="avatar avatar_chat-window" src={{selectedChat.image}} alt={{selectedChat.name}} />
+              <p class="chat-container__name">{{selectedChat.name}}</p>
+            </div>
+            <button class="chat-container__edit-button"></button>
+        </div>
+        <div class="chat-container__window">
+          <ul class="chat-container__messages">
+            {{#each selectedChat.messages}}
+              <li class="message">
+                  <div class="message__container">
+                      <p class="message__text">
+                          {{this.message}}
+                      </p>
+                      <div class="message__time">{{this.time}}</div>
+                  </div>               
+              </li>
+            {{/each}}
+                <div class="message message_from">
+                  <div class="message__container message__container_from">
+                      <p class="message__text">
+                      What?!
+                      </p>
+                      <div class="message__time">15:02</div>
+                  </div>                   
+              </div>
+           </ul>
+           
+      
+           
+        </div>
+        <form class="compose-form">
+            <button class="compose-form__attach-button"></button>
+            <input class="compose-form__input" placeholder="Write a message..." type="text" name="message"></input>
+            <button class="compose-form__send-message" type="submit" aria-label="send message"></button>
+        </form>
     </div>
   </section>
 `
-
+//<p class="chat-not-selected">Select a chat to start messaging</p>
 const template = Handlebars.compile(chatTemplate)({
-    userData, chats
+  userData, chats, selectedChat
 })
 
 chat!.innerHTML += template
