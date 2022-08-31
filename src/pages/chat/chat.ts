@@ -2,7 +2,6 @@ import * as Handlebars from "handlebars";
 import { userData } from "../../utils/userData";
 import { chats } from "../../utils/chats";
 import { selectedChat } from "../../utils/selectedChat";
-
 import './chat.sass';
 
 const chat = document.querySelector('#chat');
@@ -75,10 +74,7 @@ const chatTemplate = `
                       <div class="message__time">15:02</div>
                   </div>                   
               </div>
-           </ul>
-           
-      
-           
+           </ul>           
         </div>
         <form class="compose-form">
             <button class="compose-form__attach-button"></button>

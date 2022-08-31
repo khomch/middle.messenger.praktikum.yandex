@@ -4,7 +4,7 @@ import './login.sass';
 
 const form = document.querySelector('#form');
 
-const loginForm = `  
+export const loginForm = `  
       <form class="form" method="GET" action="#" name="Login">
         <div class="form__input-area form__input-area_bottom-margin-large">
             <h1 class="form__title">Sign in to Messenger</h1>
