@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "parcel src/*.hbs",
+    "dev": "parcel src/index.html",
     "eslint": "node_modules/.bin/eslint . --fix",
     "build": "parcel build src/index.hbs",
     "stylelint": "npx stylelint '**/*.css'"

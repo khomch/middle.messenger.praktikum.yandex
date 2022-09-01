@@ -138,8 +138,8 @@ class Block {
     Object.entries(this.children).forEach(([name, component]) => {
       contextAndStubs[name] = `<div data-id="${component.id}" />`;
     });
-
     const html = template(contextAndStubs);
+    console.log(contextAndStubs)
 
     const temp = document.createElement('template');
 

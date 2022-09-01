@@ -1,6 +1,8 @@
 import Block from '../../utils/Block';
 import template from './button.hbs';
 
+console.log(template)
+
 interface ButtonProps {
   label: string;
   events: {
