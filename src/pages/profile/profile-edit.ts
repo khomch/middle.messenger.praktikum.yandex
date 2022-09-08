@@ -47,7 +47,6 @@ const changeDataLayout = `
         <button class="button" type="submit" aria-label="Save">Save</button>
       </form>
     </div>
-    
   </section>
 `
 

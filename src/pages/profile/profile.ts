@@ -48,9 +48,9 @@ const profileLayout = `
     </div>
     
     <ul class="profile_actions">
-        <li class="profile_actions-link"> <a class="text-link" href="/profile-edit.html" class="text-link">Изменить данные</a></li>
-        <li class="profile_actions-link"> <a class="text-link" href="/profile-edit-password.html" class="text-link">Изменить пароль</a></li>
-        <li class="profile_actions-link"> <a class="text-link profile_actions-link-danger" href="/index.html" class="text-link">Выход</a></li> 
+        <li class="profile_actions-link"> <a class="text-link" href="/profile-edit" class="text-link">Изменить данные</a></li>
+        <li class="profile_actions-link"> <a class="text-link" href="/profile-edit-password" class="text-link">Изменить пароль</a></li>
+        <li class="profile_actions-link"> <a class="text-link profile_actions-link-danger" href="/index" class="text-link">Выход</a></li> 
     </ul>
   </section>
 
