@@ -1,0 +1,16 @@
+@use '../../styles/variables/colors'
+@use '../../styles/variables/font-size'
+
+.error-container
+ min-height: 10px
+
+
+.form__error
+  font-size: font-size.$error-small
+  line-height: 20px
+  color: colors.$error
+  height: 20px
+  display: none
+
+.form__error_visible
+  display: flex

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "parcel src/index.html",
     "eslint": "node_modules/.bin/eslint . --fix",
-    "build": "parcel build src/index.hbs",
+    "build": "parcel build src/index.html",
     "stylelint": "npx stylelint '**/*.css'"
   },
   "keywords": [],
