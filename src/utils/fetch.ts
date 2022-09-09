@@ -5,39 +5,33 @@ const METHODS = {
   DELETE: 'DELETE',
 };
 
-function queryStringify(data: any) {
-  if (typeof data !== 'object') {
-    throw new Error('Data must be object');
-  }
-
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => {
-    return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
-  }, '?');
+interface IOptions {
+  timeout: number,
+  method: string
 }
 
 class HTTPTransport {
-  get = (url: string, options: any = {}) => {
+  get = (url: string, options: IOptions) => {
 
     return this.request(url, {...options, method: METHODS.GET}, options.timeout);
   };
 
-  post = (url: string, options: any = {}) => {
+  post = (url: string, options: IOptions) => {
     return this.request(url, {...options, method: METHODS.POST}, options.timeout);
   };
 
-  put = (url: string, options: any = {}) => {
+  put = (url: string, options: IOptions) => {
     return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
   };
 
-  delete = (url: string, options: any = {}) => {
+  delete = (url: string, options: IOptions) => {
     return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
   };
 
-  request = (url: string, options: any = {}, timeout = 5000) => {
+  request = (url: string, options: IOptions, timeout = 5000) => {
     const {headers = {}, method, data}: any = options;
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!method) {
         reject('No method');
         return;
@@ -57,7 +51,7 @@ class HTTPTransport {
         xhr.setRequestHeader(key, headers[key]);
       });
 
-      xhr.onload = function() {
+      xhr.onload = function () {
         resolve(xhr);
       };
 
@@ -69,7 +63,8 @@ class HTTPTransport {
 
       if (isGet || !data) {
         xhr.send();
-      } else {
+      }
+      else {
         xhr.send(data);
       }
     });

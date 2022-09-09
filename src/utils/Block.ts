@@ -2,10 +2,9 @@ import { EventBus } from "./EventBus";
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from "handlebars";
-import { inputValidator } from "./validation/inputValidator";
+// import { inputValidator } from "./validation/inputValidator";
 
-
-class Block<P extends Record<string, any> = any> {
+abstract class Block<P extends Record<string, any> = any> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -20,12 +19,6 @@ class Block<P extends Record<string, any> = any> {
   private _element: HTMLElement | null = null;
   public refs: any;
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
   constructor(propsWithChildren: P) {
     const eventBus = new EventBus();
     const {
@@ -41,7 +34,7 @@ class Block<P extends Record<string, any> = any> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildrenAndProps(childrenAndProps: any): { props: P, children: Record<string, Block>} {
+  private _getChildrenAndProps(childrenAndProps: any): { props: P, children: Record<string, Block> } {
     const props: P = {} as P;
     const children: Record<string, Block<P>> = {};
     Object.entries(childrenAndProps).forEach(([key, value]: [keyof P, any]) => {
@@ -58,21 +51,21 @@ class Block<P extends Record<string, any> = any> {
     };
   }
 
-  _addEvents() {
-    const {events = {}} = this.props as P & {events: Record<string, () => void>};
+  private _addEvents() {
+    const {events = {}} = this.props as P & { events: Record<string, () => void> };
     Object.keys(events).forEach(eventName => {
       this._element?.addEventListener(eventName, events[eventName]);
     });
   }
 
-  _registerEvents(eventBus: EventBus) {
+  private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
+  private _createResources() {
   }
 
   private _init() {
@@ -86,11 +79,11 @@ class Block<P extends Record<string, any> = any> {
   protected init() {
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
   }
 
-  componentDidMount() {
+  protected componentDidMount() {
   }
 
   public dispatchComponentDidMount() {
@@ -121,7 +114,7 @@ class Block<P extends Record<string, any> = any> {
   }
 
   private _render() {
-    const template = this.render();
+    const template: any = this.render();
     const fragment = this.compile(template, {...this.props, children: this.children, refs: this.refs});
     const newElement = fragment.firstElementChild as HTMLElement;
     this._element?.replaceWith(newElement)
@@ -152,27 +145,26 @@ class Block<P extends Record<string, any> = any> {
     return temp.content;
   }
 
-  protected render(): string {
+  protected render(): string | void {
     return '';
   }
 
-  getContent() {
+  public getContent() {
     return this.element;
   }
 
-  _makePropsProxy(props: P) {
-    // Ещё один способ передачи this, но он больше не применяется с приходом ES6+
-    const self = this;
+  private _makePropsProxy(props: P) {
+
     return new Proxy(props, {
       get(target, prop: string) {
         const value = target[prop];
         return typeof value === "function" ? value.bind(target) : value;
       },
-      set(target, prop: string, value) {
+      set: (target, prop: string, value) => {
         target[prop as keyof P] = value;
         // Запускаем обновление компоненты
         // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU);
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
         return true;
       },
       deleteProperty() {
@@ -181,46 +173,12 @@ class Block<P extends Record<string, any> = any> {
     });
   }
 
-  _createDocumentElement(tagName: string) {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
-  }
-
-  show() {
+  protected show() {
     this.getContent()!.style.display = "block";
   }
 
-  hide() {
+  protected hide() {
     this.getContent()!.style.display = "none";
-  }
-
-  protected getInputsValues() {
-    const inputs = document.getElementsByTagName('input');
-    const inputsArray = Array.from(inputs)
-    let values: any = {};
-    for (let i = 0; i < inputsArray.length; i++) {
-      values[inputsArray[i].name] = inputsArray[i].value
-    }
-    return values
-  }
-
-  protected onSubmit(e: Event) {
-    e.preventDefault()
-    const inputs: any = document.getElementsByTagName('input')
-    const inputsArray = Array.from(inputs)
-    const formIsValid = {
-      isValid: true
-    };
-
-    inputsArray.forEach((input: any) => !inputValidator(input.name, input.value) && Object.defineProperty(formIsValid, 'isValid', {value: false})
-      && this.refs[input.name].refs.error.setProps({errorClass: 'form__error form__error_visible'}))
-
-    if (!formIsValid.isValid) {
-      console.error("Form doesn't valid")
-    }
-    else {
-      console.log(this.getInputsValues())
-    }
   }
 
 }
