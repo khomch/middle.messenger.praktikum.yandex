@@ -2,9 +2,12 @@ import Block from '../../utils/Block';
 import styles from './login.sass';
 
 interface LoginPageProps {
+  onButtonClick: (e: Event) => void,
+  onSubmit: (e: Event) => void,
+  styles: Record<string, string>
 }
 
-export class LoginPage extends Block {
+export class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super({
       ...props,
