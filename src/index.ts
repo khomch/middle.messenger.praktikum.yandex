@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
   console.log(path)
 
   switch (path) {
-    case '/index.html':
+    case '/':
       const homePage = new HomePage({linksList: linksList});
       root.append(homePage.getContent()!);
       homePage.dispatchComponentDidMount();
