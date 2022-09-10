@@ -1,0 +1,23 @@
+@use '../../styles/layout/desktop-dark/desktop-dark'
+@use '../../styles/variables/colors'
+@use '../../styles/variables/font-size'
+
+.home-title
+  font-size: font-size.$title
+
+.links__list
+  color: colors.$white
+  font-size: font-size.$subtitle
+  list-style: none
+  padding: 0
+
+.links__list-item
+  color: colors.$main-blue
+  font-size: font-size.$main-text
+  text-decoration: none
+  margin: 10px 0 10px 0
+  transition: 0.2s ease-in-out
+
+.links__list-item:hover
+  color: colors.$main-blue-hover
+  transition: 0.2s ease-in-out

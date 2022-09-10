@@ -1,0 +1,29 @@
+@use '../../../../styles/variables/colors'
+@use '../../../../styles/variables/font-size'
+
+.message__container
+  background-color: colors.$dark-blue
+  max-width: 400px
+  min-width: 5px
+  position: relative
+  border-radius: 12px 12px 12px 0
+  display: inline-flex
+  margin-top: 10px
+  justify-self: flex-end
+
+.message__text
+  font-size: font-size.$main-text-small
+  color: colors.$text-color
+  padding: 10px 0 10px 10px
+  display: flex
+  margin: 0
+  z-index: 0
+
+.message__time
+  font-size: font-size.$main-text-time
+  color: colors.$message-color
+  float: right
+  z-index: 0
+  justify-self: flex-end
+  align-self: self-end
+  padding: 10px 10px 10px 5px

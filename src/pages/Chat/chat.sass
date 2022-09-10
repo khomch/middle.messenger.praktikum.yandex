@@ -1,0 +1,30 @@
+@use '../../styles/variables/colors'
+@use '../../styles/variables/font-size'
+@use '../../styles/layout/desktop-dark/desktop-dark'
+@use '../../styles/blocks/chats/chats'
+@use '../../styles/blocks/user-in-chat/user-in-chat'
+@use '../../styles/blocks/chat/chat'
+@use '../../styles/blocks/chat-container/chat-container'
+@use '../../styles/blocks/message/message'
+@use '../../styles/blocks/message/_from/message_from'
+@use '../../styles/blocks/compose-form/compose-form'
+
+.chat-window
+  display: flex
+  width: 100vw
+  max-width: 1280px
+
+.chats-compose-icon
+  width: 24px
+  height: 24px
+  align-self: center
+  border: none
+  background-color: colors.$background-base
+  background-image: url("../../static/compose.svg")
+  transition: 0.2s ease-in-out
+
+.chats-compose-icon:hover
+  cursor: pointer
+  opacity: 0.8
+  transition: 0.2s ease-in-out
+
