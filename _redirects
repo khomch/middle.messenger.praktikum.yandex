@@ -1,0 +1,9 @@
+# Redirects from what the browser requests to what we serve
+/login              /
+/signup  /
+/404        /
+/500        /
+/profile        /
+/profile-edit        /
+/profile-edit-password        /
+/chat        /
