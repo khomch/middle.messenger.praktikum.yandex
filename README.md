@@ -13,6 +13,7 @@
 
 ## Технологии
 - JS
+- TypeScript
 - Handlebars
 - Parcel
 
@@ -20,4 +21,5 @@
 
 - `npm install` — установка стабильной версии,
 - `npm run dev` — запуск версии для разработчика,
-- `npm run build` — сборка стабильной версии.
+- `npm run build` — сборка стабильной версии,
+- `npm run start` — сборка и запуск Node.JS сервера.
