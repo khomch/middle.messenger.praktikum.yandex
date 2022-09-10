@@ -4,50 +4,47 @@ import { userData } from "../../fakeApi/userData";
 import { profileLayout } from "./layouts/profileLayout";
 import { profileEditLayout } from "./layouts/profileEditLayout";
 import { profileEditPasswordLayout } from "./layouts/profileEditPasswordLayout";
+import { IUserData } from "../../interfaces/IUser";
+import { onSubmit } from "../../utils/validationOnSubmit";
 
-interface ProfilePageProps {
+export interface IProfilePage {
   path: string,
-  profileActionsClass: string
+  onSubmit: (e: Event) => void,
+  profileActionsClass: string,
+  styles: Record<string, string>;
+  userData: IUserData
 }
 
-let layout = ''
-
-export class ProfilePage extends Block {
-  constructor(props: ProfilePageProps) {
+export class ProfilePage extends Block<IProfilePage> {
+  constructor(props: IProfilePage) {
     super({
       ...props,
       onSubmit: (e: Event) => this.onSubmit(e),
-      path: props.path,
       userData,
       profileActionsClass: 'profile__actions',
       styles
     });
   }
 
-  getInputsValues(): HTMLInputElement[] {
-    return super.getInputsValues();
-  }
 
   onSubmit(e: Event) {
-    super.onSubmit(e);
+    onSubmit(e, this.refs)
   }
 
-  setLayout() {
+  getLayout() {
     if (this.props.path === '/profile') {
-      return layout = profileLayout
+      return  profileLayout
     }
     else if (this.props.path === '/profile-edit') {
-      return layout = profileEditLayout
+      return profileEditLayout
     }
     else if (this.props.path === '/profile-edit-password') {
-      return layout = profileEditPasswordLayout
+      return profileEditPasswordLayout
     }
   }
 
-
   render() {
-    this.setLayout()
+    return this.getLayout();
     // language=hbs
-    return layout
   }
 }

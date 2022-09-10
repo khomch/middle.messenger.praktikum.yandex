@@ -1,11 +1,15 @@
 import Block from '../../utils/Block';
 import styles from './login.sass';
+import { onSubmit } from "../../utils/validationOnSubmit";
 
-interface LoginPageProps {
+export interface ILoginPage {
+  onButtonClick: (e: Event) => void,
+  onSubmit: (e: Event) => void,
+  styles: Record<string, string>,
 }
 
-export class LoginPage extends Block {
-  constructor(props: LoginPageProps) {
+export class LoginPage extends Block<ILoginPage> {
+  constructor(props: ILoginPage) {
     super({
       ...props,
       onButtonClick: (e: Event) => this.onButtonClick(e),
@@ -18,14 +22,9 @@ export class LoginPage extends Block {
     e.preventDefault()
   }
 
-  getInputsValues(): HTMLInputElement[] {
-    return super.getInputsValues();
-  }
-
   onSubmit(e: Event) {
-    super.onSubmit(e);
+    onSubmit(e, this.refs)
   }
-
 
   render() {
     // language=hbs
@@ -56,7 +55,7 @@ export class LoginPage extends Block {
                             id="form-password"
                             value=""
                             label="Password"
-                            errorText="error2"
+                            errorText="error in Password"
                             ref="password"
                     }}
                     {{/Input}}

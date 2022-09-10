@@ -1,12 +1,14 @@
 import Block from '../../utils/Block';
 import styles from './signup.sass';
+import { onSubmit } from "../../utils/validationOnSubmit";
 
-interface SignupPageProps {
-  title: string;
+export interface ISignUpPage {
+  onSubmit: (e: Event) => void,
+  styles: Record<string, string>
 }
 
-export class SignupPage extends Block {
-  constructor(props: SignupPageProps) {
+export class SignupPage extends Block<ISignUpPage> {
+  constructor(props: ISignUpPage) {
     super({
       ...props,
       onSubmit: (e: Event) => this.onSubmit(e),
@@ -15,7 +17,7 @@ export class SignupPage extends Block {
   }
 
   onSubmit(e: Event) {
-    super.onSubmit(e);
+    onSubmit(e, this.refs)
   }
 
 

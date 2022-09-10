@@ -1,17 +1,17 @@
 import Block from '../../utils/Block';
-import styles from './input-error.sass'
+import styles from './error-label.sass'
 
-interface InputErrorProps {
+interface IErrorLabel {
   errorClass: string,
   errorText: string,
-  ref: any
+  ref: any,
+  styles: Record<string, string>
 }
 
-export class InputError extends Block {
-  constructor(props: InputErrorProps) {
+export class ErrorLabel extends Block<IErrorLabel> {
+  constructor(props: IErrorLabel) {
     super({
-        errorClass: props.errorClass,
-        errorText: props.errorText,
+        ...props,
         styles
       }
     );

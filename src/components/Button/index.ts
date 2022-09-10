@@ -1,26 +1,26 @@
 import Block from '../../utils/Block';
 import styles from './button.sass'
 
-interface ButtonProps {
+interface IButton {
   label: string,
-  onClick: ()=> void,
+  events: {
+    click: (e: Event) => void,
+  }
+  onClick: () => void,
   class: string,
   type: string,
   id: string,
-  name: string
+  name: string,
+  styles: Record<string, string>
 }
 
-export class Button extends Block {
-  constructor(props: ButtonProps) {
+export class Button extends Block<IButton> {
+  constructor(props: IButton) {
     super({
-      label: props.label,
+      ...props,
       events: {
         click: props.onClick
       },
-      class: props.class,
-      type: props.type,
-      id: props.id,
-      name: props.name,
       styles
     }
     );

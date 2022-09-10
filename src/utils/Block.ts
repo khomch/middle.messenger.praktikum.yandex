@@ -2,10 +2,9 @@ import { EventBus } from "./EventBus";
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from "handlebars";
-import { inputValidator } from "./validation/inputValidator";
+// import { inputValidator } from "./validation/inputValidator";
 
-// Нельзя создавать экземпляр данного класса
-class Block {
+abstract class Block<P extends Record<string, any> = any> {
   static EVENTS = {
     INIT: "init",
     FLOW_CDM: "flow:component-did-mount",
@@ -14,19 +13,13 @@ class Block {
   };
 
   public id = nanoid(6);
-  protected props: any;
+  protected props: P;
   public children: Record<string, Block>;
   private eventBus: () => EventBus;
   private _element: HTMLElement | null = null;
   public refs: any;
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
-  constructor(propsWithChildren: any = {}) {
+  constructor(propsWithChildren: P) {
     const eventBus = new EventBus();
     const {
       props,
@@ -41,39 +34,38 @@ class Block {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildrenAndProps(childrenAndProps: any) {
-
-    const props: Record<string, any> = {};
-    const children: Record<string, Block> = {};
-    Object.entries(childrenAndProps).forEach(([key, value]) => {
+  private _getChildrenAndProps(childrenAndProps: any): { props: P, children: Record<string, Block> } {
+    const props: P = {} as P;
+    const children: Record<string, Block<P>> = {};
+    Object.entries(childrenAndProps).forEach(([key, value]: [keyof P, any]) => {
       if (value instanceof Block) {
-        children[key] = value;
+        children[key as string] = value;
       }
       else {
         props[key] = value;
       }
     });
     return {
-      props,
+      props: props as P,
       children,
     };
   }
 
-  _addEvents() {
-    const {events = {}} = this.props as { events: Record<string, () => void> };
+  private _addEvents() {
+    const {events = {}} = this.props as P & { events: Record<string, () => void> };
     Object.keys(events).forEach(eventName => {
       this._element?.addEventListener(eventName, events[eventName]);
     });
   }
 
-  _registerEvents(eventBus: EventBus) {
+  private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  _createResources() {
+  private _createResources() {
   }
 
   private _init() {
@@ -87,11 +79,11 @@ class Block {
   protected init() {
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
   }
 
-  componentDidMount() {
+  protected componentDidMount() {
   }
 
   public dispatchComponentDidMount() {
@@ -99,7 +91,7 @@ class Block {
     Object.values(this.children).forEach(child => child.dispatchComponentDidMount());
   }
 
-  private _componentDidUpdate(oldProps: any, newProps: any) {
+  private _componentDidUpdate(oldProps: P, newProps: P) {
     if (this.componentDidUpdate(oldProps, newProps)) {
       this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
     }
@@ -110,7 +102,7 @@ class Block {
     return true;
   }
 
-  setProps = (nextProps: any) => {
+  setProps = (nextProps: P) => {
     if (!nextProps) {
       return;
     }
@@ -122,7 +114,7 @@ class Block {
   }
 
   private _render() {
-    const template = this.render();
+    const template: any = this.render();
     const fragment = this.compile(template, {...this.props, children: this.children, refs: this.refs});
     const newElement = fragment.firstElementChild as HTMLElement;
     this._element?.replaceWith(newElement)
@@ -153,27 +145,26 @@ class Block {
     return temp.content;
   }
 
-  protected render(): string {
+  protected render(): string | void {
     return '';
   }
 
-  getContent() {
+  public getContent() {
     return this.element;
   }
 
-  _makePropsProxy(props: any) {
-    // Ещё один способ передачи this, но он больше не применяется с приходом ES6+
-    const self = this;
+  private _makePropsProxy(props: P) {
+
     return new Proxy(props, {
-      get(target, prop) {
+      get(target, prop: string) {
         const value = target[prop];
         return typeof value === "function" ? value.bind(target) : value;
       },
-      set(target, prop, value) {
-        target[prop] = value;
+      set: (target, prop: string, value) => {
+        target[prop as keyof P] = value;
         // Запускаем обновление компоненты
         // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU);
+        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
         return true;
       },
       deleteProperty() {
@@ -182,46 +173,12 @@ class Block {
     });
   }
 
-  _createDocumentElement(tagName: string) {
-    // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName);
-  }
-
-  show() {
+  protected show() {
     this.getContent()!.style.display = "block";
   }
 
-  hide() {
+  protected hide() {
     this.getContent()!.style.display = "none";
-  }
-
-  protected getInputsValues() {
-    const inputs = document.getElementsByTagName('input');
-    const inputsArray = Array.from(inputs)
-    let values: any = {};
-    for (let i = 0; i < inputsArray.length; i++) {
-      values[inputsArray[i].name] = inputsArray[i].value
-    }
-    return values
-  }
-
-  protected onSubmit(e: Event) {
-    e.preventDefault()
-    const inputs: any = document.getElementsByTagName('input')
-    const inputsArray = Array.from(inputs)
-    const formIsValid = {
-      isValid: true
-    };
-
-    inputsArray.forEach((input: any) => !inputValidator(input.name, input.value) && Object.defineProperty(formIsValid, 'isValid', {value: false})
-      && this.refs[input.name].refs.error.setProps({errorClass: 'form__error form__error_visible'}))
-
-    if (!formIsValid.isValid) {
-      console.error("Form doesn't valid")
-    }
-    else {
-      console.log(this.getInputsValues())
-    }
   }
 
 }
