@@ -6,7 +6,7 @@
 Мессенджер на JS
 
 ## Проект на Netlify 
-[Ссылка на Netlify](https://62fa4936b952c75797fdddc8--wondrous-manatee-4d893f.netlify.app/)
+[Ссылка на Netlify](https://deploy--wondrous-manatee-4d893f.netlify.app/)
 
 ## Версия 
 0.2
