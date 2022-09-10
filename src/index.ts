@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
       root.append(homePage.getContent()!);
       homePage.dispatchComponentDidMount();
       break
-    case '/login':
+    case '/login.html':
       const loginPage = new LoginPage({} as ILoginPage);
       root.append(loginPage.getContent()!);
       loginPage.dispatchComponentDidMount();
