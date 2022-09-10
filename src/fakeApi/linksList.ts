@@ -11,27 +11,27 @@ export const linksList: ILinksList = {
   links: [
     {
       title: "Login",
-      link: "/login"
+      link: "/login.html"
     },
     {
       title: "Sign-up",
-      link: "/signup"
+      link: "/signup.html"
     },
     {
       title: "Error 500",
-      link: "/500"
+      link: "/500.html"
     },
     {
       title: "Error 404",
-      link: "/404"
+      link: "/404.html"
     },
     {
       title: "Profile",
-      link: "/profile"
+      link: "/profile.html"
     },
     {
       title: "Chat",
-      link: "/chat"
+      link: "/chat.html"
     },
   ],
   title: "Hey! There are some pages:"
