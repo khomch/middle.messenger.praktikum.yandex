@@ -6,7 +6,8 @@
     "dev": "parcel src/index.html",
     "eslint": "node_modules/.bin/eslint . --fix",
     "build": "parcel build src/index.html",
-    "stylelint": "npx stylelint '**/*.css'"
+    "stylelint": "npx stylelint '**/*.css'",
+    "start": "npm run build && node server.js"
   },
   "keywords": [],
   "author": "",
