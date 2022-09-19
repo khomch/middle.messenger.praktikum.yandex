@@ -8,7 +8,6 @@ import { IUserData } from "../../interfaces/IUser";
 import { onSubmit } from "../../utils/validationOnSubmit";
 
 export interface IProfilePage {
-  path: string,
   onSubmit: (e: Event) => void,
   profileActionsClass: string,
   styles: Record<string, string>;
@@ -32,19 +31,18 @@ export class ProfilePage extends Block<IProfilePage> {
   }
 
   getLayout() {
-    if (this.props.path === '/profile') {
-      return  profileLayout
+    if (window.location.pathname === '/settings') {
+      return profileLayout
     }
-    else if (this.props.path === '/profile-edit') {
+    else if (window.location.pathname === '/settings-edit') {
       return profileEditLayout
     }
-    else if (this.props.path === '/profile-edit-password') {
+    else if (window.location.pathname === '/settings-edit-password') {
       return profileEditPasswordLayout
     }
   }
 
   render() {
     return this.getLayout();
-    // language=hbs
   }
 }

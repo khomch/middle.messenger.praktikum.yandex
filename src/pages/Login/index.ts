@@ -70,7 +70,7 @@ export class LoginPage extends Block<ILoginPage> {
                 }}
                     Sign in
                 {{/Button}}
-                <div class="form__second-action-button"><a href="/signup" class="text-link">Create an account</a></div>
+                <div class="form__second-action-button"><a href="/sign-up" class="text-link">Create an account</a></div>
             </form>
         </div>
     `

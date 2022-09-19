@@ -1,7 +1,7 @@
 // language=hbs
 export const profileLayout = `
         <div class="profile">
-            <a href="/chat" class="profile__goback"></a>
+            <a href="/messenger" class="profile__goback"></a>
             <section class="profile-block">
                 {{#Avatar classModificator="avatar_profile" src=userData.avatarUrl alt=userData.avatarAlt }}
                 {{/Avatar}}
@@ -99,10 +99,10 @@ export const profileLayout = `
 
                 <ul class="profile__actions profile__actions_visible">
                     <li class="profile__actions-link">
-                        <a class="text-link" href="/profile-edit" class="text-link">Edit profile</a>
+                        <a class="text-link" href="/settings-edit" class="text-link">Edit profile</a>
                     </li>
                     <li class="profile__actions-link">
-                        <a class="text-link" href="/profile-edit-password" class="text-link">Change password</a>
+                        <a class="text-link" href="/settings-edit-password" class="text-link">Change password</a>
                     </li>
                     <li class="profile__actions-link">
                         <a class="text-link profile__actions-link-danger" href="/" class="text-link">Sign out</a>

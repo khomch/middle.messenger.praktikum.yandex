@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import styles from './home.sass'
-import { ILinksList } from "../../fakeApi/linksList";
+import { linksList, ILinksList } from "../../fakeApi/linksList";
 
 interface HomePageProps {
   linksList: ILinksList,
@@ -11,6 +11,7 @@ export class HomePage extends Block<HomePageProps> {
   constructor(props: HomePageProps) {
     super({
       ...props,
+      linksList: linksList,
       styles
     });
   }

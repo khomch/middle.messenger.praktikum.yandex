@@ -1,7 +1,7 @@
 // language=hbs
 export const profileEditLayout = `
     <div class="profile">
-        <a href="/profile" class="profile__goback"></a>
+        <a href="/settings" class="profile__goback"></a>
         <section class="profile-block">
             {{#Avatar classModificator="avatar_edit" src=userData.avatarUrl alt=userData.avatarAlt }}
             {{/Avatar}}
