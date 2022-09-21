@@ -1,7 +1,7 @@
 import Block from '../utils/Block';
 import Router from '../utils/Router';
 
-interface ComponentConstructable<P extends Record<string, any>> {
+export interface ComponentConstructable<P extends Record<string, any>> {
   new(props: P): Block<P>
 }
 

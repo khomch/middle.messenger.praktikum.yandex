@@ -10,6 +10,7 @@ import { SignupPage } from "./pages/Signup";
 import { ProfilePage } from "./pages/Profile";
 import { ChatPage } from "./pages/Chat";
 import { ErrorPage } from "./pages/ErrorPage";
+import { ComponentConstructable } from "./hocs/withRouter";
 
 registerComponent("Button", Button as any);
 registerComponent("Avatar", Avatar as any);
@@ -22,9 +23,9 @@ window.addEventListener('DOMContentLoaded', () => {
     .use('/', HomePage)
     .use('/login', LoginPage)
     .use('/sign-up', SignupPage)
-    .use('/settings', ProfilePage)
-    .use('/settings-edit', ProfilePage)
-    .use('/settings-edit-password', ProfilePage)
+    .use('/settings', ProfilePage as ComponentConstructable<any>)
+    .use('/settings-edit', ProfilePage as ComponentConstructable<any>)
+    .use('/settings-edit-password', ProfilePage as ComponentConstructable<any>)
     .use('/messenger', ChatPage)
     .use('/500', ErrorPage)
     .use('/404', ErrorPage)

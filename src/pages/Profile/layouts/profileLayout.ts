@@ -6,7 +6,7 @@ export const profileLayout = `
                 {{#Avatar classModificator="avatar_profile" src=userData.avatarUrl alt=userData.avatarAlt }}
                 {{/Avatar}}
                 <div class="profile-block__userdata">
-                    <p class="profile-block__userdata-name">{{userData.firstName}}</p>
+                    <p class="profile-block__userdata-name">{{this.first_name}}</p>
                     <form class="profile-block__form">
 
                         {{#Input
@@ -15,10 +15,10 @@ export const profileLayout = `
                           inputClass="profile-block__form-input"
                           type="email"
                           name="email"
-                          value=""
+                          value=this.email
                           label="Email"
                           errorText="Error in email"
-                          placeholder=userData.email
+                          placeholder=this.email
                           disabled="disabled"
                           ref="email"
                         }}
@@ -32,7 +32,7 @@ export const profileLayout = `
                           value=""
                           label="Login"
                           errorText="Error in Login"
-                          placeholder=userData.login
+                          placeholder=this.login
                           disabled="disabled"
                           ref="login"
                         }}
@@ -43,10 +43,10 @@ export const profileLayout = `
                           inputClass="profile-block__form-input"
                           type="text"
                           name="first_name"
-                          value=""
+                          value=this.first_name
                           label="First name"
                           errorText="Error in First name"
-                          placeholder=userData.firstName
+                          placeholder=this.first_name
                           disabled="disabled"
                           ref="first_name"
                         }}
@@ -57,10 +57,10 @@ export const profileLayout = `
                           inputClass="profile-block__form-input"
                           type="text"
                           name="second_name"
-                          value=""
+                          value=this.second_name
                           label="Last name"
                           errorText="Error in Last name"
-                          placeholder=userData.lastName
+                          placeholder=this.second_name
                           disabled="disabled"
                           ref="second_name"
                         }}
@@ -71,10 +71,10 @@ export const profileLayout = `
                           inputClass="profile-block__form-input"
                           type="text"
                           name="display_name"
-                          value=""
+                          value=this.display_name
                           label="Display name"
                           errorText="Error in Display name"
-                          placeholder=userData.displayName
+                          placeholder=this.display_name
                           disabled="disabled"
                           ref="display_name"
                         }}
@@ -85,10 +85,10 @@ export const profileLayout = `
                           inputClass="profile-block__form-input"
                           type="text"
                           name="phone"
-                          value=""
+                          value=this.phone
                           label="Phone"
                           errorText="Error in Phone"
-                          placeholder=userData.phone
+                          placeholder=this.phone
                           disabled="disabled"
                           ref="phone"
                         }}
@@ -105,7 +105,15 @@ export const profileLayout = `
                         <a class="text-link" href="/settings-edit-password" class="text-link">Change password</a>
                     </li>
                     <li class="profile__actions-link">
-                        <a class="text-link profile__actions-link-danger" href="/" class="text-link">Sign out</a>
+                        {{#Button
+                          class="text-link profile__actions-link-danger"
+                          id="button-signout"
+                          name="button-signout"
+                          onClick=onLogoutClick
+                          ref="button-signout"
+                        }}
+                            Sign out
+                        {{/Button}}
                     </li>
                 </ul>
             </section>

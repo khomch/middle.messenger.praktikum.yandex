@@ -1,30 +1,54 @@
 import Block from '../../utils/Block';
 import styles from './chat.sass';
 import { userData } from "../../fakeApi/userData";
-import { chats } from "../../fakeApi/chats";
 import { selectedChat } from "../../fakeApi/selectedChat";
+import ChatsController from "../../controllers/ChatsController";
+import { withStore } from "../../utils/Store";
+import AuthController from "../../controllers/AuthController";
+
 
 interface ChatPageProps {
+  onSubmit: (e: Event) => void,
 }
 
-export class ChatPage extends Block {
+class ChatPageBase extends Block {
   constructor(props: ChatPageProps) {
     super({
       ...props,
-      onSubmit: (e: Event) => this.onSubmit(e),
+      onSubmit: () => this.onSubmit(),
       userData: userData,
-      chats: chats,
       selectedChat: selectedChat,
       styles
     });
   }
 
 
-  onSubmit(e: Event) {
-    super.onSubmit(e);
+  onSubmit() {
+    // ChatsController.createChat({title: 'Chat Ice 1'})
+    // ChatsController.deleteChat({chatId: 936})
+    ChatsController.getChatUsers("940")
+    // ChatsController.usersRequest({users: [59778], chatId: 940})
+
+  }
+
+  setChats() {
+    if (!this.props.chats) {
+      ChatsController.getChats();
+    }
+    else return
+  }
+
+  setUser() {
+    if (!this.props.user) {
+      AuthController.fetchUser();
+    }
+    else return
   }
 
   render() {
+    this.setChats()
+    this.setUser()
+
     // language=hbs
     return `
         <section class="chat-window">
@@ -37,9 +61,9 @@ export class ChatPage extends Block {
                                           alt=userData.avatarAlt }}
                                 {{/Avatar}}
                             </div>
-                            <span class="user-in-chat__data">{{userData.firstName}} {{userData.lastName}}</span>
+                            <span class="user-in-chat__data">{{this.user.first_name}} {{this.user.second_name}}</span>
                         </div>
-                        <a href="/profile" class="chats__profile-link">Профиль &#8594;</a>
+                        <a href="/settings" class="chats__profile-link">Профиль &#8594;</a>
                     </div>
                 </div>
 
@@ -51,19 +75,19 @@ export class ChatPage extends Block {
                 </div>
 
                 <ul class="chats__list">
-                    {{#each chats}}
+                    {{#each this.chats}}
                         <li class="chats__list-item">
                             <div class="chats__list-item-avatar-name-message">
-                                {{#Avatar classModificator="avatar_chat" src=this.image alt=this.name }}
+                                {{#Avatar classModificator="avatar_chat" src=this.avatar src=this.title }}
                                 {{/Avatar}}
                                 <div class="chats__list-item-name-and-message">
-                                    <p class="chats__list-item-message-username">{{this.name}}</p>
-                                    <p class="chats__list-item-last-message">{{this.lastMessage}}</p>
+                                    <p class="chats__list-item-message-username">{{this.title}}</p>
+                                    <p class="chats__list-item-last-message">{{this.last_message}}</p>
                                 </div>
                             </div>
                             <div class="chats__list-item-date-and-counter">
                                 <p class="chats__list-item-message-time">{{this.time}}</p>
-                                <div class="chats__list-item-message-counter">{{this.counter}}2</div>
+                                <div class="chats__list-item-message-counter">{{this.unread_count}}</div>
                             </div>
                         </li>
                     {{/each}}
@@ -125,3 +149,7 @@ export class ChatPage extends Block {
     `
   }
 }
+
+const withState = withStore((state) => ({...state}))
+
+export const ChatPage = withState(ChatPageBase);

@@ -6,7 +6,7 @@ export const profileEditLayout = `
             {{#Avatar classModificator="avatar_edit" src=userData.avatarUrl alt=userData.avatarAlt }}
             {{/Avatar}}
             <div class="profile-block__userdata">
-                <p class="profile-block__userdata-name">{{userData.firstName}}</p>
+                <p class="profile-block__userdata-name">{{this.first_name}}</p>
                 <form class="profile-block__form">
 
                     {{#Input
@@ -15,9 +15,9 @@ export const profileEditLayout = `
                             inputClass="profile-block__form-input"
                             type="email"
                             name="email"
-                            value=userData.email
                             label="Email"
                             errorText="Error in email"
+                            placeholder=this.email
                             ref="email"
                     }}
                     {{/Input}}
@@ -29,7 +29,7 @@ export const profileEditLayout = `
                             name="login"
                             label="Login"
                             errorText="Error in Login"
-                            value=userData.login
+                            placeholder=this.login
                             ref="login"
                     }}
                     {{/Input}}
@@ -41,7 +41,7 @@ export const profileEditLayout = `
                             name="first_name"
                             label="First name"
                             errorText="Error in First name"
-                            value=userData.firstName
+                            placeholder=this.first_name
                             ref="first_name"
                     }}
                     {{/Input}}
@@ -53,7 +53,7 @@ export const profileEditLayout = `
                             name="second_name"
                             label="Last name"
                             errorText="Error in Last name"
-                            value=userData.lastName
+                            placeholder=this.second_name
                             ref="second_name"
                     }}
                     {{/Input}}
@@ -63,9 +63,9 @@ export const profileEditLayout = `
                             inputClass="profile-block__form-input"
                             type="text"
                             name="display_name"
-                            value=userData.displayName
                             label="Display name"
                             errorText="Error in Display name"
+                            placeholder=this.display_name
                             ref="display_name"
                     }}
                     {{/Input}}
@@ -77,7 +77,7 @@ export const profileEditLayout = `
                             name="phone"
                             label="Phone"
                             errorText="Error in Phone"
-                            value=userData.phone
+                            placeholder=this.phone
                             ref="phone"
                     }}
                     {{/Input}}
