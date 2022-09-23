@@ -1,9 +1,9 @@
 import Block from '../../utils/Block';
 import styles from './chat.sass';
 import { userData } from "../../fakeApi/userData";
-import { selectedChat } from "../../fakeApi/selectedChat";
+// import { selectedChat } from "../../fakeApi/selectedChat";
 import ChatsController from "../../controllers/ChatsController";
-import { withStore } from "../../utils/Store";
+import store, { withStore } from "../../utils/Store";
 import AuthController from "../../controllers/AuthController";
 import { getInputsValues } from "../../utils/getInputsValues";
 
@@ -27,7 +27,7 @@ class ChatPageBase extends Block {
       onCreateChatSubmit: (e: Event) => this.onCreateChatSubmit(e),
       onComposeClick: () => this.onComposeClick(),
       userData: userData,
-      selectedChat: selectedChat,
+      selectedChat: {},
       styles
     });
   }
@@ -45,6 +45,16 @@ class ChatPageBase extends Block {
   }
 
   onChatsClick(e: Event) {
+    const targetEl = e.target as Element;
+    const targetElLi = targetEl!.closest('li');
+    const targetElId: string = targetElLi!.id;
+    console.log(targetElId)
+
+    const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
+
+    this.setProps({chat: chatToOpen})
+    console.log(this.props.chat)
+    // store.set('chat', {title: chatToOpen.title});
     // e.stopImmediatePropagation()
     // console.log(e.currentTarget)
     // ChatsController.createChat({title: 'Chat Ice 1'})
@@ -69,6 +79,7 @@ class ChatPageBase extends Block {
   }
 
   render() {
+    console.log(this.props.chat)
     this.setChats()
     this.setUser()
 
@@ -107,19 +118,26 @@ class ChatPageBase extends Block {
                     <ul class="chats__list">
                         {{#Chat 
                                 chats=this.chats 
-                                onClick=onChatsClick}}
+                                selectedChat=this.selectedChat
+                                onClick=onChatsClick
+                        }}
                         {{/Chat}}
                     </ul>
 
                 </section>
-
+                
+                
                 <section class="chat">
                     <div class="chat-container">
                         <div class="chat-container__top">
                             <div class="chat-container__userdata">
-                                <img class="avatar avatar_chat-window" src={{selectedChat.image}}
-                                     alt={{selectedChat.name}} />
-                                <p class="chat-container__name">{{selectedChat.name}}</p>
+                                {{#Avatar
+                                        classModificator="avatar_chat-window"
+                                        src=this.chat.avatar
+                                        alt=this.chat.title
+                                }}
+                                {{/Avatar}}
+                                <p class="chat-container__name">{{this.chat.title}}</p>
                             </div>
                             <button class="chat-container__edit-button"></button>
                         </div>
@@ -164,6 +182,7 @@ class ChatPageBase extends Block {
                         </form>
                     </div>
                 </section>
+                
             </div>
 
 

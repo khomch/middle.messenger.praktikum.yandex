@@ -1,6 +1,5 @@
 import Block from '../../utils/Block';
 import styles from './chat.sass'
-import ChatsController from "../../controllers/ChatsController";
 
 interface IChat {
   events: {
@@ -17,25 +16,16 @@ export class Chat extends Block<IChat> {
     super({
         ...props,
         events: {
-          click: (e: Event) => this.onClick(e)
+          click: (e: Event) => props.onClick(e)
         },
+      onClick: (e: Event) => props.onClick(e),
         styles
       },
     );
   }
 
-  onClick(e: Event) {
-    const targetEl = e.target as Element;
-    const targetElLi = targetEl!.closest('li');
-    const targetElId: string = targetElLi!.id;
-    console.log(targetElId)
-
-
-    // ChatsController.deleteChat({chatId: targetElId})
-  }
 
   render() {
-
     // language=hbs
     return `
         <ul class="chats__list">
