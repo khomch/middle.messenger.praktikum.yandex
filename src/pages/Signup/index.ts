@@ -1,6 +1,6 @@
 import Block from '../../utils/Block';
 import styles from './signup.sass';
-import { onSubmit } from "../../utils/validationOnSubmit";
+import { validationOnSubmit } from "../../utils/validationOnSubmit";
 import { getInputsValues } from "../../utils/getInputsValues";
 import AuthController from "../../controllers/AuthController";
 import { ISignUpData } from "../../api/AuthAPI";
@@ -20,7 +20,7 @@ export class SignupPage extends Block<ISignUpPage> {
   }
 
   onSubmit(e: Event) {
-    onSubmit(e, this.refs)
+    validationOnSubmit(e, this.refs)
     const data = getInputsValues();
 
     AuthController.signup(data as ISignUpData);

@@ -1,3 +1,5 @@
+export const BASE_URL = 'https://ya-praktikum.tech/api/v2'
+
 export enum Method {
   Get = 'Get',
   Post = 'Post',
@@ -12,7 +14,7 @@ type Options = {
 };
 
 export class HTTPTransport {
-  static API_URL = 'https://ya-praktikum.tech/api/v2';
+  static API_URL = BASE_URL;
   protected endpoint: string;
 
   constructor(endpoint: string) {
@@ -63,7 +65,8 @@ export class HTTPTransport {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status < 400) {
             resolve(xhr.response);
-          } else {
+          }
+          else {
             reject(xhr.response);
           }
         }
@@ -73,14 +76,27 @@ export class HTTPTransport {
       xhr.onerror = () => reject({reason: 'network error'});
       xhr.ontimeout = () => reject({reason: 'timeout'});
 
-      xhr.setRequestHeader('Content-Type', 'application/json');
+      if (url.includes('avatar')) {
+        // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+        // xhr.setRequestHeader('Aaa', 'Bbb');
+      }
+      else {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
 
       xhr.withCredentials = true;
       xhr.responseType = 'json';
 
+
       if (method === Method.Get || !data) {
         xhr.send();
-      } else {
+      }
+      else if (data instanceof FormData) {
+        // console.log('ебать', data.getAll('avatar'))
+        xhr.send(data);
+        console.log('ебать')
+      }
+      else {
         xhr.send(JSON.stringify(data));
       }
     });

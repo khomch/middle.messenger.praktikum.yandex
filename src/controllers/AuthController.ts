@@ -1,13 +1,13 @@
 import API, { AuthAPI, ISigninData, ISignUpData } from "../api/AuthAPI";
 import store from '../utils/Store';
 import router from '../utils/Router';
+import { BASE_URL } from "../utils/fetch";
 
 export class AuthController {
   private readonly api: AuthAPI;
 
   constructor() {
     this.api = API;
-
   }
 
   async signin(data: ISigninData) {
@@ -34,7 +34,7 @@ export class AuthController {
 
   async fetchUser() {
     const user = await this.api.read();
-    store.set('user', user);
+    store.set('user', {...user, avatar: user.avatar !== null ? `${BASE_URL}/resources${user.avatar}` : null});
   }
 
   async logout() {

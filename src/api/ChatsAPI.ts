@@ -27,7 +27,7 @@ export class ChatsAPI extends BaseAPI {
     return this.http.post('/', data);
   }
 
-  delete(data: { chatId: number }) {
+  delete(data: { chatId: string }) {
     return this.http.delete('/', data);
   }
 

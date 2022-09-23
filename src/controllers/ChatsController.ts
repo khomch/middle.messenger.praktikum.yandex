@@ -3,13 +3,11 @@ import store from '../utils/Store';
 import { ChatsAPI } from "../api/ChatsAPI";
 import { IUsersRequest } from "../interfaces/IApi";
 
-
 export class ChatsController {
   private readonly api: ChatsAPI;
 
   constructor() {
     this.api = API;
-
   }
 
   async getChats() {
@@ -32,7 +30,7 @@ export class ChatsController {
     }
   }
 
-  async deleteChat(data: { chatId: number }) {
+  async deleteChat(data: { chatId: string }) {
     try {
       const result = await this.api.delete(data);
       console.log(result)
