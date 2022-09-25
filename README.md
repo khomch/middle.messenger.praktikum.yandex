@@ -6,13 +6,15 @@
 Мессенджер на JS
 
 ## Проект на Netlify 
-[Ссылка на Netlify](https://62fa4936b952c75797fdddc8--wondrous-manatee-4d893f.netlify.app/)
+[Ссылка на Netlify](https://deploy--wondrous-manatee-4d893f.netlify.app/)
 
 ## Версия 
-0.2
+0.3
 
 ## Технологии
 - JS
+- TypeScript
+- WebSocket
 - Handlebars
 - Parcel
 
@@ -20,4 +22,5 @@
 
 - `npm install` — установка стабильной версии,
 - `npm run dev` — запуск версии для разработчика,
-- `npm run build` — сборка стабильной версии.
+- `npm run build` — сборка стабильной версии,
+- `npm run start` — сборка и запуск Node.JS сервера.

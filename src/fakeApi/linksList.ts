@@ -15,7 +15,7 @@ export const linksList: ILinksList = {
     },
     {
       title: "Sign-up",
-      link: "/signup"
+      link: "/sign-up"
     },
     {
       title: "Error 500",
@@ -27,11 +27,11 @@ export const linksList: ILinksList = {
     },
     {
       title: "Profile",
-      link: "/profile"
+      link: "/settings"
     },
     {
       title: "Chat",
-      link: "/chat"
+      link: "/messenger"
     },
   ],
   title: "Hey! There are some pages:"

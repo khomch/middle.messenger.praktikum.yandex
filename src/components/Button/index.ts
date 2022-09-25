@@ -19,7 +19,7 @@ export class Button extends Block<IButton> {
     super({
       ...props,
       events: {
-        click: props.onClick
+        click: props.onClick,
       },
       styles
     }
@@ -29,7 +29,7 @@ export class Button extends Block<IButton> {
   render() {
     // language=hbs
     return `
-    <button type="{{type}}" class="{{class}}" id="{{id}}" name="{{name}}">{{label}}</button>
+    <button {{disabled}} type="{{type}}" class="{{class}}" id="{{id}}" name="{{name}}">{{label}}</button>
     `
   }
 }

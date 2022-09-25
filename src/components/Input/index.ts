@@ -8,7 +8,6 @@ interface IInput {
   events: {
     focusin: (e: Event) => void,
     focusout: (e: Event) => void,
-
   }
   class: string,
   type: string,
@@ -65,6 +64,7 @@ export class Input extends Block<IInput> {
                     value="{{value}}"
                     aria-label="{{name}}"
                     placeholder="{{placeholder}}"
+                    accept="{{accept}}"
                 {{disabled}}
                 {{required}}
             >

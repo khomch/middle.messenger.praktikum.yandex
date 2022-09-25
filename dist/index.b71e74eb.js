@@ -532,86 +532,37 @@ function hmrAcceptRun(bundle, id) {
 }
 
 },{}],"h7u1C":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _home = require("./pages/Home");
 var _login = require("./pages/Login");
-var _signup = require("./pages/Signup");
-var _errorPage = require("./pages/ErrorPage");
 var _button = require("./components/Button");
 var _avatar = require("./components/Avatar");
 var _input = require("./components/Input");
 var _errorLabel = require("./components/ErrorLabel");
 var _registerComponent = require("./utils/registerComponent");
-var _notFoundPageProps = require("./fakeApi/notFoundPageProps");
-var _serverErrorPageProps = require("./fakeApi/serverErrorPageProps");
-var _linksList = require("./fakeApi/linksList");
+var _router = require("./utils/Router");
+var _routerDefault = parcelHelpers.interopDefault(_router);
+var _signup = require("./pages/Signup");
 var _profile = require("./pages/Profile");
 var _chat = require("./pages/Chat");
+var _errorPage = require("./pages/ErrorPage");
+var _modalWindow = require("./components/ModalWindow/modal-window");
+var _chats = require("./components/Chats/chats");
+var _chatWindow = require("./components/ChatWindow/chat-window");
+var _webSocket = require("./utils/webSocket");
 (0, _registerComponent.registerComponent)("Button", (0, _button.Button));
 (0, _registerComponent.registerComponent)("Avatar", (0, _avatar.Avatar));
 (0, _registerComponent.registerComponent)("Input", (0, _input.Input));
 (0, _registerComponent.registerComponent)("ErrorLabel", (0, _errorLabel.ErrorLabel));
+(0, _registerComponent.registerComponent)("ModalWindow", (0, _modalWindow.ModalWindow));
+(0, _registerComponent.registerComponent)("Chat", (0, _chats.Chats));
+(0, _registerComponent.registerComponent)("ChatWindow", (0, _chatWindow.ChatWindow));
 window.addEventListener("DOMContentLoaded", ()=>{
-    const root = document.querySelector("#app");
-    const path = document.location.pathname;
-    console.log(path);
-    switch(path){
-        case "/":
-            const homePage = new (0, _home.HomePage)({
-                linksList: (0, _linksList.linksList)
-            });
-            root.append(homePage.getContent());
-            homePage.dispatchComponentDidMount();
-            break;
-        case "/login":
-            const loginPage = new (0, _login.LoginPage)({});
-            root.append(loginPage.getContent());
-            loginPage.dispatchComponentDidMount();
-            break;
-        case "/signup":
-            const signupPage = new (0, _signup.SignupPage)({});
-            root.append(signupPage.getContent());
-            signupPage.dispatchComponentDidMount();
-            break;
-        case "/404":
-            const notFoundPage = new (0, _errorPage.ErrorPage)((0, _notFoundPageProps.notFoundPageProps));
-            root.append(notFoundPage.getContent());
-            notFoundPage.dispatchComponentDidMount();
-            break;
-        case "/500":
-            const serverErrorPage = new (0, _errorPage.ErrorPage)((0, _serverErrorPageProps.serverErrorPageProps));
-            root.append(serverErrorPage.getContent());
-            serverErrorPage.dispatchComponentDidMount();
-            break;
-        case "/profile":
-            const profilePage = new (0, _profile.ProfilePage)({
-                path: path
-            });
-            root.append(profilePage.getContent());
-            profilePage.dispatchComponentDidMount();
-            break;
-        case "/profile-edit":
-            const profilePageEdit = new (0, _profile.ProfilePage)({
-                path: path
-            });
-            root.append(profilePageEdit.getContent());
-            profilePageEdit.dispatchComponentDidMount();
-            break;
-        case "/profile-edit-password":
-            const profilePagePassword = new (0, _profile.ProfilePage)({
-                path: path
-            });
-            root.append(profilePagePassword.getContent());
-            profilePagePassword.dispatchComponentDidMount();
-            break;
-        case "/chat":
-            const chatPage = new (0, _chat.ChatPage)({});
-            root.append(chatPage.getContent());
-            chatPage.dispatchComponentDidMount();
-            break;
-    }
+    (0, _routerDefault.default).use("/", (0, _home.HomePage)).use("/login", (0, _login.LoginPage)).use("/sign-up", (0, _signup.SignupPage)).use("/settings", (0, _profile.ProfilePage)).use("/settings-edit", (0, _profile.ProfilePage)).use("/settings-edit-password", (0, _profile.ProfilePage)).use("/messenger", (0, _chat.ChatPage)).use("/500", (0, _errorPage.ErrorPage)).use("/404", (0, _errorPage.ErrorPage)).start();
 });
+(0, _webSocket.socket).onopen;
 
-},{"./pages/Home":"96xOV","./pages/Login":"8wiK1","./pages/Signup":"8bAO2","./pages/ErrorPage":"jJHgB","./components/Button":"i3jlU","./components/Avatar":"iC4G6","./components/Input":"iclCk","./utils/registerComponent":"5eMDj","./pages/Profile":"dr0X8","./pages/Chat":"lMH5U","./components/ErrorLabel":"8wXBO","./fakeApi/notFoundPageProps":"jlfne","./fakeApi/serverErrorPageProps":"lsqPO","./fakeApi/linksList":"d5QKW"}],"96xOV":[function(require,module,exports) {
+},{"./pages/Home":"96xOV","./pages/Login":"8wiK1","./pages/Signup":"8bAO2","./pages/ErrorPage":"jJHgB","./components/Button":"i3jlU","./components/Avatar":"iC4G6","./components/Input":"iclCk","./utils/registerComponent":"5eMDj","./pages/Profile":"dr0X8","./pages/Chat":"lMH5U","./components/ErrorLabel":"8wXBO","./utils/Router":"lWot6","./components/ModalWindow/modal-window":"4hlob","./components/Chats/chats":"eQMAW","./components/ChatWindow/chat-window":"59ROB","./utils/webSocket":"2W7te","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"96xOV":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "HomePage", ()=>HomePage);
@@ -619,10 +570,12 @@ var _block = require("../../utils/Block");
 var _blockDefault = parcelHelpers.interopDefault(_block);
 var _homeSass = require("./home.sass");
 var _homeSassDefault = parcelHelpers.interopDefault(_homeSass);
+var _linksList = require("../../fakeApi/linksList");
 class HomePage extends (0, _blockDefault.default) {
     constructor(props){
         super({
             ...props,
+            linksList: (0, _linksList.linksList),
             styles: (0, _homeSassDefault.default)
         });
     }
@@ -644,7 +597,7 @@ class HomePage extends (0, _blockDefault.default) {
     }
 }
 
-},{"../../utils/Block":"915bj","./home.sass":"1yMva","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"915bj":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./home.sass":"1yMva","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../fakeApi/linksList":"d5QKW"}],"915bj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _eventBus = require("./EventBus");
@@ -652,7 +605,6 @@ var _nanoid = require("nanoid");
 // @ts-ignore
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
-// import { inputValidator } from "./validation/inputValidator";
 class Block {
     static EVENTS = {
         INIT: "init",
@@ -12190,7 +12142,41 @@ PrintVisitor.prototype.HashPair = function(pair) {
 },{"./visitor":"fk5sS"}],"jhUEF":[function(require,module,exports) {
 "use strict";
 
-},{}],"1yMva":[function() {},{}],"8wiK1":[function(require,module,exports) {
+},{}],"1yMva":[function() {},{}],"d5QKW":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "linksList", ()=>linksList);
+const linksList = {
+    links: [
+        {
+            title: "Login",
+            link: "/login"
+        },
+        {
+            title: "Sign-up",
+            link: "/sign-up"
+        },
+        {
+            title: "Error 500",
+            link: "/500"
+        },
+        {
+            title: "Error 404",
+            link: "/404"
+        },
+        {
+            title: "Profile",
+            link: "/settings"
+        },
+        {
+            title: "Chat",
+            link: "/messenger"
+        }, 
+    ],
+    title: "Hey! There are some pages:"
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8wiK1":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "LoginPage", ()=>LoginPage);
@@ -12199,6 +12185,9 @@ var _blockDefault = parcelHelpers.interopDefault(_block);
 var _loginSass = require("./login.sass");
 var _loginSassDefault = parcelHelpers.interopDefault(_loginSass);
 var _validationOnSubmit = require("../../utils/validationOnSubmit");
+var _getInputsValues = require("../../utils/getInputsValues");
+var _authController = require("../../controllers/AuthController");
+var _authControllerDefault = parcelHelpers.interopDefault(_authController);
 class LoginPage extends (0, _blockDefault.default) {
     constructor(props){
         super({
@@ -12212,7 +12201,9 @@ class LoginPage extends (0, _blockDefault.default) {
         e.preventDefault();
     }
     onSubmit(e) {
-        (0, _validationOnSubmit.onSubmit)(e, this.refs);
+        (0, _validationOnSubmit.validationOnSubmit)(e, this.refs);
+        const data = (0, _getInputsValues.getInputsValues)();
+        (0, _authControllerDefault.default).signin(data);
     }
     render() {
         // language=hbs
@@ -12258,36 +12249,52 @@ class LoginPage extends (0, _blockDefault.default) {
                 }}
                     Sign in
                 {{/Button}}
-                <div class="form__second-action-button"><a href="/signup" class="text-link">Create an account</a></div>
+                <div class="form__second-action-button"><a href="/sign-up" class="text-link">Create an account</a></div>
             </form>
         </div>
     `;
     }
 }
 
-},{"../../utils/Block":"915bj","./login.sass":"eW0C0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt"}],"eW0C0":[function() {},{}],"lFsyt":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./login.sass":"eW0C0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt","../../utils/getInputsValues":"bm15i","../../controllers/AuthController":"btuLA"}],"eW0C0":[function() {},{}],"lFsyt":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "onSubmit", ()=>onSubmit);
+parcelHelpers.export(exports, "validationOnSubmit", ()=>validationOnSubmit);
 var _inputValidator = require("./validation/inputValidator");
-var _getInputsValues = require("./getInputsValues");
-function onSubmit(e, refs) {
+function validationOnSubmit(e, refs) {
     e.preventDefault();
     const inputs = document.getElementsByTagName("input");
     const inputsArray = Array.from(inputs);
+    const inputsArrayWithoutFile = inputsArray.filter((input)=>input.type !== "file");
+    const passwordsToCompareArray = inputsArray.filter((input)=>input.id.includes("password-check"));
+    const isPasswordsEqual = passwordsToCompareArray[0] && passwordsToCompareArray[0].value === passwordsToCompareArray[1].value;
+    if (passwordsToCompareArray.length > 0 && !isPasswordsEqual) {
+        console.error("Passwords are not equal");
+        return {
+            isValid: false,
+            error: "Passwords are not equal"
+        };
+    }
     const formIsValid = {
         isValid: true
     };
-    inputsArray.forEach((input)=>!(0, _inputValidator.inputValidator)(input.name, input.value) && Object.defineProperty(formIsValid, "isValid", {
+    inputsArrayWithoutFile.forEach((input)=>!(0, _inputValidator.inputValidator)(input.name, input.value) && Object.defineProperty(formIsValid, "isValid", {
             value: false
         }) && refs[input.name].refs.error.setProps({
             errorClass: "form__error form__error_visible"
         }));
-    if (!formIsValid.isValid) console.error("Form doesn't valid");
-    else console.log((0, _getInputsValues.getInputsValues)());
+    if (!formIsValid.isValid) {
+        console.error("Form doesn't valid");
+        return {
+            isValid: false,
+            error: "Form doesn't valid"
+        };
+    } else return {
+        isValid: true
+    };
 }
 
-},{"./validation/inputValidator":"a0Nfe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./getInputsValues":"bm15i"}],"a0Nfe":[function(require,module,exports) {
+},{"./validation/inputValidator":"a0Nfe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a0Nfe":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "inputValidator", ()=>inputValidator);
@@ -12305,18 +12312,21 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "regExs", ()=>regExs);
 const regExs = {
     login: /^[a-zA-Z0-9-_\.]{3,19}[a-zA-Z][a-zA-Z0-9-_\.]{0,1}$/,
+    login_add_user: /^[a-zA-Z0-9-_\.]{3,19}[a-zA-Z][a-zA-Z0-9-_\.]{0,1}$/,
+    login_remove_user: /^[a-zA-Z0-9-_\.]{3,19}[a-zA-Z][a-zA-Z0-9-_\.]{0,1}$/,
     password: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-    old_password: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+    oldPassword: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
     password_repeat: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-    new_password: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-    new_password_repeat: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+    newPassword: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+    newPasswordRepeat: /(?=^.{8,40}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
     email: /^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,}$/,
     first_name: /^[а-яА-ЯёЁa-zA-Z-_]+$/,
     second_name: /^[а-яА-ЯёЁa-zA-Z-_]+$/,
     display_name: /^[а-яА-ЯёЁa-zA-Z-_]+$/,
     phone: /^[\+]?[0-9]{10,15}$/,
     search: /^.*$/,
-    message: /^.*$/
+    message: /^.*$/,
+    chat_name: /^.*$/
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bm15i":[function(require,module,exports) {
@@ -12331,6 +12341,351 @@ function getInputsValues() {
     return values;
 }
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"btuLA":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "AuthController", ()=>AuthController);
+var _authAPI = require("../api/AuthAPI");
+var _authAPIDefault = parcelHelpers.interopDefault(_authAPI);
+var _store = require("../utils/Store");
+var _storeDefault = parcelHelpers.interopDefault(_store);
+var _router = require("../utils/Router");
+var _routerDefault = parcelHelpers.interopDefault(_router);
+var _fetch = require("../utils/fetch");
+class AuthController {
+    constructor(){
+        this.api = (0, _authAPIDefault.default);
+    }
+    async signin(data) {
+        try {
+            await this.api.signin(data);
+            (0, _routerDefault.default).go("/messenger");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async signup(data) {
+        try {
+            await this.api.signup(data);
+            await this.fetchUser();
+            (0, _routerDefault.default).go("/messenger");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async fetchUser() {
+        const user = await this.api.read();
+        console.log(user);
+        (0, _storeDefault.default).set("user", {
+            ...user,
+            avatar: user.avatar !== null ? `${0, _fetch.BASE_URL}/resources${user.avatar}` : null
+        });
+    }
+    async logout() {
+        try {
+            await this.api.logout();
+            (0, _routerDefault.default).go("/");
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+exports.default = new AuthController();
+
+},{"../api/AuthAPI":"9MuyV","../utils/Store":"euxgo","../utils/Router":"lWot6","../utils/fetch":"1VlZi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9MuyV":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "AuthAPI", ()=>AuthAPI);
+var _baseAPI = require("./BaseAPI");
+class AuthAPI extends (0, _baseAPI.BaseAPI) {
+    constructor(){
+        super("/auth");
+    }
+    signin(data) {
+        return this.http.post("/signin", data);
+    }
+    signup(data) {
+        return this.http.post("/signup", data);
+    }
+    read() {
+        return this.http.get("/user");
+    }
+    logout() {
+        return this.http.post("/logout");
+    }
+    create = undefined;
+    update = undefined;
+    delete = undefined;
+}
+exports.default = new AuthAPI();
+
+},{"./BaseAPI":"ghZmd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ghZmd":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BaseAPI", ()=>BaseAPI);
+var _fetch = require("../utils/fetch");
+class BaseAPI {
+    constructor(endpoint){
+        this.http = new (0, _fetch.HTTPTransport)(endpoint);
+    }
+}
+
+},{"../utils/fetch":"1VlZi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1VlZi":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "BASE_URL", ()=>BASE_URL);
+parcelHelpers.export(exports, "Method", ()=>Method);
+parcelHelpers.export(exports, "HTTPTransport", ()=>HTTPTransport);
+const BASE_URL = "https://ya-praktikum.tech/api/v2";
+let Method;
+(function(Method) {
+    Method["Get"] = "Get";
+    Method["Post"] = "Post";
+    Method["Put"] = "Put";
+    Method["Patch"] = "Patch";
+    Method["Delete"] = "Delete";
+})(Method || (Method = {}));
+class HTTPTransport {
+    static API_URL = BASE_URL;
+    constructor(endpoint){
+        this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
+    }
+    get(path = "/") {
+        return this.request(this.endpoint + path);
+    }
+    post(path, data) {
+        return this.request(this.endpoint + path, {
+            method: Method.Post,
+            data
+        });
+    }
+    put(path, data) {
+        return this.request(this.endpoint + path, {
+            method: Method.Put,
+            data
+        });
+    }
+    patch(path, data) {
+        return this.request(this.endpoint + path, {
+            method: Method.Patch,
+            data
+        });
+    }
+    delete(path, data) {
+        return this.request(this.endpoint + path, {
+            method: Method.Delete,
+            data
+        });
+    }
+    request(url, options = {
+        method: Method.Get
+    }) {
+        const { method , data  } = options;
+        return new Promise((resolve, reject)=>{
+            const xhr = new XMLHttpRequest();
+            xhr.open(method, url);
+            xhr.onreadystatechange = ()=>{
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status < 400) resolve(xhr.response);
+                    else reject(xhr.response);
+                }
+            };
+            xhr.onabort = ()=>reject({
+                    reason: "abort"
+                });
+            xhr.onerror = ()=>reject({
+                    reason: "network error"
+                });
+            xhr.ontimeout = ()=>reject({
+                    reason: "timeout"
+                });
+            if (url.includes("avatar")) ;
+            else xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.withCredentials = true;
+            xhr.responseType = "json";
+            if (method === Method.Get || !data) xhr.send();
+            else if (data instanceof FormData) {
+                // console.log('ебать', data.getAll('avatar'))
+                xhr.send(data);
+                console.log("ебать");
+            } else xhr.send(JSON.stringify(data));
+        });
+    }
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"euxgo":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "Store", ()=>Store);
+parcelHelpers.export(exports, "withStore", ()=>withStore);
+var _helpers = require("./helpers");
+var _eventBus = require("./EventBus");
+let StoreEvents;
+(function(StoreEvents) {
+    StoreEvents["Updated"] = "updated";
+})(StoreEvents || (StoreEvents = {}));
+class Store extends (0, _eventBus.EventBus) {
+    state = {};
+    set(keypath, data) {
+        (0, _helpers.set)(this.state, keypath, data);
+        this.emit(StoreEvents.Updated, this.getState());
+    }
+    getState() {
+        return this.state;
+    }
+}
+const store = new Store();
+function withStore(mapStateToProps) {
+    return function wrap(Component) {
+        let previousState;
+        return class WithStore extends Component {
+            constructor(props){
+                previousState = mapStateToProps(store.getState());
+                super({
+                    ...props,
+                    ...previousState
+                });
+                store.on(StoreEvents.Updated, ()=>{
+                    const stateProps = mapStateToProps(store.getState());
+                    if ((0, _helpers.isEqual)(previousState, stateProps)) return;
+                    previousState = stateProps;
+                    this.setProps({
+                        ...stateProps
+                    });
+                });
+            }
+        };
+    };
+}
+exports.default = store;
+
+},{"./helpers":"h3C0h","./EventBus":"iVvKU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"h3C0h":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "merge", ()=>merge);
+parcelHelpers.export(exports, "set", ()=>set);
+parcelHelpers.export(exports, "isEqual", ()=>isEqual);
+function merge(lhs, rhs) {
+    for(let p in rhs){
+        if (!rhs.hasOwnProperty(p)) continue;
+        try {
+            if (rhs[p].constructor === Object) rhs[p] = merge(lhs[p], rhs[p]);
+            else lhs[p] = rhs[p];
+        } catch (e) {
+            lhs[p] = rhs[p];
+        }
+    }
+    return lhs;
+}
+function set(object, path, value) {
+    if (typeof object !== "object" || object === null) return object;
+    if (typeof path !== "string") throw new Error("path must be string");
+    const result = path.split(".").reduceRight((acc, key)=>({
+            [key]: acc
+        }), value);
+    return merge(object, result);
+}
+function isPlainObject(value) {
+    return typeof value === "object" && value !== null && value.constructor === Object && Object.prototype.toString.call(value) === "[object Object]";
+}
+function isArray(value) {
+    return Array.isArray(value);
+}
+function isArrayOrObject(value) {
+    return isPlainObject(value) || isArray(value);
+}
+function isEqual(lhs, rhs) {
+    if (Object.keys(lhs).length !== Object.keys(rhs).length) return false;
+    for (const [key, value] of Object.entries(lhs)){
+        const rightValue = rhs[key];
+        if (isArrayOrObject(value) && isArrayOrObject(rightValue)) {
+            if (isEqual(value, rightValue)) continue;
+            return false;
+        }
+        if (value !== rightValue) return false;
+    }
+    return true;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lWot6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+function isEqual(lhs, rhs) {
+    return lhs === rhs;
+}
+function render(query, block) {
+    const root = document.querySelector(query);
+    if (root === null) throw new Error(`root not found by selector "${query}"`);
+    root.innerHTML = "";
+    root.append(block.getContent());
+    return root;
+}
+class Route {
+    constructor(pathname, blockClass, query){
+        this.pathname = pathname;
+        this.blockClass = blockClass;
+        this.query = query;
+        this.block = null;
+    }
+    leave() {
+        this.block = null;
+    }
+    match(pathname) {
+        return isEqual(pathname, this.pathname);
+    }
+    render() {
+        if (!this.block) {
+            this.block = new this.blockClass({});
+            render(this.query, this.block);
+            return;
+        }
+    }
+}
+class Router {
+    constructor(rootQuery){
+        this.rootQuery = rootQuery;
+        this.routes = [];
+        this.currentRoute = null;
+        this.history = window.history;
+        if (Router.__instance) return Router.__instance;
+        this.routes = [];
+        Router.__instance = this;
+    }
+    use(pathname, block) {
+        const route = new Route(pathname, block, this.rootQuery);
+        this.routes.push(route);
+        return this;
+    }
+    start() {
+        window.onpopstate = (event)=>{
+            const target = event.currentTarget;
+            this._onRoute(target.location.pathname);
+        };
+        this._onRoute(window.location.pathname);
+    }
+    _onRoute(pathname) {
+        const route = this.getRoute(pathname);
+        if (!route) return;
+        if (this.currentRoute && this.currentRoute !== route) this.currentRoute.leave();
+        this.currentRoute = route;
+        route.render();
+    }
+    go(pathname) {
+        this.history.pushState({}, "", pathname);
+        this._onRoute(pathname);
+    }
+    back() {
+        this.history.back();
+    }
+    forward() {
+        this.history.forward();
+    }
+    getRoute(pathname) {
+        return this.routes.find((route)=>route.match(pathname));
+    }
+}
+exports.default = new Router("#app");
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8bAO2":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
@@ -12340,6 +12695,9 @@ var _blockDefault = parcelHelpers.interopDefault(_block);
 var _signupSass = require("./signup.sass");
 var _signupSassDefault = parcelHelpers.interopDefault(_signupSass);
 var _validationOnSubmit = require("../../utils/validationOnSubmit");
+var _getInputsValues = require("../../utils/getInputsValues");
+var _authController = require("../../controllers/AuthController");
+var _authControllerDefault = parcelHelpers.interopDefault(_authController);
 class SignupPage extends (0, _blockDefault.default) {
     constructor(props){
         super({
@@ -12349,7 +12707,9 @@ class SignupPage extends (0, _blockDefault.default) {
         });
     }
     onSubmit(e) {
-        (0, _validationOnSubmit.onSubmit)(e, this.refs);
+        (0, _validationOnSubmit.validationOnSubmit)(e, this.refs);
+        const data = (0, _getInputsValues.getInputsValues)();
+        (0, _authControllerDefault.default).signup(data);
     }
     render() {
         // language=hbs
@@ -12433,6 +12793,7 @@ class SignupPage extends (0, _blockDefault.default) {
                             labelClass="form__input-floating-label"
                             inputClass="form__input"
                             type="password"
+                            id="password-check"
                             name="password"
                             value=""
                             required="required"
@@ -12446,6 +12807,7 @@ class SignupPage extends (0, _blockDefault.default) {
                             labelClass="form__input-floating-label"
                             inputClass="form__input"
                             type="password"
+                            id="password-check-repeat"
                             name="password_repeat"
                             value=""
                             required="required"
@@ -12466,7 +12828,7 @@ class SignupPage extends (0, _blockDefault.default) {
     }
 }
 
-},{"../../utils/Block":"915bj","./signup.sass":"eh0hi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt"}],"eh0hi":[function() {},{}],"jJHgB":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./signup.sass":"eh0hi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt","../../utils/getInputsValues":"bm15i","../../controllers/AuthController":"btuLA"}],"eh0hi":[function() {},{}],"jJHgB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ErrorPage", ()=>ErrorPage);
@@ -12474,30 +12836,64 @@ var _block = require("../../utils/Block");
 var _blockDefault = parcelHelpers.interopDefault(_block);
 var _errorPageSass = require("./error-page.sass");
 var _errorPageSassDefault = parcelHelpers.interopDefault(_errorPageSass);
+var _router = require("../../utils/Router");
+var _routerDefault = parcelHelpers.interopDefault(_router);
 class ErrorPage extends (0, _blockDefault.default) {
     constructor(props){
         super({
             ...props,
             text: props.text,
             link: props.link,
+            onClick: (e)=>this.onClick(e),
             styles: (0, _errorPageSassDefault.default)
         });
     }
+    onClick(e) {
+        e.preventDefault();
+        console.log(42);
+        (0, _routerDefault.default).back();
+    }
     render() {
-        //language=hbs
+        if (window.location.pathname === "/404") //language=hbs
         return `
-        <section class="error-page">
-            <div class="error-page__section">
-                <div class="error-page__number">{{errorNumber}}</div>
-                <div class="error-page__text">{{text}}</div>
-                <a class="text-link" href={{link}}>Back</a>
-            </div>
-        </section>
-    `;
+          <section class="error-page">
+              <div class="error-page__section">
+                  <div class="error-page__number">404</div>
+                  <div class="error-page__text">This is not the web page you are looking for</div>
+                  {{#Button
+                          class="text-link"
+                          id="text-link"
+                          name="back"
+                          onClick=onClick
+                          ref="back"
+                  }}
+                      Back
+                  {{/Button}}
+              </div>
+          </section>
+      `;
+        else if (window.location.pathname === "/500") //language=hbs
+        return `
+          <section class="error-page">
+              <div class="error-page__section">
+                  <div class="error-page__number">500</div>
+                  <div class="error-page__text">Looks like something went wrong! Please come back later</div>
+                  {{#Button
+                          class="text-link"
+                          id="text-link"
+                          name="back"
+                          onClick=onClick
+                          ref="back"
+                  }}
+                      Back
+                  {{/Button}}
+              </div>
+          </section>
+      `;
     }
 }
 
-},{"../../utils/Block":"915bj","./error-page.sass":"a0qv8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"a0qv8":[function() {},{}],"i3jlU":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./error-page.sass":"a0qv8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/Router":"lWot6"}],"a0qv8":[function() {},{}],"i3jlU":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Button", ()=>Button);
@@ -12518,7 +12914,7 @@ class Button extends (0, _blockDefault.default) {
     render() {
         // language=hbs
         return `
-    <button type="{{type}}" class="{{class}}" id="{{id}}" name="{{name}}">{{label}}</button>
+    <button {{disabled}} type="{{type}}" class="{{class}}" id="{{id}}" name="{{name}}">{{label}}</button>
     `;
     }
 }
@@ -12531,22 +12927,82 @@ var _block = require("../../utils/Block");
 var _blockDefault = parcelHelpers.interopDefault(_block);
 var _avatarSass = require("./avatar.sass");
 var _avatarSassDefault = parcelHelpers.interopDefault(_avatarSass);
+var _noAvatar = require("../../fakeApi/noAvatar");
 class Avatar extends (0, _blockDefault.default) {
     constructor(props){
         super({
             ...props,
+            noAvatar: (0, _noAvatar.noAvatar).url,
+            events: {
+                click: props.onClick
+            },
             styles: (0, _avatarSassDefault.default)
         });
     }
     render() {
         // language=hbs
+        if (this.props.src) return `
+          <img class="avatar {{classModificator}}"
+               src="{{src}}"
+               alt="{{alt}}"
+               id="{{id}}"
+          />
+      `;
+        else // language=hbs
         return `
-        <img class="avatar {{classModificator}}" src="{{src}}" alt="{{alt}}"/>
-    `;
+          <img class="avatar {{classModificator}}" src="{{noAvatar}}" alt="no_avatar"/>
+      `;
     }
 }
 
-},{"../../utils/Block":"915bj","./avatar.sass":"30RXb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"30RXb":[function() {},{}],"iclCk":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./avatar.sass":"30RXb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../fakeApi/noAvatar":"g44Vh"}],"30RXb":[function() {},{}],"g44Vh":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "noAvatar", ()=>noAvatar);
+var _noAvatarSvg = require("../static/no-avatar.svg");
+var _noAvatarSvgDefault = parcelHelpers.interopDefault(_noAvatarSvg);
+const noAvatar = {
+    url: (0, _noAvatarSvgDefault.default)
+};
+
+},{"../static/no-avatar.svg":"l9V7C","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l9V7C":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("7UhFu") + "no-avatar.f7608220.svg" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"iclCk":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Input", ()=>Input);
@@ -12590,6 +13046,7 @@ class Input extends (0, _blockDefault.default) {
                     value="{{value}}"
                     aria-label="{{name}}"
                     placeholder="{{placeholder}}"
+                    accept="{{accept}}"
                 {{disabled}}
                 {{required}}
             >
@@ -12609,6 +13066,7 @@ class Input extends (0, _blockDefault.default) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "registerComponent", ()=>registerComponent);
+// @ts-ignore
 var _handlebars = require("handlebars");
 var _handlebarsDefault = parcelHelpers.interopDefault(_handlebars);
 function registerComponent(name, Component) {
@@ -12621,7 +13079,6 @@ function registerComponent(name, Component) {
             data.root.refs.error;
         }
         data.root.children[component.id] = component;
-        // @ts-ignore
         const contents = fn ? fn(this) : "";
         return `<div data-id="${component.id}">${contents}</div>`;
     });
@@ -12640,31 +13097,78 @@ var _profileLayout = require("./layouts/profileLayout");
 var _profileEditLayout = require("./layouts/profileEditLayout");
 var _profileEditPasswordLayout = require("./layouts/profileEditPasswordLayout");
 var _validationOnSubmit = require("../../utils/validationOnSubmit");
-class ProfilePage extends (0, _blockDefault.default) {
+var _authController = require("../../controllers/AuthController");
+var _authControllerDefault = parcelHelpers.interopDefault(_authController);
+var _store = require("../../utils/Store");
+var _getInputsValues = require("../../utils/getInputsValues");
+var _userController = require("../../controllers/UserController");
+var _userControllerDefault = parcelHelpers.interopDefault(_userController);
+class ProfilePageBase extends (0, _blockDefault.default) {
     constructor(props){
         super({
             ...props,
+            linkToAvatar: props.avatar,
             onSubmit: (e)=>this.onSubmit(e),
+            onAvatarSubmit: (e)=>this.onAvatarSubmit(e),
+            onAvatarButtonClick: (e)=>this.onAvatarButtonClick(e),
+            onLogoutClick: ()=>this.onLogoutClick(),
+            onPasswordChangeSubmit: (e)=>this.onPasswordChangeSubmit(e),
             userData: (0, _userData.userData),
             profileActionsClass: "profile__actions",
             styles: (0, _profileSassDefault.default)
         });
     }
     onSubmit(e) {
-        (0, _validationOnSubmit.onSubmit)(e, this.refs);
+        (0, _validationOnSubmit.validationOnSubmit)(e, this.refs);
+        const data = (0, _getInputsValues.getInputsValues)();
+        (0, _userControllerDefault.default).changeProfile(data);
+    }
+    onAvatarButtonClick(e) {
+        const avatar = document.getElementById("avatar");
+        avatar.click();
+        this.refs.avatar.setProps({
+            class: "button",
+            label: "Save Avatar"
+        });
+        e.preventDefault();
+    }
+    onPasswordChangeSubmit(e) {
+        const validation = (0, _validationOnSubmit.validationOnSubmit)(e, this.refs);
+        e.preventDefault();
+        const passwords = (0, _getInputsValues.getInputsValues)();
+        if (validation.isValid) (0, _userControllerDefault.default).changePassword(passwords);
+        else this.refs.onPasswordChangeSubmit.setProps({
+            label: validation.error,
+            class: "button button_error"
+        });
+    }
+    onAvatarSubmit(e) {
+        e.preventDefault();
+        const avatar = document.getElementById("avatar");
+        const file = avatar.files[0];
+        const formData = new FormData();
+        formData.append("avatar", file);
+        (0, _userControllerDefault.default).changeAvatar(formData);
+    }
+    onLogoutClick() {
+        (0, _authControllerDefault.default).logout();
     }
     getLayout() {
-        if (this.props.path === "/profile") return 0, _profileLayout.profileLayout;
-        else if (this.props.path === "/profile-edit") return 0, _profileEditLayout.profileEditLayout;
-        else if (this.props.path === "/profile-edit-password") return 0, _profileEditPasswordLayout.profileEditPasswordLayout;
+        if (window.location.pathname === "/settings") return 0, _profileLayout.profileLayout;
+        else if (window.location.pathname === "/settings-edit") return 0, _profileEditLayout.profileEditLayout;
+        else if (window.location.pathname === "/settings-edit-password") return 0, _profileEditPasswordLayout.profileEditPasswordLayout;
     }
     render() {
+        (0, _authControllerDefault.default).fetchUser();
         return this.getLayout();
-    // language=hbs
     }
 }
+const withUser = (0, _store.withStore)((state)=>({
+        ...state.user
+    }));
+const ProfilePage = withUser(ProfilePageBase);
 
-},{"../../utils/Block":"915bj","./profile.sass":"b5Oqb","../../fakeApi/userData":"gCL4J","./layouts/profileLayout":"jfd69","./layouts/profileEditLayout":"dhGrH","./layouts/profileEditPasswordLayout":"lJmBi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt"}],"b5Oqb":[function() {},{}],"gCL4J":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./profile.sass":"b5Oqb","../../fakeApi/userData":"gCL4J","./layouts/profileLayout":"jfd69","./layouts/profileEditLayout":"dhGrH","./layouts/profileEditPasswordLayout":"lJmBi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../utils/validationOnSubmit":"lFsyt","../../controllers/AuthController":"btuLA","../../utils/Store":"euxgo","../../utils/getInputsValues":"bm15i","../../controllers/UserController":"6zlgX"}],"b5Oqb":[function() {},{}],"gCL4J":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "userData", ()=>userData);
@@ -12684,130 +13188,14 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "profileLayout", ()=>profileLayout);
 const profileLayout = `
-        <div class="profile">
-            <a href="/chat" class="profile__goback"></a>
-            <section class="profile-block">
-                {{#Avatar classModificator="avatar_profile" src=userData.avatarUrl alt=userData.avatarAlt }}
-                {{/Avatar}}
-                <div class="profile-block__userdata">
-                    <p class="profile-block__userdata-name">{{userData.firstName}}</p>
-                    <form class="profile-block__form">
-
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="email"
-                          name="email"
-                          value=""
-                          label="Email"
-                          errorText="Error in email"
-                          placeholder=userData.email
-                          disabled="disabled"
-                          ref="email"
-                        }}
-                        {{/Input}}
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="text"
-                          name="login"
-                          value=""
-                          label="Login"
-                          errorText="Error in Login"
-                          placeholder=userData.login
-                          disabled="disabled"
-                          ref="login"
-                        }}
-                        {{/Input}}
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="text"
-                          name="first_name"
-                          value=""
-                          label="First name"
-                          errorText="Error in First name"
-                          placeholder=userData.firstName
-                          disabled="disabled"
-                          ref="first_name"
-                        }}
-                        {{/Input}}
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="text"
-                          name="second_name"
-                          value=""
-                          label="Last name"
-                          errorText="Error in Last name"
-                          placeholder=userData.lastName
-                          disabled="disabled"
-                          ref="second_name"
-                        }}
-                        {{/Input}}
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="text"
-                          name="display_name"
-                          value=""
-                          label="Display name"
-                          errorText="Error in Display name"
-                          placeholder=userData.displayName
-                          disabled="disabled"
-                          ref="display_name"
-                        }}
-                        {{/Input}}
-                        {{#Input
-                          inputContainerClass="profile-block__form-input-label-group"
-                          labelClass="profile-block__form-input-label"
-                          inputClass="profile-block__form-input"
-                          type="text"
-                          name="phone"
-                          value=""
-                          label="Phone"
-                          errorText="Error in Phone"
-                          placeholder=userData.phone
-                          disabled="disabled"
-                          ref="phone"
-                        }}
-                        {{/Input}}
-                        
-                    </form>
-                </div>
-
-                <ul class="profile__actions profile__actions_visible">
-                    <li class="profile__actions-link">
-                        <a class="text-link" href="/profile-edit" class="text-link">Edit profile</a>
-                    </li>
-                    <li class="profile__actions-link">
-                        <a class="text-link" href="/profile-edit-password" class="text-link">Change password</a>
-                    </li>
-                    <li class="profile__actions-link">
-                        <a class="text-link profile__actions-link-danger" href="/" class="text-link">Sign out</a>
-                    </li>
-                </ul>
-            </section>
-        </div>
-    `;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dhGrH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "profileEditLayout", ()=>profileEditLayout);
-const profileEditLayout = `
     <div class="profile">
-        <a href="/profile" class="profile__goback"></a>
+        <a href="/messenger" class="profile__goback"></a>
         <section class="profile-block">
-            {{#Avatar classModificator="avatar_edit" src=userData.avatarUrl alt=userData.avatarAlt }}
+            {{#Avatar classModificator="avatar_profile" src=this.avatar alt=this.name }}
             {{/Avatar}}
+
             <div class="profile-block__userdata">
-                <p class="profile-block__userdata-name">{{userData.firstName}}</p>
+                <p class="profile-block__userdata-name">{{this.first_name}}</p>
                 <form class="profile-block__form">
 
                     {{#Input
@@ -12816,8 +13204,156 @@ const profileEditLayout = `
                             inputClass="profile-block__form-input"
                             type="email"
                             name="email"
-                            value=userData.email
+                            value=this.email
                             label="Email"
+                            errorText="Error in email"
+                            placeholder=this.email
+                            disabled="disabled"
+                            ref="email"
+                    }}
+                    {{/Input}}
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="text"
+                            name="login"
+                            value=""
+                            label="Login"
+                            errorText="Error in Login"
+                            placeholder=this.login
+                            disabled="disabled"
+                            ref="login"
+                    }}
+                    {{/Input}}
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="text"
+                            name="first_name"
+                            value=this.first_name
+                            label="First name"
+                            errorText="Error in First name"
+                            placeholder=this.first_name
+                            disabled="disabled"
+                            ref="first_name"
+                    }}
+                    {{/Input}}
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="text"
+                            name="second_name"
+                            value=this.second_name
+                            label="Last name"
+                            errorText="Error in Last name"
+                            placeholder=this.second_name
+                            disabled="disabled"
+                            ref="second_name"
+                    }}
+                    {{/Input}}
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="text"
+                            name="display_name"
+                            value=this.display_name
+                            label="Display name"
+                            errorText="Error in Display name"
+                            placeholder=this.display_name
+                            disabled="disabled"
+                            ref="display_name"
+                    }}
+                    {{/Input}}
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="text"
+                            name="phone"
+                            value=this.phone
+                            label="Phone"
+                            errorText="Error in Phone"
+                            placeholder=this.phone
+                            disabled="disabled"
+                            ref="phone"
+                    }}
+                    {{/Input}}
+
+                </form>
+            </div>
+
+            <ul class="profile__actions profile__actions_visible">
+                <li class="profile__actions-link">
+                    <a class="text-link" href="/settings-edit" class="text-link">Edit profile</a>
+                </li>
+                <li class="profile__actions-link">
+                    <a class="text-link" href="/settings-edit-password" class="text-link">Change password</a>
+                </li>
+                <li class="profile__actions-link">
+                    {{#Button
+                            class="text-link profile__actions-link-danger"
+                            id="button-signout"
+                            name="button-signout"
+                            onClick=onLogoutClick
+                            ref="button-signout"
+                    }}
+                        Sign out
+                    {{/Button}}
+                </li>
+            </ul>
+        </section>
+    </div>
+`;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dhGrH":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "profileEditLayout", ()=>profileEditLayout);
+const profileEditLayout = `
+    <div class="profile">
+        <a href="/settings" class="profile__goback"></a>
+        <section class="profile-block">
+            {{#Avatar classModificator="avatar_edit" id="avatar-edit" onClick=onAvatarButtonClick src=this.avatar alt=this.avatar }}
+            {{/Avatar}}
+            <form class="avatar-form" id="avatar-form">
+                {{#Input
+                        inputContainerClass="profile-block__form-input-label-group profile-block__form-input-label-group_no-display"
+                        labelClass="profile-block__form-input-label"
+                        inputClass="profile-block__form-input"
+                        id="avatar"
+                        type="file"
+                        name="avatar"
+                        accept="image/*"
+                        style="display:none"
+                }}
+                {{/Input}}
+
+                {{#Button
+                        class="button button_hide"
+                        type="submit"
+                        onClick=onAvatarSubmit
+                        id="submit-avatar"
+                        ref="avatar"
+                }}
+                    Change Avatar
+                {{/Button}}
+            </form>
+            <div class="profile-block__userdata">
+                <p class="profile-block__userdata-name">{{this.first_name}}</p>
+                <form class="profile-block__form">
+
+                    {{#Input
+                            inputContainerClass="profile-block__form-input-label-group"
+                            labelClass="profile-block__form-input-label"
+                            inputClass="profile-block__form-input"
+                            type="email"
+                            name="email"
+                            label="Email"
+                            value=this.email
                             errorText="Error in email"
                             ref="email"
                     }}
@@ -12830,7 +13366,7 @@ const profileEditLayout = `
                             name="login"
                             label="Login"
                             errorText="Error in Login"
-                            value=userData.login
+                            value=this.login
                             ref="login"
                     }}
                     {{/Input}}
@@ -12842,7 +13378,7 @@ const profileEditLayout = `
                             name="first_name"
                             label="First name"
                             errorText="Error in First name"
-                            value=userData.firstName
+                            value=this.first_name
                             ref="first_name"
                     }}
                     {{/Input}}
@@ -12854,7 +13390,7 @@ const profileEditLayout = `
                             name="second_name"
                             label="Last name"
                             errorText="Error in Last name"
-                            value=userData.lastName
+                            value=this.second_name
                             ref="second_name"
                     }}
                     {{/Input}}
@@ -12864,9 +13400,9 @@ const profileEditLayout = `
                             inputClass="profile-block__form-input"
                             type="text"
                             name="display_name"
-                            value=userData.displayName
                             label="Display name"
                             errorText="Error in Display name"
+                            value=this.display_name
                             ref="display_name"
                     }}
                     {{/Input}}
@@ -12878,12 +13414,15 @@ const profileEditLayout = `
                             name="phone"
                             label="Phone"
                             errorText="Error in Phone"
-                            value=userData.phone
+                            value=this.phone
                             ref="phone"
                     }}
                     {{/Input}}
 
-                    {{#Button class="button" type="submit" onClick=onSubmit}}
+                    {{#Button
+                            class="button"
+                            type="submit"
+                            onClick=onSubmit}}
                         Save
                     {{/Button}}
                 </form>
@@ -12898,9 +13437,9 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "profileEditPasswordLayout", ()=>profileEditPasswordLayout);
 const profileEditPasswordLayout = `
   <div class="profile">
-      <a href="/profile" class="profile__goback"></a>  
+      <a href="/settings" class="profile__goback"></a>  
     <section class="profile-block">
-        {{#Avatar classModificator="avatar_profile" src=userData.avatarUrl alt=userData.avatarAlt }}
+        {{#Avatar classModificator="avatar_profile" src=this.avatar alt=this.avatar }}
         {{/Avatar}}
       <div class="profile-block__userdata">
         <form class="profile-block__form">
@@ -12909,12 +13448,14 @@ const profileEditPasswordLayout = `
                     labelClass="profile-block__form-input-label"
                     inputClass="profile-block__form-input"
                     type="password"
-                    name="old_password"
+                    name="oldPassword"
+                    id="password-old"
                     value=""
                     label="Old password"
                     errorText="Error in Old Password"
                     placeholder=""
-                    ref="old_password"
+                    ref="oldPassword"
+                    required="required"
             }}
             {{/Input}}
             {{#Input
@@ -12922,12 +13463,14 @@ const profileEditPasswordLayout = `
                     labelClass="profile-block__form-input-label"
                     inputClass="profile-block__form-input"
                     type="password"
-                    name="new_password"
+                    name="newPassword"
+                    id="password-check"
                     value=""
                     label="New Password"
                     errorText="Error in New Password"
                     placeholder=""
-                    ref="new_password"
+                    ref="newPassword"
+                    required="required"
             }}
             {{/Input}}
             {{#Input
@@ -12935,18 +13478,25 @@ const profileEditPasswordLayout = `
                     labelClass="profile-block__form-input-label"
                     inputClass="profile-block__form-input"
                     type="password"
-                    name="new_password_repeat"
+                    name="newPasswordRepeat"
                     value=""
+                    id="password-check-repeat"
                     label="Repeat Password"
                     errorText="Error in Repeat Password"
                     placeholder=""
-                    ref="new_password_repeat"
+                    ref="newPasswordRepeat"
+                    required="required"
             }}
             {{/Input}}
+
+
   
-          {{#Button class="button" type="submit" onClick=onSubmit}}
+          {{#Button class="button" type="submit" onClick=onPasswordChangeSubmit
+                    ref="onPasswordChangeSubmit"
+          }}
               Save
           {{/Button}}
+            
         </form>
       </div>
       
@@ -12954,7 +13504,81 @@ const profileEditPasswordLayout = `
    </div>
 `;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lMH5U":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6zlgX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "UserController", ()=>UserController);
+var _userAPI = require("../api/UserAPI");
+var _userAPIDefault = parcelHelpers.interopDefault(_userAPI);
+var _store = require("../utils/Store");
+var _storeDefault = parcelHelpers.interopDefault(_store);
+class UserController {
+    constructor(){
+        this.api = (0, _userAPIDefault.default);
+    }
+    async changeProfile(data) {
+        try {
+            const result = await this.api.changeProfileReq(data);
+            (0, _storeDefault.default).set("user", result);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async changeAvatar(data) {
+        try {
+            const result = await this.api.changeAvatarReq(data);
+            (0, _storeDefault.default).set("user", result);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async changePassword(data) {
+        try {
+            await this.api.changePasswordReq(data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async findUser(data) {
+        try {
+            const result = await this.api.findUserReq(data);
+            return result;
+        } catch (e) {
+            console.error(e);
+        }
+    }
+}
+exports.default = new UserController();
+
+},{"../api/UserAPI":"36qhX","../utils/Store":"euxgo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"36qhX":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "UserAPI", ()=>UserAPI);
+var _baseAPI = require("./BaseAPI");
+class UserAPI extends (0, _baseAPI.BaseAPI) {
+    constructor(){
+        super("/user");
+    }
+    changeProfileReq(data) {
+        return this.http.put("/profile", data);
+    }
+    changeAvatarReq(data) {
+        return this.http.put("/profile/avatar", data);
+    }
+    changePasswordReq(data) {
+        return this.http.put("/password", data);
+    }
+    findUserReq(data) {
+        return this.http.post("/search", data);
+    }
+    create = undefined;
+    read = undefined;
+    update = undefined;
+    delete = undefined;
+}
+exports.default = new UserAPI();
+
+},{"./BaseAPI":"ghZmd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lMH5U":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ChatPage", ()=>ChatPage);
@@ -12963,273 +13587,362 @@ var _blockDefault = parcelHelpers.interopDefault(_block);
 var _chatSass = require("./chat.sass");
 var _chatSassDefault = parcelHelpers.interopDefault(_chatSass);
 var _userData = require("../../fakeApi/userData");
-var _chats = require("../../fakeApi/chats");
-var _selectedChat = require("../../fakeApi/selectedChat");
-class ChatPage extends (0, _blockDefault.default) {
+var _chatsController = require("../../controllers/ChatsController");
+var _chatsControllerDefault = parcelHelpers.interopDefault(_chatsController);
+var _store = require("../../utils/Store");
+var _storeDefault = parcelHelpers.interopDefault(_store);
+var _authController = require("../../controllers/AuthController");
+var _authControllerDefault = parcelHelpers.interopDefault(_authController);
+var _getInputsValues = require("../../utils/getInputsValues");
+var _userController = require("../../controllers/UserController");
+var _userControllerDefault = parcelHelpers.interopDefault(_userController);
+class ChatPageBase extends (0, _blockDefault.default) {
     constructor(props){
         super({
             ...props,
-            onSubmit: (e)=>this.onSubmit(e),
+            handleChatClick: (e)=>this.handleChatClick(e),
+            handleCreateNewChat: (e)=>this.handleCreateNewChat(e),
+            onComposeClick: ()=>this.onComposeClick(),
+            handleUserAdd: (e)=>this.handleUserAdd(e),
+            handleUserRemove: (e)=>this.handleUserRemove(e),
             userData: (0, _userData.userData),
-            chats: (0, _chats.chats),
-            selectedChat: (0, _selectedChat.selectedChat),
+            selectedChat: {},
             styles: (0, _chatSassDefault.default)
         });
     }
-    onSubmit(e) {
-        super.onSubmit(e);
+    onComposeClick() {
+        const modalWindow = document.getElementById("modal-window-create-chat");
+        modalWindow.classList.add("modal-window_visible");
+    }
+    handleCreateNewChat(e) {
+        e.preventDefault();
+        const chatName = (0, _getInputsValues.getInputsValues)().chat_name;
+        (0, _chatsControllerDefault.default).createChat({
+            title: chatName
+        });
+        this.refs.modalNewChat.setProps({
+            modalState: ""
+        });
+    }
+    async handleUserAdd(e) {
+        e.preventDefault();
+        const values = (0, _getInputsValues.getInputsValues)();
+        const userName = await (0, _userControllerDefault.default).findUser({
+            login: values.login_add_user
+        });
+        const userId = userName[0].id;
+        const chatId = this.props.chat.id;
+        await (0, _chatsControllerDefault.default).addChatUser({
+            users: [
+                userId
+            ],
+            chatId: chatId
+        });
+        this.refs.modalUserAdd.setProps({
+            modalState: ""
+        });
+    }
+    async handleUserRemove(e) {
+        e.preventDefault();
+        const values = (0, _getInputsValues.getInputsValues)();
+        const userName = await (0, _userControllerDefault.default).findUser({
+            login: values.login_remove_user
+        });
+        const userId = userName[0].id;
+        const chatId = this.props.chat.id;
+        await (0, _chatsControllerDefault.default).removeChatUser({
+            users: [
+                userId
+            ],
+            chatId: chatId
+        });
+        this.refs.modalUserRemove.setProps({
+            modalState: ""
+        });
+    }
+    handleChatClick(e) {
+        const targetEl = e.target;
+        const targetElLi = targetEl.closest("li");
+        const targetElId = targetElLi.id;
+        const chatToOpen = (0, _storeDefault.default).state.chats.find((chat)=>chat.id.toString() === targetElId);
+        this.setProps({
+            chat: chatToOpen
+        });
+    }
+    setChats() {
+        if (!this.props.chats) (0, _chatsControllerDefault.default).getChats();
+        else return;
+    }
+    setUser() {
+        if (!this.props.user) (0, _authControllerDefault.default).fetchUser();
+        else return;
     }
     render() {
+        this.setChats();
+        this.setUser();
         // language=hbs
         return `
-        <section class="chat-window">
-            <section class="chats">
-                <div class="chats-userinfo-and-search">
-                    <div class="chats__userinfo">
-                        <div class="user-in-chat">
-                            <div class="user-in-chat__avatar-container">
-                                {{#Avatar classModificator="avatar_small" src=userData.avatarUrl
-                                          alt=userData.avatarAlt }}
-                                {{/Avatar}}
-                            </div>
-                            <span class="user-in-chat__data">{{userData.firstName}} {{userData.lastName}}</span>
-                        </div>
-                        <a href="/profile" class="chats__profile-link">Профиль &#8594;</a>
-                    </div>
-                </div>
+        <section class="chat-page">
 
-                <div class="chats__search-and-compose">
-                    <input class="chats__search-input" name="search" placeholder="Поиск"></input>
-                    <div class="compose">
-                        <button class="chats-compose-icon"></button>
-                    </div>
-                </div>
-
-                <ul class="chats__list">
-                    {{#each chats}}
-                        <li class="chats__list-item">
-                            <div class="chats__list-item-avatar-name-message">
-                                {{#Avatar classModificator="avatar_chat" src=this.image alt=this.name }}
-                                {{/Avatar}}
-                                <div class="chats__list-item-name-and-message">
-                                    <p class="chats__list-item-message-username">{{this.name}}</p>
-                                    <p class="chats__list-item-last-message">{{this.lastMessage}}</p>
+            <div class="chat-window">
+                <section class="chats">
+                    <div class="chats-userinfo-and-search">
+                        <div class="chats__userinfo">
+                            <div class="user-in-chat">
+                                <div class="user-in-chat__avatar-container">
+                                    {{#Avatar
+                                            classModificator="avatar_small"
+                                            src=this.user.avatar
+                                            alt=this.user.name
+                                    }}
+                                    {{/Avatar}}
                                 </div>
+                                <span class="user-in-chat__data">{{this.user.first_name}} {{this.user.second_name}}</span>
                             </div>
-                            <div class="chats__list-item-date-and-counter">
-                                <p class="chats__list-item-message-time">{{this.time}}</p>
-                                <div class="chats__list-item-message-counter">{{this.counter}}2</div>
-                            </div>
-                        </li>
-                    {{/each}}
-                </ul>
-            </section>
-
-            <section class="chat">
-                <div class="chat-container">
-                    <div class="chat-container__top">
-                        <div class="chat-container__userdata">
-                            <img class="avatar avatar_chat-window" src={{selectedChat.image}}
-                                 alt={{selectedChat.name}} />
-                            <p class="chat-container__name">{{selectedChat.name}}</p>
+                            <a href="/settings" class="chats__profile-link">Profile &#8594;</a>
                         </div>
-                        <button class="chat-container__edit-button"></button>
                     </div>
-                    <div class="chat-container__window">
-                        <ul class="chat-container__messages">
-                            {{#each selectedChat.messages}}
-                                <li class="message">
-                                    <div class="message__container">
-                                        <p class="message__text">
-                                            {{this.message}}
-                                        </p>
-                                        <div class="message__time">{{this.time}}</div>
-                                    </div>
-                                </li>
-                            {{/each}}
-                            <div class="message message_from">
-                                <div class="message__container message__container_from">
-                                    <p class="message__text">
-                                        What?!
-                                    </p>
-                                    <div class="message__time">15:02</div>
-                                </div>
-                            </div>
-                        </ul>
+
+                    <div class="chats__search-and-compose">
+                        <input class="chats__search-input" name="search" placeholder="Find user"></input>
+                        <div class="compose">
+                            {{#Button class="chats-compose-icon" onClick=onComposeClick}}
+                            {{/Button}}
+                        </div>
                     </div>
-                    <form class="compose-form">
-                        <button class="compose-form__attach-button"></button>
+
+                    <ul class="chats__list">
+                        {{#Chat
+                                chats=this.chats
+                                selectedChat=this.selectedChat
+                                onClick=handleChatClick
+                        }}
+                        {{/Chat}}
+                    </ul>
+
+                </section>
+
+                {{#ChatWindow
+                        chat=this.chat
+                        onSendMessage=onSendMessage
+                }}
+                {{/ChatWindow}}
+
+
+            </div>
+
+
+            {{#ModalWindow
+                    ref="modalNewChat"
+                    id="modal-window-create-chat"
+                    onSubmit=handleCreateNewChat
+            }}
+                <section class="modal">
+                    <span class="modal__close-icon" id="close-icon"></span>
+
+                    <form class="chat__modal-form" method="GET" action="#" name="createNewChat">
+
+                        <h2 class="chat__modal-title">Create new chat</h2>
+
                         {{#Input
-                                inputContainerClass="compose-form__input-container"
-                                inputClass="compose-form__input"
+                                inputContainerClass="form__input-floating-label-group"
+                                labelClass="form__input-floating-label"
+                                inputClass="form__input"
+                                id="modal_chatname"
                                 type="text"
-                                name="message"
-                                placeholder="Write a message..."
+                                name="chat_name"
                                 value=""
                                 required="required"
-                                errorText="error in Message"
-                                ref="message"
+                                label="Chat name"
+                                errorClass="form__error"
+                                errorText="error in First name"
+                                ref="chat_name"
                         }}
                         {{/Input}}
-                        {{#Button class="compose-form__send-message" type="submit" onClick=onSubmit}}
+
+                        {{#Button class="button" type="submit"}}
+                            Create chat
+                        {{/Button}}
+
+                    </form>
+                </section>
+            {{/ModalWindow}}
+
+
+            {{#ModalWindow
+                    ref="modalUserAdd"
+                    id="modal-window-add-user"
+                    onSubmit=handleUserAdd
+            }}
+                <section class="modal">
+                    <span class="modal__close-icon" id="close-icon"></span>
+
+                    <form class="chat__modal-form" method="GET" action="#" name="addUserToChat">
+                        <h2 class="chat__modal-title">Add user to the chat</h2>
+
+                        {{#Input
+                                inputContainerClass="form__input-floating-label-group"
+                                labelClass="form__input-floating-label"
+                                inputClass="form__input"
+                                id="modal_add_user"
+                                type="text"
+                                name="login_add_user"
+                                value=""
+                                required="required"
+                                label="Enter login"
+                                errorClass="form__error"
+                                errorText="error in login"
+                                ref="add_user_to_chat"
+                        }}
+                        {{/Input}}
+
+                        {{#Button class="button" type="submit"}}
+                            Add user
                         {{/Button}}
                     </form>
-                </div>
-            </section>
+
+                </section>
+            {{/ModalWindow}}
+            
+            {{#ModalWindow
+                    ref="modalUserRemove"
+                    id="modal-window-remove-user"
+                    onSubmit=handleUserRemove
+            }}
+                <section class="modal">
+                    <span class="modal__close-icon" id="close-icon"></span>
+
+                    <form class="chat__modal-form" method="GET" action="#" name="removeUserFromChat">
+                        <h2 class="chat__modal-title">Remove user from the chat</h2>
+
+                        {{#Input
+                                inputContainerClass="form__input-floating-label-group"
+                                labelClass="form__input-floating-label"
+                                inputClass="form__input"
+                                id="modal_remove_user"
+                                type="text"
+                                name="login_remove_user"
+                                value=""
+                                required="required"
+                                label="Enter login"
+                                errorClass="form__error"
+                                errorText="error in login"
+                                ref="chat_name"
+                        }}
+                        {{/Input}}
+
+                        {{#Button class="button" type="submit" onClick=handleUserRemoveFromChat}}
+                            Remove user
+                        {{/Button}}
+
+                    </form>
+                </section>
+            {{/ModalWindow}}
+
+
         </section>
+
+
     `;
     }
 }
+const withState = (0, _store.withStore)((state)=>({
+        ...state
+    }));
+const ChatPage = withState(ChatPageBase);
 
-},{"../../utils/Block":"915bj","./chat.sass":"3oNY8","../../fakeApi/userData":"gCL4J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../fakeApi/chats":"8M3gY","../../fakeApi/selectedChat":"fOqko"}],"3oNY8":[function() {},{}],"8M3gY":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./chat.sass":"3oNY8","../../fakeApi/userData":"gCL4J","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../../controllers/ChatsController":"jYChn","../../utils/Store":"euxgo","../../controllers/AuthController":"btuLA","../../utils/getInputsValues":"bm15i","../../controllers/UserController":"6zlgX"}],"3oNY8":[function() {},{}],"jYChn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "chats", ()=>chats);
-var _userData = require("./userData");
-var _noAvatarSvg = require("../static/no-avatar.svg");
-var _noAvatarSvgDefault = parcelHelpers.interopDefault(_noAvatarSvg);
-const chats = [
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: (0, _userData.userData).firstName,
-        time: "13:15",
-        lastMessage: "Hi! It's me"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Andrew",
-        time: "13:11",
-        lastMessage: "Please, call back"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Awesome channel",
-        time: "13:10",
-        lastMessage: "Who will win the..."
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Masha",
-        time: "13:08",
-        lastMessage: "I will bring a bottle"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "John",
-        time: "13:07",
-        lastMessage: "Whaaaaaat?"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Sam",
-        time: "13:06",
-        lastMessage: "Mordor is pretty far, you know. Take a train to Vystavochnaya"
-    },
-    {
-        image: "https://static.wikia.nocookie.net/lotr/images/1/1a/FotR_-_Elijah_Wood_as_Frodo.png",
-        name: "Frodo",
-        time: "13:05",
-        lastMessage: "Sam will explain"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Gollum",
-        time: "13:04",
-        lastMessage: "Never trust Sam"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Gendalf",
-        time: "13:01",
-        lastMessage: "Run, fools"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Pippin",
-        time: "12:01",
-        lastMessage: "Hello!"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Ada",
-        time: "13:01",
-        lastMessage: "Run, fools"
-    },
-    {
-        image: (0, _noAvatarSvgDefault.default),
-        name: "Rere",
-        time: "12:01",
-        lastMessage: "What is going on brrah?"
+parcelHelpers.export(exports, "ChatsController", ()=>ChatsController);
+var _chatsAPI = require("../api/ChatsAPI");
+var _chatsAPIDefault = parcelHelpers.interopDefault(_chatsAPI);
+var _store = require("../utils/Store");
+var _storeDefault = parcelHelpers.interopDefault(_store);
+class ChatsController {
+    constructor(){
+        this.api = (0, _chatsAPIDefault.default);
     }
-];
-
-},{"./userData":"gCL4J","../static/no-avatar.svg":"l9V7C","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l9V7C":[function(require,module,exports) {
-module.exports = require("./helpers/bundle-url").getBundleURL("7UhFu") + "no-avatar.f7608220.svg" + "?" + Date.now();
-
-},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
+    async getChats() {
+        try {
+            const chats = await this.api.read();
+            (0, _storeDefault.default).set("chats", chats);
+        } catch (e) {
+            console.error(e);
+        }
     }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
+    async createChat(data) {
+        try {
+            await this.api.create(data);
+            await this.getChats();
+        } catch (e) {
+            console.error(e);
+        }
     }
-    return "/";
+    async deleteChat(data) {
+        try {
+            await this.api.delete(data);
+            await this.getChats();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async getChatUsers(data) {
+        try {
+            await this.api.getChatUsersReq(data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async addChatUser(data) {
+        try {
+            await this.api.addChatUserReq(data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    async removeChatUser(data) {
+        try {
+            await this.api.removeChatUserReq(data);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 }
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
+exports.default = new ChatsController();
 
-},{}],"fOqko":[function(require,module,exports) {
+},{"../api/ChatsAPI":"bbBWW","../utils/Store":"euxgo","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bbBWW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "selectedChat", ()=>selectedChat);
-const selectedChat = {
-    image: "https://static.wikia.nocookie.net/lotr/images/1/1a/FotR_-_Elijah_Wood_as_Frodo.png",
-    name: "Frodo",
-    messages: [
-        {
-            date: "2022-08-25",
-            time: "12:15",
-            sender: "frodo",
-            message: "There is no real going back. Though I may come to the Shire, it will not seem the same; for I shall not be the same. I am wounded with knife, sting, and tooth, and a long burden. Where shall I find rest rest?"
-        },
-        {
-            date: "2022-08-25",
-            time: "12:16",
-            sender: "you",
-            message: "Be careful carefulcarefulcareful careful"
-        },
-        {
-            date: "2022-08-25",
-            time: "12:18",
-            sender: "frodo",
-            message: "Bilbo used often to say there was only one Road; that it was like a great river: its springs were at every doorstep, and every path was its tributary."
-        }, 
-    ]
-};
+parcelHelpers.export(exports, "ChatsAPI", ()=>ChatsAPI);
+var _baseAPI = require("./BaseAPI");
+class ChatsAPI extends (0, _baseAPI.BaseAPI) {
+    constructor(){
+        super("/chats");
+    }
+    read() {
+        return this.http.get("/");
+    }
+    create(data) {
+        return this.http.post("/", data);
+    }
+    delete(data) {
+        return this.http.delete("/", data);
+    }
+    getChatUsersReq(query) {
+        return this.http.get(`/${query}/users`);
+    }
+    addChatUserReq(data) {
+        return this.http.put(`/users/`, data);
+    }
+    removeChatUserReq(data) {
+        return this.http.delete(`/users/`, data);
+    }
+    update = undefined;
+}
+exports.default = new ChatsAPI();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8wXBO":[function(require,module,exports) {
+},{"./BaseAPI":"ghZmd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8wXBO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "ErrorLabel", ()=>ErrorLabel);
@@ -13254,60 +13967,255 @@ class ErrorLabel extends (0, _blockDefault.default) {
     }
 }
 
-},{"../../utils/Block":"915bj","./error-label.sass":"bQ7jJ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bQ7jJ":[function() {},{}],"jlfne":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./error-label.sass":"bQ7jJ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"bQ7jJ":[function() {},{}],"4hlob":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "notFoundPageProps", ()=>notFoundPageProps);
-const notFoundPageProps = {
-    errorNumber: "404",
-    text: "This is not the web page you are looking for",
-    link: "/"
-};
+parcelHelpers.export(exports, "ModalWindow", ()=>ModalWindow);
+var _block = require("../../utils/Block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _modalWindowSass = require("./modal-window.sass");
+var _modalWindowSassDefault = parcelHelpers.interopDefault(_modalWindowSass);
+class ModalWindow extends (0, _blockDefault.default) {
+    constructor(props){
+        super({
+            ...props,
+            events: {
+                click: (e)=>this.closeModal(e),
+                submit: props.onSubmit
+            },
+            closeModal: (e)=>this.closeModal(e),
+            styles: (0, _modalWindowSassDefault.default)
+        });
+    }
+    closeModal(e) {
+        const targetId = e.target.id;
+        if (targetId === "close-icon" || e.currentTarget === e.target) {
+            const modalWindow = e.currentTarget;
+            modalWindow.classList.remove("modal-window_visible");
+        }
+    }
+    render() {
+        // language=hbs
+        return `
+        <section class="modal-window {{modalState}}" id="{{id}}">
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lsqPO":[function(require,module,exports) {
+        </section>
+    `;
+    }
+}
+
+},{"../../utils/Block":"915bj","./modal-window.sass":"6hWik","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6hWik":[function() {},{}],"eQMAW":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "serverErrorPageProps", ()=>serverErrorPageProps);
-const serverErrorPageProps = {
-    errorNumber: "500",
-    text: "Looks like something went wrong! Please come back later",
-    link: "/"
-};
+parcelHelpers.export(exports, "Chats", ()=>Chats);
+var _block = require("../../utils/Block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _chatsSass = require("./chats.sass");
+var _chatsSassDefault = parcelHelpers.interopDefault(_chatsSass);
+class Chats extends (0, _blockDefault.default) {
+    constructor(props){
+        super({
+            ...props,
+            events: {
+                click: (e)=>props.onClick(e)
+            },
+            onClick: (e)=>props.onClick(e),
+            styles: (0, _chatsSassDefault.default)
+        });
+    }
+    render() {
+        // language=hbs
+        return `
+        <ul class="chats__list">
+            {{#each chats}}
+                <li class="chats__list-item" id="{{this.id}}">
+                    <div class="chats__list-item-avatar-name-message">
+                        {{#Avatar classModificator="avatar_chat" src=this.avatar src=this.title }}
+                        {{/Avatar}}
+                        <div class="chats__list-item-name-and-message">
+                            <p class="chats__list-item-message-username">{{this.title}}</p>
+                            <p class="chats__list-item-last-message">{{this.last_message}}</p>
+                        </div>
+                    </div>
+                    <div class="chats__list-item-date-and-counter">
+                        <p class="chats__list-item-message-time">{{this.time}}</p>
+                        <div class="chats__list-item-message-counter">{{this.unread_count}}</div>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    `;
+    }
+}
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d5QKW":[function(require,module,exports) {
+},{"../../utils/Block":"915bj","./chats.sass":"fbQJq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fbQJq":[function() {},{}],"59ROB":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "linksList", ()=>linksList);
-const linksList = {
-    links: [
-        {
-            title: "Login",
-            link: "/login"
-        },
-        {
-            title: "Sign-up",
-            link: "/signup"
-        },
-        {
-            title: "Error 500",
-            link: "/500"
-        },
-        {
-            title: "Error 404",
-            link: "/404"
-        },
-        {
-            title: "Profile",
-            link: "/profile"
-        },
-        {
-            title: "Chat",
-            link: "/chat"
-        }, 
-    ],
-    title: "Hey! There are some pages:"
-};
+parcelHelpers.export(exports, "ChatWindow", ()=>ChatWindow);
+var _block = require("../../utils/Block");
+var _blockDefault = parcelHelpers.interopDefault(_block);
+var _chatWindowSass = require("./chat-window.sass");
+var _chatWindowSassDefault = parcelHelpers.interopDefault(_chatWindowSass);
+var _chatsController = require("../../controllers/ChatsController");
+var _chatsControllerDefault = parcelHelpers.interopDefault(_chatsController);
+class ChatWindow extends (0, _blockDefault.default) {
+    constructor(props){
+        super({
+            ...props,
+            onSendMessage: (e)=>this.onSendMessage(e),
+            handleAddUserClick: ()=>this.handleAddUserClick(),
+            handleRemoveUserClick: ()=>this.handleRemoveUserClick(),
+            handleDeleteChat: ()=>this.handleDeleteChat(),
+            styles: (0, _chatWindowSassDefault.default)
+        });
+    }
+    onSendMessage(e) {
+        console.log(42, e.target);
+    }
+    handleAddUserClick() {
+        const modalWindow = document.getElementById("modal-window-add-user");
+        modalWindow.classList.add("modal-window_visible");
+    }
+    handleRemoveUserClick() {
+        const modalWindow = document.getElementById("modal-window-remove-user");
+        modalWindow.classList.add("modal-window_visible");
+    }
+    async handleDeleteChat() {
+        const chatId = this.props.chat.id;
+        await (0, _chatsControllerDefault.default).deleteChat({
+            chatId: chatId
+        });
+    }
+    render() {
+        // language=hbs
+        if (!this.props.chat) return `
+          <section class="chat chat_no-chat">
+              <div class="chat-container chat-container_no-chat">
+                  <p class="chat-not-selected">Select a chat to start messaging</p>
+              </div>
+          </section>
+      `;
+        // language=hbs
+        return `
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["iJYvl","h7u1C"], "h7u1C", "parcelRequire5335")
+        <section class="chat">
+            <div class="chat-container">
+                <div class="chat-container__top">
+                    <div class="chat-container__userdata">
+                        {{#Avatar
+                                classModificator="avatar_chat-window"
+                                src=this.chat.avatar
+                                alt=this.chat.title
+                        }}
+                        {{/Avatar}}
+                        <p class="chat-container__name">{{this.chat.title}}</p>
+                    </div>
+                    <div class="chat-container__actions">
+                        {{#Button class="button__add" onClick=handleAddUserClick}}
+                        {{/Button}}
+                        {{#Button class="button__remove" onClick=handleRemoveUserClick}}
+                        {{/Button}}
+                        {{#Button class="button__delete-chat" onClick=handleDeleteChat}}
+                        {{/Button}}
+                    </div>
+                </div>
+
+                <div class="chat-container__window">
+                    <ul class="chat-container__messages">
+                        {{#each selectedChat.messages}}
+                            <li class="message">
+                                <div class="message__container">
+                                    <p class="message__text">
+                                        {{this.message}}
+                                    </p>
+                                    <div class="message__time">{{this.time}}</div>
+                                </div>
+                            </li>
+                        {{/each}}
+
+                        <div class="message message_from">
+                            <div class="message__container message__container_from">
+                                <p class="message__text">
+                                    What?!
+                                </p>
+                                <div class="message__time">15:02</div>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+
+                <form class="compose-form">
+                    <button class="compose-form__attach-button"></button>
+                    {{#Input
+                            inputContainerClass="compose-form__input-container"
+                            inputClass="compose-form__input"
+                            type="text"
+                            name="message"
+                            placeholder="Write a message..."
+                            value=""
+                            required="required"
+                            errorText="error in Message"
+                            ref="message"
+                    }}
+                    {{/Input}}
+                    {{#Button class="compose-form__send-message" type="submit" onClick=onSendMessage}}
+                    {{/Button}}
+                </form>
+            </div>
+
+        </section>
+
+
+
+    `;
+    }
+}
+
+},{"../../utils/Block":"915bj","./chat-window.sass":"aDpf1","../../controllers/ChatsController":"jYChn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aDpf1":[function() {},{}],"2W7te":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "socket", ()=>socket);
+var _store = require("./Store");
+var _storeDefault = parcelHelpers.interopDefault(_store);
+var _fetch = require("./fetch");
+const newToken = {
+    token: ""
+};
+fetch(`${(0, _fetch.BASE_URL)}/chats/token/239`, {
+    method: "POST",
+    mode: "cors",
+    credentials: "include"
+}).then((response)=>response.json()).then((data)=>{
+    newToken.token = data.token // Получаем строку
+    ;
+});
+document.cookie = "X-Authorization=" + newToken.token + "; path=/";
+let userId = "";
+const socket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${userId}/239/${newToken.token}`);
+if ((0, _storeDefault.default).state.user !== undefined) userId = (0, _storeDefault.default).state.user;
+socket.addEventListener("open", ()=>{
+    console.log("Соединение установлено");
+    socket.send(JSON.stringify({
+        content: "Моё первое сообщение миру!",
+        type: "message"
+    }));
+    socket.send(JSON.stringify({
+        content: "Моё второе сообщение миру!",
+        type: "message"
+    }));
+});
+socket.addEventListener("close", (event)=>{
+    if (event.wasClean) console.log("Соединение закрыто чисто");
+    else console.log("Обрыв соединения");
+    console.log(`Код: ${event.code} | Причина: ${event.reason}`);
+});
+socket.addEventListener("message", (event)=>{
+    console.log("Получены данные", event.data);
+});
+socket.addEventListener("error", (event)=>{
+    console.log("Ошибка", event);
+});
+
+},{"./Store":"euxgo","./fetch":"1VlZi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["iJYvl","h7u1C"], "h7u1C", "parcelRequire5335")
 
 //# sourceMappingURL=index.b71e74eb.js.map
