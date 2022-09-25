@@ -36,6 +36,15 @@ export class UserController {
     }
   }
 
+  async findUser(data: { login: string }) {
+    try {
+      const result = await this.api.findUserReq(data);
+      return result
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
 }
 
 export default new UserController();

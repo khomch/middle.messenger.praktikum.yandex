@@ -1,7 +1,7 @@
 import Block from '../../utils/Block';
-import styles from './chat.sass'
+import styles from './chats.sass'
 
-interface IChat {
+interface IChats {
   events: {
     click: (e: Event) => void
   },
@@ -10,9 +10,9 @@ interface IChat {
 
 }
 
-export class Chat extends Block<IChat> {
+export class Chats extends Block<IChats> {
 
-  constructor(props: IChat) {
+  constructor(props: IChats) {
     super({
         ...props,
         events: {

@@ -29,10 +29,10 @@ export class ChatsController {
     }
   }
 
-  async deleteChat(data: { chatId: string }) {
+  async deleteChat(data: { chatId: number }) {
     try {
-      const result = await this.api.delete(data);
-      console.log(result)
+      await this.api.delete(data);
+
       await this.getChats()
 
 
@@ -43,18 +43,27 @@ export class ChatsController {
 
   async getChatUsers(data: string) {
     try {
-      const result = await this.api.getChatUsersReq(data);
-      console.log(result)
+      await this.api.getChatUsersReq(data);
+
 
     } catch (e: any) {
       console.error(e);
     }
   }
 
-  async usersRequest(data: IUsersRequest) {
+  async addChatUser(data: IUsersRequest) {
     try {
-      const result = await this.api.usersRequestReq(data);
-      console.log(result)
+      await this.api.addChatUserReq(data);
+
+
+    } catch (e: any) {
+      console.error(e);
+    }
+  }
+
+  async removeChatUser(data: IUsersRequest) {
+    try {
+      await this.api.removeChatUserReq(data);
 
     } catch (e: any) {
       console.error(e);

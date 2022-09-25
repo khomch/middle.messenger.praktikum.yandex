@@ -27,7 +27,7 @@ export class ChatsAPI extends BaseAPI {
     return this.http.post('/', data);
   }
 
-  delete(data: { chatId: string }) {
+  delete(data: { chatId: number }) {
     return this.http.delete('/', data);
   }
 
@@ -35,8 +35,12 @@ export class ChatsAPI extends BaseAPI {
     return this.http.get(`/${query}/users`);
   }
 
-  usersRequestReq(data: IUsersRequest) {
+  addChatUserReq(data: IUsersRequest) {
     return this.http.put(`/users/`, data);
+  }
+
+  removeChatUserReq(data: IUsersRequest) {
+    return this.http.delete(`/users/`, data);
   }
 
   update = undefined;

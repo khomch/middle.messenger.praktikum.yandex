@@ -12,7 +12,9 @@ import { ChatPage } from "./pages/Chat";
 import { ErrorPage } from "./pages/ErrorPage";
 import { ComponentConstructable } from "./hocs/withRouter";
 import { ModalWindow } from "./components/ModalWindow/modal-window";
-import { Chat } from "./components/Chat/chat";
+import { Chats } from "./components/Chats/chats";
+import { ChatWindow } from "./components/ChatWindow/chat-window";
+import { socket } from "./utils/webSocket";
 
 
 
@@ -22,7 +24,8 @@ registerComponent("Avatar", Avatar as any);
 registerComponent("Input", Input as any);
 registerComponent("ErrorLabel", ErrorLabel as any);
 registerComponent("ModalWindow", ModalWindow as any);
-registerComponent("Chat", Chat as any);
+registerComponent("Chat", Chats as any);
+registerComponent("ChatWindow", ChatWindow as any);
 
 
 
@@ -39,3 +42,5 @@ window.addEventListener('DOMContentLoaded', () => {
     .use('/404', ErrorPage)
     .start()
 })
+
+socket.onopen

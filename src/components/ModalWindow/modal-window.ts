@@ -3,10 +3,12 @@ import styles from './modal-window.sass'
 
 interface IModalWindow {
   events: {
-    click: (e: Event) => void
+    click: (e: Event) => void,
+    submit: (e: Event) => void,
   },
   closeModal: (e: Event) => void
   styles: Record<string, string>,
+  onSubmit: (e: Event) => void,
 }
 
 export class ModalWindow extends Block<IModalWindow> {
@@ -15,7 +17,8 @@ export class ModalWindow extends Block<IModalWindow> {
     super({
         ...props,
         events: {
-          click: (e: Event) => this.closeModal(e)
+          click: (e: Event) => this.closeModal(e),
+          submit: props.onSubmit,
         },
         closeModal: (e: Event) => this.closeModal(e),
         styles
@@ -24,10 +27,9 @@ export class ModalWindow extends Block<IModalWindow> {
   }
 
   public closeModal(e: Event) {
-    const closeIcon = document.querySelector('.modal__close-icon')
-
-    if (e.target === closeIcon || e.currentTarget === e.target) {
-      const modalWindow = document.getElementById("modal-window")
+    const targetId = (e.target as Element).id;
+    if (targetId === 'close-icon' || e.currentTarget === e.target) {
+      const modalWindow = e.currentTarget as Element;
       modalWindow!.classList.remove('modal-window_visible')
     }
   }

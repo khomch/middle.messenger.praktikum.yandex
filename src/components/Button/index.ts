@@ -19,7 +19,7 @@ export class Button extends Block<IButton> {
     super({
       ...props,
       events: {
-        click: props.onClick
+        click: props.onClick,
       },
       styles
     }

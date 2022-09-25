@@ -1,18 +1,21 @@
 import Block from '../../utils/Block';
 import styles from './chat.sass';
 import { userData } from "../../fakeApi/userData";
-// import { selectedChat } from "../../fakeApi/selectedChat";
 import ChatsController from "../../controllers/ChatsController";
 import store, { withStore } from "../../utils/Store";
 import AuthController from "../../controllers/AuthController";
 import { getInputsValues } from "../../utils/getInputsValues";
+import userController from "../../controllers/UserController";
+import chatsController from "../../controllers/ChatsController";
+
 
 
 interface ChatPageProps {
-  onChatsClick: (e: Event) => void,
-  onCreateChatSubmit: (e: Event) => void,
+  handleChatClick: (e: Event) => void,
+  handleCreateNewChat: (e: Event) => void,
   onComposeClick: (e: Event) => void,
-
+  handleUserAddToChat: (e: Event) => void,
+  handleUserRemove: (e: Event) => void,
 }
 
 class ChatPageBase extends Block {
@@ -20,12 +23,11 @@ class ChatPageBase extends Block {
   constructor(props: ChatPageProps) {
     super({
       ...props,
-      onChatsClick: (e: Event) => this.onChatsClick(e),
-      events: {
-        submit: (e: Event) => this.onCreateChatSubmit(e)
-      },
-      onCreateChatSubmit: (e: Event) => this.onCreateChatSubmit(e),
+      handleChatClick: (e: Event) => this.handleChatClick(e),
+      handleCreateNewChat: (e: Event) => this.handleCreateNewChat(e),
       onComposeClick: () => this.onComposeClick(),
+      handleUserAdd: (e: Event) => this.handleUserAdd(e),
+      handleUserRemove: (e: Event) => this.handleUserRemove(e),
       userData: userData,
       selectedChat: {},
       styles
@@ -33,35 +35,43 @@ class ChatPageBase extends Block {
   }
 
   onComposeClick() {
-    const modalWindow = document.getElementById("modal-window")
+    const modalWindow = document.getElementById("modal-window-create-chat")
     modalWindow!.classList.add('modal-window_visible')
   }
 
-  onCreateChatSubmit(e: Event) {
+  handleCreateNewChat(e: Event) {
     e.preventDefault()
     const chatName = getInputsValues().chat_name;
     ChatsController.createChat({title: chatName})
-    this.refs.modal.setProps({modalState: ''})
+    this.refs.modalNewChat.setProps({modalState: ''})
   }
 
-  onChatsClick(e: Event) {
+  async handleUserAdd(e: Event) {
+    e.preventDefault()
+    const values = getInputsValues()
+    const userName: any = await userController.findUser({login: values.login_add_user})
+    const userId: number = userName[0].id
+    const chatId: number = this.props.chat.id
+    await chatsController.addChatUser({users: [userId], chatId: chatId})
+    this.refs.modalUserAdd.setProps({modalState: ''})
+  }
+
+  async handleUserRemove(e: Event) {
+    e.preventDefault()
+    const values = getInputsValues()
+    const userName: any = await userController.findUser({login: values.login_remove_user})
+    const userId: number = userName[0].id
+    const chatId: number = this.props.chat.id
+    await chatsController.removeChatUser({users: [userId], chatId: chatId})
+    this.refs.modalUserRemove.setProps({modalState: ''})
+  }
+
+  handleChatClick(e: Event) {
     const targetEl = e.target as Element;
     const targetElLi = targetEl!.closest('li');
     const targetElId: string = targetElLi!.id;
-    console.log(targetElId)
-
     const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
-
     this.setProps({chat: chatToOpen})
-    console.log(this.props.chat)
-    // store.set('chat', {title: chatToOpen.title});
-    // e.stopImmediatePropagation()
-    // console.log(e.currentTarget)
-    // ChatsController.createChat({title: 'Chat Ice 1'})
-    // ChatsController.deleteChat({chatId: 936})
-    // ChatsController.getChatUsers("940")
-    // ChatsController.usersRequest({users: [59778], chatId: 940})
-
   }
 
   setChats() {
@@ -79,7 +89,6 @@ class ChatPageBase extends Block {
   }
 
   render() {
-    console.log(this.props.chat)
     this.setChats()
     this.setUser()
 
@@ -116,83 +125,36 @@ class ChatPageBase extends Block {
                     </div>
 
                     <ul class="chats__list">
-                        {{#Chat 
-                                chats=this.chats 
+                        {{#Chat
+                                chats=this.chats
                                 selectedChat=this.selectedChat
-                                onClick=onChatsClick
+                                onClick=handleChatClick
                         }}
                         {{/Chat}}
                     </ul>
 
                 </section>
-                
-                
-                <section class="chat">
-                    <div class="chat-container">
-                        <div class="chat-container__top">
-                            <div class="chat-container__userdata">
-                                {{#Avatar
-                                        classModificator="avatar_chat-window"
-                                        src=this.chat.avatar
-                                        alt=this.chat.title
-                                }}
-                                {{/Avatar}}
-                                <p class="chat-container__name">{{this.chat.title}}</p>
-                            </div>
-                            <button class="chat-container__edit-button"></button>
-                        </div>
-                        <div class="chat-container__window">
-                            <ul class="chat-container__messages">
-                                {{#each selectedChat.messages}}
-                                    <li class="message">
-                                        <div class="message__container">
-                                            <p class="message__text">
-                                                {{this.message}}
-                                            </p>
-                                            <div class="message__time">{{this.time}}</div>
-                                        </div>
-                                    </li>
-                                {{/each}}
-                                <div class="message message_from">
-                                    <div class="message__container message__container_from">
-                                        <p class="message__text">
-                                            What?!
-                                        </p>
-                                        <div class="message__time">15:02</div>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                        <form class="compose-form">
-                            <button class="compose-form__attach-button"></button>
-                            {{#Input
-                                    inputContainerClass="compose-form__input-container"
-                                    inputClass="compose-form__input"
-                                    type="text"
-                                    name="message"
-                                    placeholder="Write a message..."
-                                    value=""
-                                    required="required"
-                                    errorText="error in Message"
-                                    ref="message"
-                            }}
-                            {{/Input}}
-                            {{#Button class="compose-form__send-message" type="submit" onClick=onSubmit}}
-                            {{/Button}}
-                        </form>
-                    </div>
-                </section>
-                
+
+                {{#ChatWindow
+                        chat=this.chat
+                        onSendMessage=onSendMessage
+                }}
+                {{/ChatWindow}}
+
+
             </div>
 
 
             {{#ModalWindow
-                    ref="modal"
-                    id="modal-window"
+                    ref="modalNewChat"
+                    id="modal-window-create-chat"
+                    onSubmit=handleCreateNewChat
             }}
                 <section class="modal">
                     <span class="modal__close-icon" id="close-icon"></span>
-                    <form class="chat__modal-form" method="GET" action="#" name="createChat">
+
+                    <form class="chat__modal-form" method="GET" action="#" name="createNewChat">
+
                         <h2 class="chat__modal-title">Create new chat</h2>
 
                         {{#Input
@@ -211,8 +173,79 @@ class ChatPageBase extends Block {
                         }}
                         {{/Input}}
 
-                        {{#Button class="button" type="submit" onSubmit=onCreateChatSubmit}}
+                        {{#Button class="button" type="submit"}}
                             Create chat
+                        {{/Button}}
+
+                    </form>
+                </section>
+            {{/ModalWindow}}
+
+
+            {{#ModalWindow
+                    ref="modalUserAdd"
+                    id="modal-window-add-user"
+                    onSubmit=handleUserAdd
+            }}
+                <section class="modal">
+                    <span class="modal__close-icon" id="close-icon"></span>
+
+                    <form class="chat__modal-form" method="GET" action="#" name="addUserToChat">
+                        <h2 class="chat__modal-title">Add user to the chat</h2>
+
+                        {{#Input
+                                inputContainerClass="form__input-floating-label-group"
+                                labelClass="form__input-floating-label"
+                                inputClass="form__input"
+                                id="modal_add_user"
+                                type="text"
+                                name="login_add_user"
+                                value=""
+                                required="required"
+                                label="Enter login"
+                                errorClass="form__error"
+                                errorText="error in login"
+                                ref="add_user_to_chat"
+                        }}
+                        {{/Input}}
+
+                        {{#Button class="button" type="submit"}}
+                            Add user
+                        {{/Button}}
+                    </form>
+
+                </section>
+            {{/ModalWindow}}
+            
+            {{#ModalWindow
+                    ref="modalUserRemove"
+                    id="modal-window-remove-user"
+                    onSubmit=handleUserRemove
+            }}
+                <section class="modal">
+                    <span class="modal__close-icon" id="close-icon"></span>
+
+                    <form class="chat__modal-form" method="GET" action="#" name="removeUserFromChat">
+                        <h2 class="chat__modal-title">Remove user from the chat</h2>
+
+                        {{#Input
+                                inputContainerClass="form__input-floating-label-group"
+                                labelClass="form__input-floating-label"
+                                inputClass="form__input"
+                                id="modal_remove_user"
+                                type="text"
+                                name="login_remove_user"
+                                value=""
+                                required="required"
+                                label="Enter login"
+                                errorClass="form__error"
+                                errorText="error in login"
+                                ref="chat_name"
+                        }}
+                        {{/Input}}
+
+                        {{#Button class="button" type="submit" onClick=handleUserRemoveFromChat}}
+                            Remove user
                         {{/Button}}
 
                     </form>
