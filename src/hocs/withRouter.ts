@@ -2,7 +2,7 @@ import Block from '../utils/Block';
 import Router from '../utils/Router';
 
 export interface ComponentConstructable<P extends Record<string, any>> {
-  new(props: P): Block<P>
+  new(props: P): Block<P>;
 }
 
 export function withRouter(Component: ComponentConstructable<any>) {
@@ -10,7 +10,7 @@ export function withRouter(Component: ComponentConstructable<any>) {
 
   return class WithRouter extends Component {
     constructor(props: Props & PropsWithRouter) {
-      super({ ...props, router: Router });
+      super({...props, router: Router});
     }
   }
 }

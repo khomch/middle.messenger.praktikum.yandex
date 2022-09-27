@@ -77,8 +77,7 @@ export class HTTPTransport {
       xhr.ontimeout = () => reject({reason: 'timeout'});
 
       if (url.includes('avatar')) {
-        // xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        // xhr.setRequestHeader('Aaa', 'Bbb');
+
       }
       else {
         xhr.setRequestHeader('Content-Type', 'application/json');
@@ -92,9 +91,7 @@ export class HTTPTransport {
         xhr.send();
       }
       else if (data instanceof FormData) {
-        // console.log('ебать', data.getAll('avatar'))
         xhr.send(data);
-        console.log('ебать')
       }
       else {
         xhr.send(JSON.stringify(data));

@@ -3,7 +3,8 @@ export const profileEditLayout = `
     <div class="profile">
         <a href="/settings" class="profile__goback"></a>
         <section class="profile-block">
-            {{#Avatar classModificator="avatar_edit" id="avatar-edit" onClick=onAvatarButtonClick src=this.avatar alt=this.avatar }}
+            {{#Avatar classModificator="avatar_edit" id="avatar-edit" onClick=onAvatarButtonClick src=this.avatar
+                      alt=this.avatar }}
             {{/Avatar}}
             <form class="avatar-form" id="avatar-form">
                 {{#Input

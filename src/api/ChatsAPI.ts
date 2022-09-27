@@ -1,46 +1,46 @@
-import { BaseAPI } from "./BaseAPI";
 import { IUserData } from "../interfaces/IUser";
-import { IUsersRequest } from "../interfaces/IApi";
+import { IChatUser, IUsersRequest } from "../interfaces/IApi";
+import { HTTPTransport } from "../utils/fetch";
 
 export interface IChatsData {
-  id: number,
-  title: string,
-  avatar: string,
-  unread_count: string,
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: string;
   last_message: {
-    user: IUserData,
-    time: string,
-    content: string
+    user: IUserData;
+    time: string;
+    content: string;
   }
 }
 
-export class ChatsAPI extends BaseAPI {
+export class ChatsAPI extends HTTPTransport {
   constructor() {
     super('/chats');
   }
 
   read(): Promise<IChatsData> {
-    return this.http.get('/');
+    return this.get('/');
   }
 
-  create(data: { title: string }) {
-    return this.http.post('/', data);
+  create(data: { title: string }): Promise<void> {
+    return this.post('/', data);
   }
 
-  delete(data: { chatId: number }) {
-    return this.http.delete('/', data);
+  deleteChat(data: { chatId: number }): Promise<{ chatId: number }> {
+    return this.delete('/', data);
   }
 
-  getChatUsersReq(query: string) {
-    return this.http.get(`/${query}/users`);
+  getChatUsersReq(query: string): Promise<IChatUser[]> {
+    return this.get(`/${query}/users`);
   }
 
-  addChatUserReq(data: IUsersRequest) {
-    return this.http.put(`/users/`, data);
+  addChatUserReq(data: IUsersRequest): Promise<void> {
+    return this.put(`/users/`, data);
   }
 
-  removeChatUserReq(data: IUsersRequest) {
-    return this.http.delete(`/users/`, data);
+  removeChatUserReq(data: IUsersRequest): Promise<void> {
+    return this.delete(`/users/`, data);
   }
 
   update = undefined;

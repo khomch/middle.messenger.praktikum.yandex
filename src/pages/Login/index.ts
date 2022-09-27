@@ -6,9 +6,9 @@ import { ISignUpData } from "../../api/AuthAPI";
 import AuthController from "../../controllers/AuthController";
 
 export interface ILoginPage {
-  onButtonClick: (e: Event) => void,
-  onSubmit: (e: Event) => void,
-  styles: Record<string, string>,
+  onButtonClick: (e: Event) => void;
+  onSubmit: (e: Event) => void;
+  styles: Record<string, string>;
 }
 
 export class LoginPage extends Block<ILoginPage> {

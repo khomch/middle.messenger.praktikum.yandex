@@ -14,16 +14,16 @@ import { IChangePassword, IChangeProfile } from "../../interfaces/IApi";
 
 export interface IProfilePage {
   email: string;
-  onSubmit: (e: Event) => void,
-  onAvatarSubmit: (e: Event) => void,
-  onAvatarButtonClick: (e: Event) => void,
-  onPasswordChangeSubmit: (e: Event) => void,
-  onLogoutClick: (e: Event) => void,
-  profileActionsClass: string,
-  styles: Record<string, string>,
-  linkToAvatar: string,
-  avatar: string,
-  userData: IUserData
+  onSubmit: (e: Event) => void;
+  onAvatarSubmit: (e: Event) => void;
+  onAvatarButtonClick: (e: Event) => void;
+  onPasswordChangeSubmit: (e: Event) => void;
+  onLogoutClick: (e: Event) => void;
+  profileActionsClass: string;
+  styles: Record<string, string>;
+  linkToAvatar: string;
+  avatar: string;
+  userData: IUserData;
 }
 
 class ProfilePageBase extends Block<IProfilePage> {

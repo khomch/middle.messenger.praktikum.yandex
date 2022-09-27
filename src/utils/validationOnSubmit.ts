@@ -7,7 +7,9 @@ export function validationOnSubmit(e: Event, refs: any) {
   const inputsArrayWithoutFile = inputsArray.filter((input: HTMLInputElement) => input.type !== 'file')
 
   const passwordsToCompareArray: { value: string }[] = inputsArray.filter((input: HTMLInputElement) => input.id.includes('password-check'))
-  const isPasswordsEqual: boolean = passwordsToCompareArray[0] && passwordsToCompareArray[0].value === passwordsToCompareArray[1].value
+  const firstPassword: string = passwordsToCompareArray[0] && passwordsToCompareArray[0].value;
+  const secondPassword: string = passwordsToCompareArray[1] && passwordsToCompareArray[1].value
+  const isPasswordsEqual: boolean = firstPassword === secondPassword
 
   if (passwordsToCompareArray.length > 0 && !isPasswordsEqual) {
     console.error("Passwords are not equal")

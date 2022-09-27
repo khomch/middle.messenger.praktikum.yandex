@@ -3,9 +3,9 @@ import styles from './error-page.sass'
 import Router from "../../utils/Router";
 
 interface ErrorPageProps {
-  errorNumber: string,
-  text: string,
-  link: string
+  errorNumber: string;
+  text: string;
+  link: string;
 }
 
 export class ErrorPage extends Block {

@@ -1,16 +1,22 @@
 import Block from '../../utils/Block';
 import styles from './chat-window.sass'
 import ChatsController from "../../controllers/ChatsController";
+import store from "../../utils/Store";
+import MessageController from "../../utils/MessageController";
+import { getInputsValues } from "../../utils/getInputsValues";
+import fetchTokenController from "../../controllers/FetchTokenContoller";
+
 
 
 interface IChatWindow {
   chat: Record<string, any>;
   styles: Record<string, string>
-  onClick: (e: Event) => void
-  handleAddUserClick: (e: Event) => void,
-  handleRemoveUserClick: (e: Event) => void,
-  handleDeleteChat: (e: Event) => void,
-  onSendMessage: (e: Event) => void
+  onClick: (e: Event) => void;
+  handleAddUserClick: (e: Event) => void;
+  handleRemoveUserClick: (e: Event) => void;
+  handleDeleteChat: (e: Event) => void;
+  handleSendMessage: (e: Event) => void;
+  messages: any;
 
 }
 
@@ -19,17 +25,25 @@ export class ChatWindow extends Block<IChatWindow> {
   constructor(props: IChatWindow) {
     super({
         ...props,
-        onSendMessage: (e: Event) => this.onSendMessage(e),
+        handleSendMessage: (e: Event) => this.handleSendMessage(e),
         handleAddUserClick: () => this.handleAddUserClick(),
         handleRemoveUserClick: () => this.handleRemoveUserClick(),
         handleDeleteChat: () => this.handleDeleteChat(),
+        messages: props.messages,
         styles
       },
     );
   }
 
-  onSendMessage(e: Event) {
-    console.log(42, e.target)
+  handleSendMessage(e: Event) {
+    e.preventDefault()
+    const data = getInputsValues();
+
+    console.log(data.message)
+    MessageController.sendMessage(data.message)
+
+    const inputMessage = document.getElementById('input-message') as HTMLInputElement;
+    inputMessage.value = '';
   }
 
   handleAddUserClick() {
@@ -45,6 +59,31 @@ export class ChatWindow extends Block<IChatWindow> {
   async handleDeleteChat() {
     const chatId: number = this.props.chat.id;
     await ChatsController.deleteChat({chatId: chatId})
+  }
+
+  protected init() {
+    super.init();
+
+
+    if (this.props.chat) {
+      fetchTokenController.getToken(this.props.chat.id)
+      if (store.state.user.id && store.state.token && this.props.chat.id) {
+        setTimeout(() => {
+          MessageController.connect({
+            userId: store.state.user.id,
+            chatId: this.props.chat.id,
+            token: store.state.token
+          })
+        }, 300)
+
+        if (store.state.messages) {
+          this.setProps({...this.props, messages: store.state.messages.messages})
+        }
+
+      }
+
+    }
+
   }
 
 
@@ -89,35 +128,27 @@ export class ChatWindow extends Block<IChatWindow> {
 
                 <div class="chat-container__window">
                     <ul class="chat-container__messages">
-                        {{#each selectedChat.messages}}
-                            <li class="message">
-                                <div class="message__container">
-                                    <p class="message__text">
-                                        {{this.message}}
-                                    </p>
-                                    <div class="message__time">{{this.time}}</div>
-                                </div>
-                            </li>
+                        {{#each messages}}
+                            {{#Message
+                                    content=this.content
+                                    time=this.time
+                                    id=this.user_id
+                            }}
+                            {{/Message}}
                         {{/each}}
 
-                        <div class="message message_from">
-                            <div class="message__container message__container_from">
-                                <p class="message__text">
-                                    What?!
-                                </p>
-                                <div class="message__time">15:02</div>
-                            </div>
-                        </div>
+
                     </ul>
                 </div>
 
-                <form class="compose-form">
-                    <button class="compose-form__attach-button"></button>
+                <form class="compose-form" method="GET" action="#" name="send-message">
+                    <div class="compose-form__attach-button"></div>
                     {{#Input
                             inputContainerClass="compose-form__input-container"
                             inputClass="compose-form__input"
                             type="text"
                             name="message"
+                            id="input-message"
                             placeholder="Write a message..."
                             value=""
                             required="required"
@@ -125,7 +156,7 @@ export class ChatWindow extends Block<IChatWindow> {
                             ref="message"
                     }}
                     {{/Input}}
-                    {{#Button class="compose-form__send-message" type="submit" onClick=onSendMessage}}
+                    {{#Button class="compose-form__send-message" type="submit" onClick=handleSendMessage}}
                     {{/Button}}
                 </form>
             </div>

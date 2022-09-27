@@ -1,31 +1,27 @@
-import { BaseAPI } from "./BaseAPI";
 import { IChangePassword, IChangeProfile } from "../interfaces/IApi";
+import { IUserData } from "../interfaces/IUser";
+import { HTTPTransport } from "../utils/fetch";
 
-export class UserAPI extends BaseAPI {
+export class UserAPI extends HTTPTransport {
   constructor() {
     super('/user');
   }
 
-  changeProfileReq(data:  IChangeProfile): Promise<IChangeProfile & {id: string}> {
-    return this.http.put('/profile', data);
+  changeProfileReq(data: IChangeProfile): Promise<IChangeProfile & { id: string }> {
+    return this.put('/profile', data);
   }
 
-  changeAvatarReq(data: FormData) {
-    return this.http.put('/profile/avatar', data);
+  changeAvatarReq(data: FormData): Promise<IUserData> {
+    return this.put('/profile/avatar', data);
   }
 
-  changePasswordReq(data: IChangePassword) {
-    return this.http.put('/password', data);
+  changePasswordReq(data: IChangePassword): Promise<void> {
+    return this.put('/password', data);
   }
 
-  findUserReq(data: { login: string }) {
-    return this.http.post('/search', data);
+  findUserReq(data: { login: string }): Promise<IUserData[]> {
+    return this.post('/search', data);
   }
-
-  create = undefined;
-  read = undefined;
-  update = undefined;
-  delete = undefined;
 }
 
 export default new UserAPI();

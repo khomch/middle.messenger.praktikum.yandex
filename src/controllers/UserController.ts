@@ -38,8 +38,8 @@ export class UserController {
 
   async findUser(data: { login: string }) {
     try {
-      const result = await this.api.findUserReq(data);
-      return result
+      const user = await this.api.findUserReq(data);
+      return user
     } catch (e: any) {
       console.error(e);
     }

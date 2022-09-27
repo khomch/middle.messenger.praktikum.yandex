@@ -1,4 +1,4 @@
-import API  from "../api/ChatsAPI";
+import API from "../api/ChatsAPI";
 import store from '../utils/Store';
 import { ChatsAPI } from "../api/ChatsAPI";
 import { IUsersRequest } from "../interfaces/IApi";
@@ -31,7 +31,7 @@ export class ChatsController {
 
   async deleteChat(data: { chatId: number }) {
     try {
-      await this.api.delete(data);
+      await this.api.deleteChat(data);
 
       await this.getChats()
 

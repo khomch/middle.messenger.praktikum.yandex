@@ -2,7 +2,7 @@ import { isEqual, set } from './helpers';
 import { EventBus } from "./EventBus";
 
 enum StoreEvents {
-  Updated= 'updated'
+  Updated = 'updated'
 }
 
 
@@ -24,7 +24,7 @@ const store = new Store();
 
 export function withStore(mapStateToProps: (state: any) => any) {
 
-  return function wrap(Component: any){
+  return function wrap(Component: any) {
     let previousState: any;
 
 
@@ -33,7 +33,7 @@ export function withStore(mapStateToProps: (state: any) => any) {
       constructor(props: any) {
         previousState = mapStateToProps(store.getState());
 
-        super({ ...props, ...previousState });
+        super({...props, ...previousState});
 
         store.on(StoreEvents.Updated, () => {
           const stateProps = mapStateToProps(store.getState());
@@ -44,7 +44,7 @@ export function withStore(mapStateToProps: (state: any) => any) {
 
           previousState = stateProps;
 
-          this.setProps({ ...stateProps });
+          this.setProps({...stateProps});
 
         });
       }

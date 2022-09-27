@@ -1,10 +1,10 @@
 export interface ILinksList {
   links:
     {
-      title: string,
-      link: string
+      title: string;
+      link: string;
     }[],
-  title: string
+  title: string;
 }
 
 export const linksList: ILinksList = {

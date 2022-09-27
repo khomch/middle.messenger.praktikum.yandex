@@ -3,26 +3,26 @@ import styles from './input.sass'
 import { inputValidator } from "../../utils/validation/inputValidator";
 
 interface IInput {
-  onFocus: (e: Event) => void,
-  onBlur: (e: Event) => void,
+  onFocus: (e: Event) => void;
+  onBlur: (e: Event) => void;
   events: {
-    focusin: (e: Event) => void,
-    focusout: (e: Event) => void,
+    focusin: (e: Event) => void;
+    focusout: (e: Event) => void;
   }
-  class: string,
-  type: string,
-  name: string,
-  id: string,
-  value: string,
-  required: string,
-  label: string,
-  errorClass: string,
-  errorText: string,
-  refs: string,
-  tries: number,
-  styles: Record<string, string>,
-  doValidation: boolean,
-  validationHandler: (e: Event) => void,
+  class: string;
+  type: string;
+  name: string;
+  id: string;
+  value: string;
+  required: string;
+  label: string;
+  errorClass: string;
+  errorText: string;
+  refs: string;
+  tries: number;
+  styles: Record<string, string>;
+  doValidation: boolean;
+  validationHandler: (e: Event) => void;
 }
 
 

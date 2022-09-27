@@ -9,13 +9,12 @@ import userController from "../../controllers/UserController";
 import chatsController from "../../controllers/ChatsController";
 
 
-
 interface ChatPageProps {
-  handleChatClick: (e: Event) => void,
-  handleCreateNewChat: (e: Event) => void,
-  onComposeClick: (e: Event) => void,
-  handleUserAddToChat: (e: Event) => void,
-  handleUserRemove: (e: Event) => void,
+  handleChatClick: (e: Event) => void;
+  handleCreateNewChat: (e: Event) => void;
+  onComposeClick: (e: Event) => void;
+  handleUserAddToChat: (e: Event) => void;
+  handleUserRemove: (e: Event) => void;
 }
 
 class ChatPageBase extends Block {
@@ -72,7 +71,6 @@ class ChatPageBase extends Block {
     const targetElId: string = targetElLi!.id;
     const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
     this.setProps({chat: chatToOpen})
-    console.log(document.cookie)
   }
 
   setChats() {
@@ -86,14 +84,25 @@ class ChatPageBase extends Block {
     if (!this.props.user) {
       AuthController.fetchUser();
     }
-    else return
+  }
+
+  handleSendMessage(e: Event) {
+    e.preventDefault()
+    console.log(42)
+    // const data = getInputsValues();
+    //
+    // console.log(data.message)
+    // MessageController.sendMessage(data.message)
+  }
+
+  protected init() {
+    super.init();
+    this.setChats()
+    this.setUser()
+    console.log(this.props)
   }
 
   render() {
-    this.setChats()
-    this.setUser()
-
-
     // language=hbs
     return `
         <section class="chat-page">
@@ -138,7 +147,6 @@ class ChatPageBase extends Block {
 
                 {{#ChatWindow
                         chat=this.chat
-                        onSendMessage=onSendMessage
                 }}
                 {{/ChatWindow}}
 
@@ -217,7 +225,7 @@ class ChatPageBase extends Block {
 
                 </section>
             {{/ModalWindow}}
-            
+
             {{#ModalWindow
                     ref="modalUserRemove"
                     id="modal-window-remove-user"

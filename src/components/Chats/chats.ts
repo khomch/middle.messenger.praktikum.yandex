@@ -3,10 +3,10 @@ import styles from './chats.sass'
 
 interface IChats {
   events: {
-    click: (e: Event) => void
+    click: (e: Event) => void;
   },
-  styles: Record<string, string>
-  onClick: (e: Event) => void
+  styles: Record<string, string>;
+  onClick: (e: Event) => void;
 
 }
 
@@ -18,7 +18,7 @@ export class Chats extends Block<IChats> {
         events: {
           click: (e: Event) => props.onClick(e)
         },
-      onClick: (e: Event) => props.onClick(e),
+        onClick: (e: Event) => props.onClick(e),
         styles
       },
     );
@@ -36,7 +36,7 @@ export class Chats extends Block<IChats> {
                         {{/Avatar}}
                         <div class="chats__list-item-name-and-message">
                             <p class="chats__list-item-message-username">{{this.title}}</p>
-                            <p class="chats__list-item-last-message">{{this.last_message}}</p>
+                            <p class="chats__list-item-last-message">{{this.last_message.content}}</p>
                         </div>
                     </div>
                     <div class="chats__list-item-date-and-counter">

@@ -3,12 +3,12 @@ import styles from './modal-window.sass'
 
 interface IModalWindow {
   events: {
-    click: (e: Event) => void,
-    submit: (e: Event) => void,
+    click: (e: Event) => void;
+    submit: (e: Event) => void;
   },
-  closeModal: (e: Event) => void
-  styles: Record<string, string>,
-  onSubmit: (e: Event) => void,
+  closeModal: (e: Event) => void;
+  styles: Record<string, string>;
+  onSubmit: (e: Event) => void;
 }
 
 export class ModalWindow extends Block<IModalWindow> {
@@ -38,7 +38,7 @@ export class ModalWindow extends Block<IModalWindow> {
     // language=hbs
     return `
         <section class="modal-window {{modalState}}" id="{{id}}">
-
+          
         </section>
     `
   }

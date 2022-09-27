@@ -3,15 +3,15 @@ import styles from './avatar.sass'
 import { noAvatar } from "../../fakeApi/noAvatar";
 
 interface IAvatar {
-  src: string,
-  alt: string,
-  classModificator: string,
+  src: string;
+  alt: string;
+  classModificator: string;
   styles: Record<string, string>
-  noAvatar: string,
+  noAvatar: string;
   events: {
-    click: (e: Event) => void,
+    click: (e: Event) => void;
   }
-  onClick: () => void,
+  onClick: () => void;
 }
 
 export class Avatar extends Block<IAvatar> {

@@ -1,5 +1,5 @@
-import { BaseAPI } from "./BaseAPI";
 import { IUserData } from "../interfaces/IUser";
+import { HTTPTransport } from "../utils/fetch";
 
 export interface ISigninData {
   login: string;
@@ -16,30 +16,26 @@ export interface ISignUpData {
 }
 
 
-export class AuthAPI extends BaseAPI {
+export class AuthAPI extends HTTPTransport {
   constructor() {
     super('/auth');
   }
 
-  signin(data: ISigninData) {
-    return this.http.post('/signin', data);
+  signin(data: ISigninData): Promise<void> {
+    return this.post('/signin', data);
   }
 
-  signup(data: ISignUpData) {
-    return this.http.post('/signup', data);
+  signup(data: ISignUpData): Promise<{ id: number }> {
+    return this.post('/signup', data);
   }
 
-  read(): Promise<IUserData>{
-    return this.http.get('/user');
+  read(): Promise<IUserData> {
+    return this.get('/user');
   }
 
-  logout() {
-    return this.http.post('/logout');
+  logout(): Promise<void> {
+    return this.post('/logout');
   }
-
-  create = undefined;
-  update = undefined;
-  delete = undefined;
 }
 
 export default new AuthAPI();
