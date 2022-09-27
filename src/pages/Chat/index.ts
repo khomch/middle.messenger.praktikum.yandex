@@ -72,6 +72,7 @@ class ChatPageBase extends Block {
     const targetElId: string = targetElLi!.id;
     const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
     this.setProps({chat: chatToOpen})
+    console.log(document.cookie)
   }
 
   setChats() {

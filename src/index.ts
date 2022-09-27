@@ -1,4 +1,3 @@
-import { HomePage } from './pages/Home';
 import { LoginPage } from './pages/Login';
 import { Button } from './components/Button';
 import { Avatar } from "./components/Avatar";
@@ -14,9 +13,7 @@ import { ComponentConstructable } from "./hocs/withRouter";
 import { ModalWindow } from "./components/ModalWindow/modal-window";
 import { Chats } from "./components/Chats/chats";
 import { ChatWindow } from "./components/ChatWindow/chat-window";
-import { socket } from "./utils/webSocket";
-
-
+import authController from "./controllers/AuthController";
 
 
 registerComponent("Button", Button as any);
@@ -30,8 +27,10 @@ registerComponent("ChatWindow", ChatWindow as any);
 
 
 window.addEventListener('DOMContentLoaded', () => {
+  authController.fetchUser()
+
   Router
-    .use('/', HomePage)
+    .use('/', LoginPage)
     .use('/login', LoginPage)
     .use('/sign-up', SignupPage)
     .use('/settings', ProfilePage as ComponentConstructable<any>)
@@ -39,8 +38,6 @@ window.addEventListener('DOMContentLoaded', () => {
     .use('/settings-edit-password', ProfilePage as ComponentConstructable<any>)
     .use('/messenger', ChatPage as ComponentConstructable<any>)
     .use('/500', ErrorPage)
-    .use('/404', ErrorPage)
+    .use('*', ErrorPage)
     .start()
 })
-
-socket.onopen

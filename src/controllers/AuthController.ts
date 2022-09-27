@@ -33,9 +33,19 @@ export class AuthController {
   }
 
   async fetchUser() {
-    const user = await this.api.read();
-    console.log(user)
-    store.set('user', {...user, avatar: user.avatar !== null ? `${BASE_URL}/resources${user.avatar}` : null});
+    try {
+      const user = await this.api.read();
+
+      if ((location.pathname === '/login') || location.pathname === '/' && user) {
+        router.go('/messenger');
+      }
+
+      store.set('user', {...user, avatar: user.avatar !== null ? `${BASE_URL}/resources${user.avatar}` : null});
+
+    } catch (e: any) {
+      console.error(e);
+    }
+
   }
 
   async logout() {
