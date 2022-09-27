@@ -63,7 +63,6 @@ class MessageController {
         const messages = [
           ...data,
         ];
-        console.log('Array else', messages)
         store.set('messages', {messages});
       }
     }
@@ -120,7 +119,6 @@ class MessageController {
   }
 
   public sendMessage(message: string) {
-    console.log(this._ws)
     this._ws.send(JSON.stringify({
       content: message,
       type: 'message',

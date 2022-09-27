@@ -86,20 +86,10 @@ class ChatPageBase extends Block {
     }
   }
 
-  handleSendMessage(e: Event) {
-    e.preventDefault()
-    console.log(42)
-    // const data = getInputsValues();
-    //
-    // console.log(data.message)
-    // MessageController.sendMessage(data.message)
-  }
-
   protected init() {
     super.init();
     this.setChats()
     this.setUser()
-    console.log(this.props)
   }
 
   render() {

@@ -2,7 +2,7 @@ import Block from '../../utils/Block';
 import styles from './chat-window.sass'
 import ChatsController from "../../controllers/ChatsController";
 import store from "../../utils/Store";
-import MessageController from "../../utils/MessageController";
+import MessageController from "../../controllers/MessageController";
 import { getInputsValues } from "../../utils/getInputsValues";
 import fetchTokenController from "../../controllers/FetchTokenContoller";
 
