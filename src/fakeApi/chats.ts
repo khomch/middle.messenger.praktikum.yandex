@@ -1,6 +1,6 @@
-import {userData} from "./userData";
+import { userData } from "./userData";
 import noAvatar from "../static/no-avatar.svg";
-import {IChats} from "../interfaces/IChats";
+import { IChats } from "../interfaces/IChats";
 
 export const chats: IChats[] = [
   {

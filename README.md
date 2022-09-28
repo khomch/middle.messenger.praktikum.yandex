@@ -9,11 +9,12 @@
 [Ссылка на Netlify](https://deploy--wondrous-manatee-4d893f.netlify.app/)
 
 ## Версия 
-0.2
+0.3
 
 ## Технологии
 - JS
 - TypeScript
+- WebSocket
 - Handlebars
 - Parcel
 

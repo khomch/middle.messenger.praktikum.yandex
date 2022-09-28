@@ -1,10 +1,11 @@
 export interface IUserData {
-  avatarUrl: string,
-  avatarAlt: string,
-  email: string,
-  login: string,
-  firstName: string,
-  lastName: string,
-  displayName: string,
-  phone: string
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+
 }

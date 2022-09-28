@@ -2,10 +2,10 @@ import Block from '../../utils/Block';
 import styles from './error-label.sass'
 
 interface IErrorLabel {
-  errorClass: string,
-  errorText: string,
-  ref: any,
-  styles: Record<string, string>
+  errorClass: string;
+  errorText: string;
+  ref: any;
+  styles: Record<string, string>;
 }
 
 export class ErrorLabel extends Block<IErrorLabel> {

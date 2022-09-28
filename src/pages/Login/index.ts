@@ -1,11 +1,14 @@
 import Block from '../../utils/Block';
 import styles from './login.sass';
-import { onSubmit } from "../../utils/validationOnSubmit";
+import { validationOnSubmit } from "../../utils/validationOnSubmit";
+import { getInputsValues } from "../../utils/getInputsValues";
+import { ISignUpData } from "../../api/AuthAPI";
+import AuthController from "../../controllers/AuthController";
 
 export interface ILoginPage {
-  onButtonClick: (e: Event) => void,
-  onSubmit: (e: Event) => void,
-  styles: Record<string, string>,
+  onButtonClick: (e: Event) => void;
+  onSubmit: (e: Event) => void;
+  styles: Record<string, string>;
 }
 
 export class LoginPage extends Block<ILoginPage> {
@@ -23,7 +26,11 @@ export class LoginPage extends Block<ILoginPage> {
   }
 
   onSubmit(e: Event) {
-    onSubmit(e, this.refs)
+    validationOnSubmit(e, this.refs)
+
+    const data = getInputsValues();
+
+    AuthController.signin(data as ISignUpData);
   }
 
   render() {
@@ -70,7 +77,7 @@ export class LoginPage extends Block<ILoginPage> {
                 }}
                     Sign in
                 {{/Button}}
-                <div class="form__second-action-button"><a href="/signup" class="text-link">Create an account</a></div>
+                <div class="form__second-action-button"><a href="/sign-up" class="text-link">Create an account</a></div>
             </form>
         </div>
     `

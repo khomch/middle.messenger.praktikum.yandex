@@ -1,10 +1,13 @@
 import Block from '../../utils/Block';
 import styles from './signup.sass';
-import { onSubmit } from "../../utils/validationOnSubmit";
+import { validationOnSubmit } from "../../utils/validationOnSubmit";
+import { getInputsValues } from "../../utils/getInputsValues";
+import AuthController from "../../controllers/AuthController";
+import { ISignUpData } from "../../api/AuthAPI";
 
 export interface ISignUpPage {
-  onSubmit: (e: Event) => void,
-  styles: Record<string, string>
+  onSubmit: (e: Event) => void;
+  styles: Record<string, string>;
 }
 
 export class SignupPage extends Block<ISignUpPage> {
@@ -17,7 +20,10 @@ export class SignupPage extends Block<ISignUpPage> {
   }
 
   onSubmit(e: Event) {
-    onSubmit(e, this.refs)
+    validationOnSubmit(e, this.refs)
+    const data = getInputsValues();
+
+    AuthController.signup(data as ISignUpData);
   }
 
 
@@ -103,6 +109,7 @@ export class SignupPage extends Block<ISignUpPage> {
                             labelClass="form__input-floating-label"
                             inputClass="form__input"
                             type="password"
+                            id="password-check"
                             name="password"
                             value=""
                             required="required"
@@ -116,6 +123,7 @@ export class SignupPage extends Block<ISignUpPage> {
                             labelClass="form__input-floating-label"
                             inputClass="form__input"
                             type="password"
+                            id="password-check-repeat"
                             name="password_repeat"
                             value=""
                             required="required"

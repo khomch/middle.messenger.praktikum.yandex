@@ -2,7 +2,6 @@ import { EventBus } from "./EventBus";
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from "handlebars";
-// import { inputValidator } from "./validation/inputValidator";
 
 abstract class Block<P extends Record<string, any> = any> {
   static EVENTS = {

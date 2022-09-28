@@ -1,8 +1,9 @@
-import Block from './Block'
+// @ts-ignore
 import Handlebars from 'handlebars';
+import { ComponentConstructable } from "../hocs/withRouter";
 
-export function registerComponent(name: string, Component: typeof Block) {
-  Handlebars.registerHelper(name, ({data, fn, hash}) => {
+export function registerComponent(name: string, Component: ComponentConstructable<any>) {
+  Handlebars.registerHelper(name, ({data, fn, hash}: any) => {
     const component = new Component(hash);
 
     if (!data.root.children) {
@@ -19,8 +20,6 @@ export function registerComponent(name: string, Component: typeof Block) {
     }
 
     data.root.children[component.id] = component;
-
-    // @ts-ignore
 
     const contents = fn ? fn(this) : '';
 

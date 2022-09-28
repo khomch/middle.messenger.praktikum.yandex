@@ -1,6 +1,6 @@
 export interface IChats {
-  image: string,
-  name: string,
-  time: string,
-  lastMessage: string,
+  image: string;
+  name: string;
+  time: string;
+  lastMessage: string;
 }

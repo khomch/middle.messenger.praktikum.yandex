@@ -1,72 +1,101 @@
-const METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE',
-};
+export const BASE_URL = 'https://ya-praktikum.tech/api/v2'
 
-interface IOptions {
-  timeout: number,
-  method: string
+export enum Method {
+  Get = 'Get',
+  Post = 'Post',
+  Put = 'Put',
+  Patch = 'Patch',
+  Delete = 'Delete'
 }
 
-class HTTPTransport {
-  get = (url: string, options: IOptions) => {
+type Options = {
+  method: Method;
+  data?: any;
+};
 
-    return this.request(url, {...options, method: METHODS.GET}, options.timeout);
-  };
+export class HTTPTransport {
+  static API_URL = BASE_URL;
+  protected endpoint: string;
 
-  post = (url: string, options: IOptions) => {
-    return this.request(url, {...options, method: METHODS.POST}, options.timeout);
-  };
+  constructor(endpoint: string) {
+    this.endpoint = `${HTTPTransport.API_URL}${endpoint}`;
+  }
 
-  put = (url: string, options: IOptions) => {
-    return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
-  };
+  public get<Response>(path = '/'): Promise<Response> {
+    return this.request<Response>(this.endpoint + path);
+  }
 
-  delete = (url: string, options: IOptions) => {
-    return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
-  };
+  public post<Response = void>(path: string, data?: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Post,
+      data,
+    });
+  }
 
-  request = (url: string, options: IOptions, timeout = 5000) => {
-    const {headers = {}, method, data}: any = options;
+  public put<Response = void>(path: string, data: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Put,
+      data,
+    });
+  }
 
-    return new Promise(function (resolve, reject) {
-      if (!method) {
-        reject('No method');
-        return;
-      }
+  public patch<Response = void>(path: string, data: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Patch,
+      data,
+    });
+  }
 
+  public delete<Response>(path: string, data: unknown): Promise<Response> {
+    return this.request<Response>(this.endpoint + path, {
+      method: Method.Delete,
+      data,
+    });
+  }
+
+  private request<Response>(url: string, options: Options = {method: Method.Get}): Promise<Response> {
+    const {method, data} = options;
+
+    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      const isGet = method === METHODS.GET;
+      xhr.open(method, url);
 
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
+      xhr.onreadystatechange = () => {
 
-      Object.keys(headers).forEach(key => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
-
-      xhr.onload = function () {
-        resolve(xhr);
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          }
+          else {
+            reject(xhr.response);
+          }
+        }
       };
 
-      xhr.onabort = reject;
-      xhr.onerror = reject;
+      xhr.onabort = () => reject({reason: 'abort'});
+      xhr.onerror = () => reject({reason: 'network error'});
+      xhr.ontimeout = () => reject({reason: 'timeout'});
 
-      xhr.timeout = timeout;
-      xhr.ontimeout = reject;
+      if (url.includes('avatar')) {
 
-      if (isGet || !data) {
-        xhr.send();
       }
       else {
+        xhr.setRequestHeader('Content-Type', 'application/json');
+      }
+
+      xhr.withCredentials = true;
+      xhr.responseType = 'json';
+
+
+      if (method === Method.Get || !data) {
+        xhr.send();
+      }
+      else if (data instanceof FormData) {
         xhr.send(data);
       }
+      else {
+        xhr.send(JSON.stringify(data));
+      }
     });
-  };
+  }
 }
