@@ -1,6 +1,6 @@
 import { IChangePassword, IChangeProfile } from "../interfaces/IApi";
 import { IUserData } from "../interfaces/IUser";
-import { HTTPTransport } from "../utils/fetch";
+import { HTTPTransport } from "../utils/HTTPTransport";
 
 export class UserAPI extends HTTPTransport {
   constructor() {

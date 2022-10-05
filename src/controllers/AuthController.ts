@@ -1,7 +1,7 @@
 import API, { AuthAPI, ISigninData, ISignUpData } from "../api/AuthAPI";
 import store from '../utils/Store';
 import router from '../utils/Router';
-import { BASE_URL } from "../utils/fetch";
+import { BASE_URL } from "../utils/HTTPTransport";
 
 export class AuthController {
   private readonly api: AuthAPI;

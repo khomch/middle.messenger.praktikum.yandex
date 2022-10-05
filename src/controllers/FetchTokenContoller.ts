@@ -13,13 +13,15 @@ export class FetchTokenController {
   async getToken(data: number ) {
     try {
       const result = await this.api.getTokenReq(data);
-
       store.set('token', result.token)
+
+      return result.token
 
     } catch (e: any) {
       console.error(e);
     }
   }
+
 
 }
 

@@ -2,6 +2,7 @@ import API from "../api/ChatsAPI";
 import store from '../utils/Store';
 import { ChatsAPI } from "../api/ChatsAPI";
 import { IUsersRequest } from "../interfaces/IApi";
+import fetchTokenContoller from "./FetchTokenContoller";
 
 export class ChatsController {
   private readonly api: ChatsAPI;
@@ -68,6 +69,10 @@ export class ChatsController {
     } catch (e: any) {
       console.error(e);
     }
+  }
+
+  getToken(id: number) {
+    return fetchTokenContoller.getToken(id)
   }
 
 }
