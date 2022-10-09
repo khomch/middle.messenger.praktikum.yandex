@@ -1,6 +1,5 @@
 import Block from '../../utils/Block';
 import styles from './chat.sass';
-import { userData } from "../../fakeApi/userData";
 import ChatsController from "../../controllers/ChatsController";
 import store, { withStore } from "../../utils/Store";
 import AuthController from "../../controllers/AuthController";
@@ -27,7 +26,6 @@ class ChatPageBase extends Block {
       onComposeClick: () => this.onComposeClick(),
       handleUserAdd: (e: Event) => this.handleUserAdd(e),
       handleUserRemove: (e: Event) => this.handleUserRemove(e),
-      userData: userData,
       selectedChat: {},
       styles
     });
