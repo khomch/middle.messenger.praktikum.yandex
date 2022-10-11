@@ -1,4 +1,4 @@
-import { HTTPTransport } from "../utils/fetch";
+import { HTTPTransport } from "../utils/HTTPTransport";
 
 
 export class FetchTokenAPI extends HTTPTransport {

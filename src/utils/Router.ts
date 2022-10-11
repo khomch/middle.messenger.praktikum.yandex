@@ -17,6 +17,27 @@ class Router {
     Router.__instance = this;
   }
 
+  private _onRoute(pathname: string) {
+    const route = this.getRoute(pathname);
+
+    if (!route) {
+      return;
+    }
+
+    if (this.currentRoute && this.currentRoute !== route) {
+      this.currentRoute.leave();
+    }
+
+    this.currentRoute = route;
+
+    route.render();
+  }
+
+  private getRoute(pathname: string) {
+    return this.routes.find(route => route.match(pathname));
+  }
+
+
   public use(pathname: string, block: ComponentConstructable<any>) {
     const route = new Route(pathname, block, this.rootQuery);
     this.routes.push(route);
@@ -34,21 +55,6 @@ class Router {
     this._onRoute(window.location.pathname);
   }
 
-  private _onRoute(pathname: string) {
-    const route = this.getRoute(pathname);
-
-    if (!route) {
-      return;
-    }
-
-    if (this.currentRoute && this.currentRoute !== route) {
-      this.currentRoute.leave();
-    }
-
-    this.currentRoute = route;
-
-    route.render();
-  }
 
   public go(pathname: string) {
     this.history.pushState({}, '', pathname);
@@ -64,9 +70,6 @@ class Router {
     this.history.forward();
   }
 
-  private getRoute(pathname: string) {
-    return this.routes.find(route => route.match(pathname));
-  }
 }
 
 export default new Router('#app');

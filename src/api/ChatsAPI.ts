@@ -1,6 +1,6 @@
 import { IUserData } from "../interfaces/IUser";
 import { IChatUser, IUsersRequest } from "../interfaces/IApi";
-import { HTTPTransport } from "../utils/fetch";
+import { HTTPTransport } from "../utils/HTTPTransport";
 
 export interface IChatsData {
   id: number;
