@@ -43,7 +43,7 @@ describe.only('Router', () => {
 
       Router.back();
 
-      expect(getContentFake.callCount).to.eq('dsds');
+      expect(getContentFake.callCount).to.eq(1);
     })
 
     describe('.start()', () => {
