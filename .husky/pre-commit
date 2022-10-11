@@ -1,9 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm precommit
-npm run precommit
-precommit
-validate
-npm test
-npm test
+npm run validate

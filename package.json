@@ -12,7 +12,6 @@
     "test": "mocha --require ts-node/register --require ./mochaSetup.js './src/**/*.test.ts'",
     "docker": "docker run -p 4000:3000 -d messenger",
     "validate": "npm-run-all --parallel test lint",
-    "precommit": "npm run validate",
     "prepare": "husky install"
   },
   "keywords": [],
