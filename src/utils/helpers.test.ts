@@ -34,7 +34,7 @@ describe('set function', () => {
 
     const result = set(argument, keypath, value);
 
-    expect(result).to.eq(argument)
+    expect(result).to.eq(1)
 
   });
 
