@@ -1,6 +1,5 @@
 import Block from '../../utils/Block';
 import styles from './profile.sass'
-import { userData } from "../../fakeApi/userData";
 import { profileLayout } from "./layouts/profileLayout";
 import { profileEditLayout } from "./layouts/profileEditLayout";
 import { profileEditPasswordLayout } from "./layouts/profileEditPasswordLayout";
@@ -36,7 +35,6 @@ class ProfilePageBase extends Block<IProfilePage> {
       onAvatarButtonClick: (e: Event) => this.onAvatarButtonClick(e),
       onLogoutClick: () => this.onLogoutClick(),
       onPasswordChangeSubmit: (e) => this.onPasswordChangeSubmit(e),
-      userData,
       profileActionsClass: 'profile__actions',
       styles
     });

@@ -15,6 +15,7 @@ import { Chats } from "./components/Chats/chats";
 import { ChatWindow } from "./components/ChatWindow/chat-window";
 import authController from "./controllers/AuthController";
 import { Message } from "./components/Message/message";
+import { Link } from "./components/Link";
 
 
 registerComponent("Button", Button as any);
@@ -25,6 +26,7 @@ registerComponent("ModalWindow", ModalWindow as any);
 registerComponent("Chat", Chats as any);
 registerComponent("ChatWindow", ChatWindow as any);
 registerComponent("Message", Message as any);
+registerComponent("Link", Link as any);
 
 
 window.addEventListener('DOMContentLoaded', () => {
