@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Router from '../../utils/Router';
 import * as sinon from 'sinon';
 
-describe.only('Link', () => {
+describe('Link', () => {
     it('should render', () => {
         new Link({ to: '/' } as any);
     });

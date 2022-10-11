@@ -4,7 +4,7 @@ import { ComponentConstructable } from "./Route";
 import sinon = require("sinon");
 
 
-describe.only('Router', () => {
+describe('Router', () => {
 
   global.window.history.back = () => {
     if (typeof window.onpopstate === 'function') {

@@ -17,7 +17,7 @@ const { default: Block } = proxyquire('./Block', {
   }
 }) as { default: typeof BlockType };
 
-describe.only('Block', () => {
+describe('Block', () => {
   class ComponentMock extends Block {}
 
   it('should fire init event on initialization',  () => {
