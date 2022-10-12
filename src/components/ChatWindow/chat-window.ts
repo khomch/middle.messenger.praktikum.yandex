@@ -39,7 +39,6 @@ export class ChatWindow extends Block<IChatWindow> {
     e.preventDefault()
     const data = getInputsValues();
 
-    console.log(data.message)
     MessageController.sendMessage(data.message)
 
     const inputMessage = document.getElementById('input-message') as HTMLInputElement;

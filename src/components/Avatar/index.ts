@@ -29,7 +29,6 @@ export class Avatar extends Block<IAvatar> {
   }
 
   render() {
-    console.log(noAvatarImage)
     // language=hbs
     if (this.props.src) {
       return `

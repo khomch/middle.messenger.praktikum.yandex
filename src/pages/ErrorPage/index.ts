@@ -21,7 +21,6 @@ export class ErrorPage extends Block {
 
   onClick(e: Event) {
     e.preventDefault()
-    console.log(42)
     Router.back()
   }
 

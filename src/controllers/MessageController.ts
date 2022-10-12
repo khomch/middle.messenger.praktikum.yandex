@@ -41,7 +41,6 @@ class MessageController {
   private _handleOpen() {
     this.getMessages({offset: 0});
     this._ping = setInterval(() => {
-      console.log('interval', this._ws)
       this._ws.send(JSON.stringify({
         type: 'ping',
       }));
@@ -50,7 +49,6 @@ class MessageController {
 
   private _handleMassage(evt: MessageEvent) {
     const data = JSON.parse(evt.data);
-    console.log('MessageEvent', data)
     if (Array.isArray(data)) {
       if (!data.length) {
 
