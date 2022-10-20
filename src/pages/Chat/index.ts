@@ -48,7 +48,7 @@ class ChatPageBase extends Block {
     const values = getInputsValues()
     const userName: any = await userController.findUser({login: values.login_add_user})
     const userId: number = userName[0].id
-    const chatId: number = this.props.chat.id
+    const chatId: number = this.props.chatToOpen.id
     await chatsController.addChatUser({users: [userId], chatId: chatId})
     this.refs.modalUserAdd.setProps({modalState: ''})
   }
@@ -64,11 +64,14 @@ class ChatPageBase extends Block {
   }
 
   handleChatClick(e: Event) {
+    store.set('chatToOpen', '')
+
     const targetEl = e.target as Element;
     const targetElLi = targetEl!.closest('li');
     const targetElId: string = targetElLi!.id;
     const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
-    this.setProps({chat: chatToOpen})
+    store.set('chatToOpen', chatToOpen)
+    // this.setProps({chat: chatToOpen})
   }
 
   setChats() {
@@ -83,6 +86,7 @@ class ChatPageBase extends Block {
       AuthController.fetchUser();
     }
   }
+
 
   protected init() {
     super.init();

@@ -1,7 +1,5 @@
 import Block from '../../utils/Block';
 import styles from './avatar.sass'
-import noAvatarImage from "../../static/no-avatar.svg";
-
 
 interface IAvatar {
   src: string;
@@ -19,7 +17,6 @@ export class Avatar extends Block<IAvatar> {
   constructor(props: IAvatar) {
     super({
         ...props,
-        noAvatarImage: noAvatarImage,
         events: {
           click: props.onClick
         },

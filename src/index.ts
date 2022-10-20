@@ -13,9 +13,10 @@ import { ComponentConstructable } from "./hocs/withRouter";
 import { ModalWindow } from "./components/ModalWindow/modal-window";
 import { Chats } from "./components/Chats/chats";
 import { ChatWindow } from "./components/ChatWindow/chat-window";
-import authController from "./controllers/AuthController";
 import { Message } from "./components/Message/message";
 import { Link } from "./components/Link";
+import authController  from "./controllers/AuthController";
+import store from "./utils/Store";
 
 
 registerComponent("Button", Button as any);
@@ -29,18 +30,19 @@ registerComponent("Message", Message as any);
 registerComponent("Link", Link as any);
 
 
-window.addEventListener('DOMContentLoaded', () => {
-  authController.fetchUser()
+window.addEventListener('DOMContentLoaded', async () => {
+  await authController.fetchUser();
+  const user = store.state.user
 
   Router
-    .use('/', LoginPage)
-    .use('/login', LoginPage)
-    .use('/sign-up', SignupPage)
-    .use('/settings', ProfilePage as ComponentConstructable<any>)
-    .use('/settings-edit', ProfilePage as ComponentConstructable<any>)
-    .use('/settings-edit-password', ProfilePage as ComponentConstructable<any>)
-    .use('/messenger', ChatPage as ComponentConstructable<any>)
-    .use('/500', ErrorPage)
-    .use('*', ErrorPage)
+    .use('/', LoginPage, { user, isPrivate: false })
+    .use('/login', LoginPage, { user, isPrivate: false })
+    .use('/sign-up', SignupPage, { user, isPrivate: false })
+    .use('/settings', ProfilePage as ComponentConstructable<any>, { user, isPrivate: true })
+    .use('/settings-edit', ProfilePage as ComponentConstructable<any>, { user, isPrivate: true })
+    .use('/settings-edit-password', ProfilePage as ComponentConstructable<any>, { user, isPrivate: true })
+    .use('/messenger', ChatPage as ComponentConstructable<any>, { user, isPrivate: true })
+    .use('/500', ErrorPage,  { user, isPrivate: false })
+    .use('*', ErrorPage,  { user, isPrivate: false })
     .start()
 })

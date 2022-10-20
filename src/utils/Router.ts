@@ -1,5 +1,9 @@
 import { ComponentConstructable, Route } from "./Route";
 
+export interface IAccess {
+  user: Record<string, string> | undefined,
+  isPrivate: boolean
+}
 
 class Router {
   private static __instance: Router;
@@ -38,9 +42,21 @@ class Router {
   }
 
 
-  public use(pathname: string, block: ComponentConstructable<any>) {
+  public use(pathname: string, block: ComponentConstructable<any>, access: IAccess) {
     const route = new Route(pathname, block, this.rootQuery);
-    this.routes.push(route);
+
+    if (pathname === window.location.pathname) {
+      if (access.isPrivate && !access.user) {
+        this.go('/');
+      }
+      else if (!access.isPrivate && access.user) {
+        this.go('/messenger');
+      }
+      else this.routes.push(route);
+
+    } else {
+      this.routes.push(route)
+    }
 
     return this;
   }

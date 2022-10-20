@@ -14,7 +14,14 @@ export class Message extends Block<IMessage> {
     );
   }
 
+  protected componentDidUpdate(oldProps: any, newProps: any): boolean {
+    super.componentDidUpdate(oldProps, newProps);
+
+    return true
+  }
+
   render() {
+
    if (store.state.user.id === this.props.id) {
      // language=hbs
      return `

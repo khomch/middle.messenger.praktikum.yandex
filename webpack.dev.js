@@ -2,6 +2,7 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common');
 
+
 module.exports = merge(common, {
   mode: 'development',
   devServer: {
@@ -12,16 +13,5 @@ module.exports = merge(common, {
     port: 3000,
     historyApiFallback: true,
     hot: true,
-    proxy: [
-      {
-        context: ['/proxy-api/**'],
-        target: 'https://proxy-api/api/',
-        pathRewrite: { '^/api/': '/' },
-        secure: false,
-        onProxyReq: (proxyReq) => {
-          proxyReq.setHeader('Host', 'my-custom-host');
-        },
-      },
-    ],
   },
 });

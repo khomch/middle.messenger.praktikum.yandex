@@ -26,7 +26,7 @@ describe('Router', () => {
 
   describe('.use()', () => {
     it('should return Router instance', () => {
-      const result = Router.use('/', BlockMock)
+      const result = Router.use('/', BlockMock, {user: undefined, isPrivate: false})
 
       expect(result).to.eq(Router)
     })
@@ -37,8 +37,8 @@ describe('Router', () => {
       window.location.pathname = '/profile';
 
       Router
-        .use('/', BlockMock)
-        .use('/profile', BlockMock)
+        .use('/', BlockMock, {user: undefined, isPrivate: false})
+        .use('/profile', BlockMock, {user: {name: 'John'}, isPrivate: true})
         .start();
 
       Router.back();
@@ -49,7 +49,7 @@ describe('Router', () => {
     describe('.start()', () => {
       it('should render a page on start', () => {
         Router
-          .use('/', BlockMock)
+          .use('/', BlockMock, {user: undefined, isPrivate: false})
           .start();
 
         expect(getContentFake.callCount).to.eq(1);

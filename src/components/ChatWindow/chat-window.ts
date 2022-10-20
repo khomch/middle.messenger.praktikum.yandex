@@ -1,14 +1,14 @@
 import Block from '../../utils/Block';
 import styles from './chat-window.sass'
 import ChatsController from "../../controllers/ChatsController";
-import store from "../../utils/Store";
-import MessageController from "../../controllers/MessageController";
+import store, { withStore } from "../../utils/Store";
 import { getInputsValues } from "../../utils/getInputsValues";
-import fetchTokenController from "../../controllers/FetchTokenContoller";
-
+import MessagesController from "../../controllers/MessagesController";
 
 
 interface IChatWindow {
+  messagesToRender: any;
+  selectedChat: Record<string, any>;
   chat: Record<string, any>;
   styles: Record<string, string>
   onClick: (e: Event) => void;
@@ -20,7 +20,7 @@ interface IChatWindow {
 
 }
 
-export class ChatWindow extends Block<IChatWindow> {
+export class ChatWindowBase extends Block<IChatWindow> {
 
   constructor(props: IChatWindow) {
     super({
@@ -29,7 +29,6 @@ export class ChatWindow extends Block<IChatWindow> {
         handleAddUserClick: () => this.handleAddUserClick(),
         handleRemoveUserClick: () => this.handleRemoveUserClick(),
         handleDeleteChat: () => this.handleDeleteChat(),
-        messages: props.messages,
         styles
       },
     );
@@ -38,9 +37,7 @@ export class ChatWindow extends Block<IChatWindow> {
   handleSendMessage(e: Event) {
     e.preventDefault()
     const data = getInputsValues();
-
-    MessageController.sendMessage(data.message)
-
+    MessagesController.sendMessage(store.state.chatToOpen.id, data.message)
     const inputMessage = document.getElementById('input-message') as HTMLInputElement;
     inputMessage.value = '';
   }
@@ -56,32 +53,16 @@ export class ChatWindow extends Block<IChatWindow> {
   }
 
   async handleDeleteChat() {
-    const chatId: number = this.props.chat.id;
+    const chatId: number = this.props.selectedChat.id;
     await ChatsController.deleteChat({chatId: chatId})
   }
 
+  renderMessages(messages: any) {
+    return this.props.messagesToRender = messages
+  }
+
   protected init() {
-    super.init();
-
-
-    if (this.props.chat) {
-      fetchTokenController.getToken(this.props.chat.id)
-      if (store.state.user.id && store.state.token && this.props.chat.id) {
-        setTimeout(() => {
-          MessageController.connect({
-            userId: store.state.user.id,
-            chatId: this.props.chat.id,
-            token: store.state.token
-          })
-        }, 300)
-
-        if (store.state.messages) {
-          this.setProps({...this.props, messages: store.state.messages.messages})
-        }
-
-      }
-
-    }
+    this.renderMessages(this.props.messages)
 
   }
 
@@ -89,7 +70,7 @@ export class ChatWindow extends Block<IChatWindow> {
   render() {
 
     // language=hbs
-    if (!this.props.chat) {
+    if (!store.state.chatToOpen) {
       return `
           <section class="chat chat_no-chat">
               <div class="chat-container chat-container_no-chat">
@@ -127,7 +108,7 @@ export class ChatWindow extends Block<IChatWindow> {
 
                 <div class="chat-container__window">
                     <ul class="chat-container__messages">
-                        {{#each messages}}
+                        {{#each messagesToRender}}
                             {{#Message
                                     content=this.content
                                     time=this.time
@@ -167,3 +148,24 @@ export class ChatWindow extends Block<IChatWindow> {
     `
   }
 }
+
+
+const withSelectedChatMessages = withStore(state => {
+  const selectedChatId = state.chatToOpen && state.chatToOpen.id;
+  if (!selectedChatId) {
+
+    return {
+      messages: [],
+      selectedChat: undefined,
+      userId: state.user.id
+    };
+  }
+
+  return {
+    messages: (state.messages || {})[selectedChatId] || [],
+    selectedChat: state.chatToOpen,
+    userId: state.user.id
+  };
+});
+
+export const ChatWindow = withSelectedChatMessages(ChatWindowBase);
