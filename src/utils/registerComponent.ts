@@ -6,6 +6,8 @@ export function registerComponent(name: string, Component: ComponentConstructabl
   Handlebars.registerHelper(name, ({data, fn, hash}: any) => {
     const component = new Component(hash);
 
+    console.log(hash)
+
     if (!data.root.children) {
       data.root.children = {};
     }

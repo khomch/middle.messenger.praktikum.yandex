@@ -66,6 +66,10 @@ export class ChatWindowBase extends Block<IChatWindow> {
 
   }
 
+  protected componentDidUpdate(oldProps: object, newProps: object): boolean {
+    console.log(oldProps, newProps)
+    return true
+  }
 
   render() {
 

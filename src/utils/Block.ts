@@ -97,7 +97,7 @@ abstract class Block<P extends Record<string, any> = any> {
   }
 
   //@ts-ignore
-  protected componentDidUpdate(oldProps: any, newProps: any) {
+  protected componentDidUpdate(oldProps: P, newProps: P) {
     return true;
   }
 
