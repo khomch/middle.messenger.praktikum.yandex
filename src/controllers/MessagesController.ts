@@ -68,7 +68,7 @@ class MessagesController {
     let messagesToAdd: Message[] = [];
 
     if (Array.isArray(messages)) {
-      messagesToAdd = messages;
+      messagesToAdd = messages.reverse();
     } else {
       messagesToAdd.push(messages);
     }

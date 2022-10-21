@@ -48,7 +48,7 @@ class ChatPageBase extends Block {
     const values = getInputsValues()
     const userName: any = await userController.findUser({login: values.login_add_user})
     const userId: number = userName[0].id
-    const chatId: number = this.props.chatToOpen.id
+    const chatId: number = store.state.selectedChat.id
     await chatsController.addChatUser({users: [userId], chatId: chatId})
     this.refs.modalUserAdd.setProps({modalState: ''})
   }
@@ -58,20 +58,20 @@ class ChatPageBase extends Block {
     const values = getInputsValues()
     const userName: any = await userController.findUser({login: values.login_remove_user})
     const userId: number = userName[0].id
-    const chatId: number = this.props.chat.id
+    const chatId: number = store.state.selectedChat.id
     await chatsController.removeChatUser({users: [userId], chatId: chatId})
     this.refs.modalUserRemove.setProps({modalState: ''})
   }
 
   handleChatClick(e: Event) {
-    store.set('chatToOpen', '')
+    store.set('selectedChat', '')
 
     const targetEl = e.target as Element;
     const targetElLi = targetEl!.closest('li');
     const targetElId: string = targetElLi!.id;
-    const chatToOpen = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
-    store.set('chatToOpen', chatToOpen)
-    // this.setProps({chat: chatToOpen})
+    const selectedChat = store.state.chats.find((chat: Record<string, string>) => chat.id.toString() === targetElId)
+    store.set('selectedChat', selectedChat)
+    this.refs.chatWindow.setProps({messages: store.state.messages[selectedChat.id]})
   }
 
   setChats() {
@@ -127,18 +127,19 @@ class ChatPageBase extends Block {
                     </div>
 
                     <ul class="chats__list">
-                        {{#Chat
+                        {{#Chats
                                 chats=this.chats
                                 selectedChat=this.selectedChat
                                 onClick=handleChatClick
                         }}
-                        {{/Chat}}
+                        {{/Chats}}
                     </ul>
 
                 </section>
 
                 {{#ChatWindow
                         chat=this.chat
+                        ref="chatWindow"
                 }}
                 {{/ChatWindow}}
 
@@ -261,6 +262,12 @@ class ChatPageBase extends Block {
   }
 }
 
-const withState = withStore((state) => ({...state}))
+const withState = withStore((state) => ({
+    user: state.user,
+    // chats: state.chats,
+    // messages: state.messages,
+    // token: state.token
+  }
+))
 
 export const ChatPage = withState(ChatPageBase);

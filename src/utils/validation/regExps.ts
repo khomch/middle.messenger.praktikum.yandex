@@ -13,7 +13,7 @@ export const regExs = {
   display_name: /^[а-яА-ЯёЁa-zA-Z-_]+$/,
   phone: /^[\+]?[0-9]{10,15}$/,
   search: /^.*$/,
-  message: /^.*$/,
+  message: /^.+$/,
   chat_name: /^.*$/,
 }
 

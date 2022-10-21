@@ -24,7 +24,7 @@ registerComponent("Avatar", Avatar as any);
 registerComponent("Input", Input as any);
 registerComponent("ErrorLabel", ErrorLabel as any);
 registerComponent("ModalWindow", ModalWindow as any);
-registerComponent("Chat", Chats as any);
+registerComponent("Chats", Chats as any);
 registerComponent("ChatWindow", ChatWindow as any);
 registerComponent("Message", Message as any);
 registerComponent("Link", Link as any);

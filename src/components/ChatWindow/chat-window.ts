@@ -4,10 +4,10 @@ import ChatsController from "../../controllers/ChatsController";
 import store, { withStore } from "../../utils/Store";
 import { getInputsValues } from "../../utils/getInputsValues";
 import MessagesController from "../../controllers/MessagesController";
+import { validationOnSubmit } from "../../utils/validationOnSubmit";
 
 
 interface IChatWindow {
-  messagesToRender: any;
   selectedChat: Record<string, any>;
   chat: Record<string, any>;
   styles: Record<string, string>
@@ -37,9 +37,14 @@ export class ChatWindowBase extends Block<IChatWindow> {
   handleSendMessage(e: Event) {
     e.preventDefault()
     const data = getInputsValues();
-    MessagesController.sendMessage(store.state.chatToOpen.id, data.message)
     const inputMessage = document.getElementById('input-message') as HTMLInputElement;
-    inputMessage.value = '';
+    const isValid = validationOnSubmit(e, inputMessage)
+    if (isValid.isValid) {
+      MessagesController.sendMessage(store.state.selectedChat.id, data.message)
+      inputMessage.value = '';
+    } else {
+      throw new Error(isValid.error)
+    }
   }
 
   handleAddUserClick() {
@@ -53,28 +58,16 @@ export class ChatWindowBase extends Block<IChatWindow> {
   }
 
   async handleDeleteChat() {
-    const chatId: number = this.props.selectedChat.id;
+    const chatId: number = store.state.selectedChat.id;
+    store.state.selectedChat = null;
     await ChatsController.deleteChat({chatId: chatId})
   }
 
-  renderMessages(messages: any) {
-    return this.props.messagesToRender = messages
-  }
-
-  protected init() {
-    this.renderMessages(this.props.messages)
-
-  }
-
-  protected componentDidUpdate(oldProps: object, newProps: object): boolean {
-    console.log(oldProps, newProps)
-    return true
-  }
 
   render() {
 
     // language=hbs
-    if (!store.state.chatToOpen) {
+    if (!store.state.selectedChat) {
       return `
           <section class="chat chat_no-chat">
               <div class="chat-container chat-container_no-chat">
@@ -112,7 +105,7 @@ export class ChatWindowBase extends Block<IChatWindow> {
 
                 <div class="chat-container__window">
                     <ul class="chat-container__messages">
-                        {{#each messagesToRender}}
+                        {{#each messages}}
                             {{#Message
                                     content=this.content
                                     time=this.time
@@ -140,7 +133,10 @@ export class ChatWindowBase extends Block<IChatWindow> {
                             ref="message"
                     }}
                     {{/Input}}
-                    {{#Button class="compose-form__send-message" type="submit" onClick=handleSendMessage}}
+                    {{#Button 
+                            class="compose-form__send-message" 
+                            type="submit" 
+                            onClick=handleSendMessage}}
                     {{/Button}}
                 </form>
             </div>
@@ -155,7 +151,7 @@ export class ChatWindowBase extends Block<IChatWindow> {
 
 
 const withSelectedChatMessages = withStore(state => {
-  const selectedChatId = state.chatToOpen && state.chatToOpen.id;
+  const selectedChatId = state.selectedChat && state.selectedChat.id;
   if (!selectedChatId) {
 
     return {

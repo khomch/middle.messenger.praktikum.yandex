@@ -153,17 +153,17 @@ abstract class Block<P extends Record<string, any> = any> {
   }
 
   private _makePropsProxy(props: P) {
-
+    const self = this;
     return new Proxy(props, {
       get(target, prop: string) {
         const value = target[prop];
         return typeof value === "function" ? value.bind(target) : value;
       },
       set: (target, prop: string, value) => {
+        const oldTarget = {...target}
+
         target[prop as keyof P] = value;
-        // Запускаем обновление компоненты
-        // Плохой cloneDeep, в следующей итерации нужно заставлять добавлять cloneDeep им самим
-        this.eventBus().emit(Block.EVENTS.FLOW_CDU);
+        self.eventBus().emit(Block.EVENTS.FLOW_CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
