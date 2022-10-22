@@ -27,6 +27,8 @@ interface IInput {
 
 
 export class Input extends Block<IInput> {
+  validationTries = 0;
+
   constructor(props: IInput) {
     super({
         ...props,
@@ -43,7 +45,11 @@ export class Input extends Block<IInput> {
 
   public validationHandler(e: Event) {
     const target = e.target as HTMLInputElement;
-    const isValid: boolean = inputValidator(target.name, target.value)
+    const isValid: boolean = inputValidator(target.name, target.value);
+    if (this.validationTries === 0 && target.value === '') {
+      this.validationTries++
+      return
+    }
     if (!isValid) {
       this.refs.error.setProps({errorClass: 'form__error form__error_visible'})
     }

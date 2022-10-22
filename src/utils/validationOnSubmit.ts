@@ -20,15 +20,19 @@ export function validationOnSubmit(e: Event, refs: any) {
     isValid: true
   };
 
-  inputsArrayWithoutFile.forEach((input: any) => !inputValidator(input.name, input.value) && Object.defineProperty(formIsValid, 'isValid', {value: false})
-    && refs[input.name].refs.error.setProps({errorClass: 'form__error form__error_visible'}))
+  if (Array.isArray(refs)) {
+    inputsArrayWithoutFile.forEach((input: any) => !inputValidator(input.name, input.value) && Object.defineProperty(formIsValid, 'isValid', {value: false})
+      && refs[input.name].refs.error.setProps({errorClass: 'form__error form__error_visible'}))
+  }
+  else {
+    !inputValidator(refs.name, refs.value) && Object.defineProperty(formIsValid, 'isValid', {value: false})
+  }
 
   if (!formIsValid.isValid) {
     console.error("Form doesn't valid")
     return {isValid: false, error: "Form doesn't valid"}
   }
   else {
-
     return {isValid: true}
   }
 }

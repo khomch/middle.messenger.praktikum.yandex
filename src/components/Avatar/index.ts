@@ -1,13 +1,12 @@
 import Block from '../../utils/Block';
 import styles from './avatar.sass'
-import { noAvatar } from "../../fakeApi/noAvatar";
 
 interface IAvatar {
   src: string;
   alt: string;
   classModificator: string;
   styles: Record<string, string>
-  noAvatar: string;
+  noAvatarImage: string;
   events: {
     click: (e: Event) => void;
   }
@@ -18,7 +17,6 @@ export class Avatar extends Block<IAvatar> {
   constructor(props: IAvatar) {
     super({
         ...props,
-        noAvatar: noAvatar.url,
         events: {
           click: props.onClick
         },
@@ -41,7 +39,7 @@ export class Avatar extends Block<IAvatar> {
     else {
       // language=hbs
       return `
-          <img class="avatar {{classModificator}}" src="{{noAvatar}}" alt="no_avatar"/>
+          <div class="avatar {{classModificator}} alt="no_avatar"></div>
       `
     }
 

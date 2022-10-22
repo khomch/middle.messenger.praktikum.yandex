@@ -1,14 +1,14 @@
 import Block from '../../utils/Block';
 import styles from './chat-window.sass'
 import ChatsController from "../../controllers/ChatsController";
-import store from "../../utils/Store";
-import MessageController from "../../controllers/MessageController";
+import store, { withStore } from "../../utils/Store";
 import { getInputsValues } from "../../utils/getInputsValues";
-import fetchTokenController from "../../controllers/FetchTokenContoller";
-
+import MessagesController from "../../controllers/MessagesController";
+import { validationOnSubmit } from "../../utils/validationOnSubmit";
 
 
 interface IChatWindow {
+  selectedChat: Record<string, any>;
   chat: Record<string, any>;
   styles: Record<string, string>
   onClick: (e: Event) => void;
@@ -20,7 +20,7 @@ interface IChatWindow {
 
 }
 
-export class ChatWindow extends Block<IChatWindow> {
+export class ChatWindowBase extends Block<IChatWindow> {
 
   constructor(props: IChatWindow) {
     super({
@@ -29,7 +29,6 @@ export class ChatWindow extends Block<IChatWindow> {
         handleAddUserClick: () => this.handleAddUserClick(),
         handleRemoveUserClick: () => this.handleRemoveUserClick(),
         handleDeleteChat: () => this.handleDeleteChat(),
-        messages: props.messages,
         styles
       },
     );
@@ -38,12 +37,14 @@ export class ChatWindow extends Block<IChatWindow> {
   handleSendMessage(e: Event) {
     e.preventDefault()
     const data = getInputsValues();
-
-    console.log(data.message)
-    MessageController.sendMessage(data.message)
-
     const inputMessage = document.getElementById('input-message') as HTMLInputElement;
-    inputMessage.value = '';
+    const isValid = validationOnSubmit(e, inputMessage)
+    if (isValid.isValid) {
+      MessagesController.sendMessage(store.state.selectedChat.id, data.message)
+      inputMessage.value = '';
+    } else {
+      throw new Error(isValid.error)
+    }
   }
 
   handleAddUserClick() {
@@ -57,40 +58,16 @@ export class ChatWindow extends Block<IChatWindow> {
   }
 
   async handleDeleteChat() {
-    const chatId: number = this.props.chat.id;
+    const chatId: number = store.state.selectedChat.id;
+    store.state.selectedChat = null;
     await ChatsController.deleteChat({chatId: chatId})
-  }
-
-  protected init() {
-    super.init();
-
-
-    if (this.props.chat) {
-      fetchTokenController.getToken(this.props.chat.id)
-      if (store.state.user.id && store.state.token && this.props.chat.id) {
-        setTimeout(() => {
-          MessageController.connect({
-            userId: store.state.user.id,
-            chatId: this.props.chat.id,
-            token: store.state.token
-          })
-        }, 300)
-
-        if (store.state.messages) {
-          this.setProps({...this.props, messages: store.state.messages.messages})
-        }
-
-      }
-
-    }
-
   }
 
 
   render() {
 
     // language=hbs
-    if (!this.props.chat) {
+    if (!store.state.selectedChat) {
       return `
           <section class="chat chat_no-chat">
               <div class="chat-container chat-container_no-chat">
@@ -156,7 +133,10 @@ export class ChatWindow extends Block<IChatWindow> {
                             ref="message"
                     }}
                     {{/Input}}
-                    {{#Button class="compose-form__send-message" type="submit" onClick=handleSendMessage}}
+                    {{#Button 
+                            class="compose-form__send-message" 
+                            type="submit" 
+                            onClick=handleSendMessage}}
                     {{/Button}}
                 </form>
             </div>
@@ -168,3 +148,24 @@ export class ChatWindow extends Block<IChatWindow> {
     `
   }
 }
+
+
+const withSelectedChatMessages = withStore(state => {
+  const selectedChatId = state.selectedChat && state.selectedChat.id;
+  if (!selectedChatId) {
+
+    return {
+      messages: [],
+      selectedChat: undefined,
+      userId: state.user.id
+    };
+  }
+
+  return {
+    messages: (state.messages || {})[selectedChatId] || [],
+    selectedChat: state.chatToOpen,
+    userId: state.user.id
+  };
+});
+
+export const ChatWindow = withSelectedChatMessages(ChatWindowBase);

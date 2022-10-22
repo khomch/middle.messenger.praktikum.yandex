@@ -2,6 +2,8 @@ import API from "../api/ChatsAPI";
 import store from '../utils/Store';
 import { ChatsAPI } from "../api/ChatsAPI";
 import { IUsersRequest } from "../interfaces/IApi";
+import fetchTokenContoller from "./FetchTokenContoller";
+import MessagesController from "./MessagesController";
 
 export class ChatsController {
   private readonly api: ChatsAPI;
@@ -13,6 +15,12 @@ export class ChatsController {
   async getChats() {
     try {
       const chats = await this.api.read();
+
+      chats.map(async (chat) => {
+        const token = await this.getToken(chat.id);
+
+        await MessagesController.connect(chat.id, token);
+      });
       store.set('chats', chats);
     } catch (e: any) {
       console.error(e);
@@ -70,6 +78,15 @@ export class ChatsController {
     }
   }
 
+  getToken(id: number) {
+    return fetchTokenContoller.getToken(id)
+  }
+
 }
 
-export default new ChatsController();
+const controller = new ChatsController();
+
+// @ts-ignore
+window.chatsController = controller;
+
+export default controller;

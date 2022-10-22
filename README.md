@@ -5,17 +5,20 @@
 
 Мессенджер на JS
 
-## Проект на Netlify 
-[Ссылка на Netlify](https://deploy--wondrous-manatee-4d893f.netlify.app/)
+## Проект на Heroku 
+[Ссылка на Heroku](https://ax-messenger.herokuapp.com/)
 
 ## Версия 
-0.3
+0.4
 
 ## Технологии
 - JS
 - TypeScript
 - WebSocket
 - Handlebars
+- Webpack
+- Mocha & Chai
+- Husky
 - Parcel
 
 ## Установка

@@ -1,5 +1,6 @@
 import Block from '../../utils/Block';
 import styles from './chats.sass'
+import { withStore } from "../../utils/Store";
 
 interface IChats {
   events: {
@@ -10,7 +11,7 @@ interface IChats {
 
 }
 
-export class Chats extends Block<IChats> {
+export class ChatsBase extends Block<IChats> {
 
   constructor(props: IChats) {
     super({
@@ -49,3 +50,9 @@ export class Chats extends Block<IChats> {
     `
   }
 }
+
+const withChatsList = withStore((state) => ({
+  chats: state.chats
+}))
+
+export const Chats = withChatsList(ChatsBase);

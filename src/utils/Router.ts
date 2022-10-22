@@ -1,5 +1,9 @@
 import { ComponentConstructable, Route } from "./Route";
 
+export interface IAccess {
+  user: Record<string, string> | undefined,
+  isPrivate: boolean
+}
 
 class Router {
   private static __instance: Router;
@@ -15,23 +19,6 @@ class Router {
     this.routes = [];
 
     Router.__instance = this;
-  }
-
-  public use(pathname: string, block: ComponentConstructable<any>) {
-    const route = new Route(pathname, block, this.rootQuery);
-    this.routes.push(route);
-
-    return this;
-  }
-
-  public start() {
-    window.onpopstate = (event: PopStateEvent) => {
-      const target = event.currentTarget as Window;
-
-      this._onRoute(target.location.pathname);
-    }
-
-    this._onRoute(window.location.pathname);
   }
 
   private _onRoute(pathname: string) {
@@ -50,6 +37,41 @@ class Router {
     route.render();
   }
 
+  private getRoute(pathname: string) {
+    return this.routes.find(route => route.match(pathname));
+  }
+
+
+  public use(pathname: string, block: ComponentConstructable<any>, access: IAccess) {
+    const route = new Route(pathname, block, this.rootQuery);
+
+    if (pathname === window.location.pathname) {
+      if (access.isPrivate && !access.user) {
+        this.go('/');
+      }
+      else if (!access.isPrivate && access.user) {
+        this.go('/messenger');
+      }
+      else this.routes.push(route);
+
+    } else {
+      this.routes.push(route)
+    }
+
+    return this;
+  }
+
+  public start() {
+    window.onpopstate = (event: PopStateEvent) => {
+      const target = event.currentTarget as Window;
+
+      this._onRoute(target.location.pathname);
+    }
+
+    this._onRoute(window.location.pathname);
+  }
+
+
   public go(pathname: string) {
     this.history.pushState({}, '', pathname);
 
@@ -64,9 +86,6 @@ class Router {
     this.history.forward();
   }
 
-  private getRoute(pathname: string) {
-    return this.routes.find(route => route.match(pathname));
-  }
 }
 
 export default new Router('#app');
